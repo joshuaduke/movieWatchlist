@@ -44,4 +44,28 @@ nav .iconContainer {
 nav p {
   font-size: 0.8em;
 }
+
+#homeContainer .carouselContainer a {
+  display: inline-block;
+}
+
+#homeContainer .carouselContainer li {
+  display: inline;
+}
+
+#homeContainer .carouselContainer img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+#homeContainer .titleContainer {
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 /*# sourceMappingURL=main.css.map */

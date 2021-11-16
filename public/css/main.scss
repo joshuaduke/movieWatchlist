@@ -1,3 +1,6 @@
+// Required Core Stylesheet
+// @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+
 *{
     margin:0;
     padding:0;
@@ -42,5 +45,31 @@ nav{
     p{
         font-size:0.8em;
         
+    }
+}
+
+#homeContainer{
+
+
+    .carouselContainer{
+        a{
+            display: inline-block;
+        }
+
+        li{
+            display: inline;
+        }
+
+        img{
+            width:100%;
+            max-width: 400px;
+            height: auto;
+        }
+    }
+
+    .titleContainer{
+        padding:20px;
+        display: flex;
+        justify-content: space-between;
     }
 }
