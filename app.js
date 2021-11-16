@@ -9,6 +9,8 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 //locate static files in the public folder
 app.use(express.static('public'))
+// app.use('/css', express.static(__dirname + '/node_modules/@glidejs/glide/dist/css'))
+app.use('/dist', express.static(__dirname + '/node_modules/@glidejs/glide/dist/'))
 
 app.get('/', (req, res)=>{
     res.render('home')
