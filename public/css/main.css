@@ -1,8 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
 header h1 {
   color: green;
 }
 
-footer h1 {
-  color: blue;
+footer {
+  width: 100%;
+  padding: 30px;
+  position: absolute;
+  bottom: 0;
+  background-color: #241616;
+  color: #fff;
+}
+
+footer a {
+  color: #fff;
+}
+
+nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+nav .iconContainer {
+  margin: 0 15px;
+  text-align: center;
+}
+
+nav p {
+  font-size: 0.8em;
 }
 /*# sourceMappingURL=main.css.map */

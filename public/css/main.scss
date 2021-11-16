@@ -1,3 +1,13 @@
+*{
+    margin:0;
+    padding:0;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
 
 header {
     h1{
@@ -6,7 +16,31 @@ header {
 }
 
 footer{
-    h1{
-        color:blue;
+    width:100%;
+    padding:30px;
+    position: absolute;
+    bottom:0;
+    background-color: #241616;
+    color:#fff;
+
+    a{
+        color:#fff;
+    }
+}
+
+nav{
+    // display: grid;
+    // grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    justify-content: center;
+
+    .iconContainer{
+        margin:0 15px;
+        text-align: center;
+    }
+
+    p{
+        font-size:0.8em;
+        
     }
 }
