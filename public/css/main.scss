@@ -8,6 +8,10 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color:steelblue ;
+}
+
 a{
     text-decoration: none;
 }
@@ -21,7 +25,7 @@ header {
 footer{
     width:100%;
     padding:30px;
-    position: absolute;
+    position: fixed;
     bottom:0;
     background-color: #241616;
     color:#fff;
@@ -50,7 +54,7 @@ nav{
 
 #homeContainer{
 
-
+    margin-bottom:120px;
     .carouselContainer{
         a{
             display: inline-block;

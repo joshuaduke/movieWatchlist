@@ -32,12 +32,26 @@
 <!-- <script src="/javascript/glide.min.js"></script> -->
 <script src="/dist/glide.min.js"></script>
 <script>
-    const config = {
-        type: 'carousel',
+    let config = {
+        type: 'slider',
         perView: 4,
+        autoplay: 3000,
+        hoverpause: true,
+        bound: true,
+        peek: {
+            before: 0,
+            after: 50,
+        },
+
         // gap:5,
     }
-    new Glide('.glide', config).mount()
+
+    let carousels = document.querySelectorAll('.glide');
+    carousels.forEach(element => {
+        new Glide(element, config).mount()
+    });
+    // new Glide('.glide1', config).mount()
+
   </script>
 </body>
 </html>
