@@ -4,23 +4,20 @@
   line-height: 1.6rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 body {
-  background-color: steelblue;
+  background-color: #000;
 }
 
 a {
   text-decoration: none;
 }
 
-header h1 {
-  color: green;
-}
-
 footer {
   width: 100%;
-  padding: 30px;
+  padding: 20px;
   position: fixed;
   bottom: 0;
   background-color: #241616;
@@ -53,6 +50,18 @@ nav p {
   margin-bottom: 120px;
 }
 
+#homeContainer .sectionContainer {
+  color: #FBBC04;
+}
+
+#homeContainer .sectionContainer a {
+  color: #5FA0ED;
+}
+
+#homeContainer .sectionContainer h2 {
+  font-weight: normal;
+}
+
 #homeContainer .carouselContainer a {
   display: inline-block;
 }
@@ -62,18 +71,23 @@ nav p {
 }
 
 #homeContainer .carouselContainer img {
-  width: 100%;
-  max-width: 400px;
+  width: 110%;
+  max-width: 300px;
+  min-width: 70px;
   height: auto;
 }
 
 #homeContainer .titleContainer {
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+#homeContainer .titleContainer a {
+  display: inline-block;
 }
 /*# sourceMappingURL=main.css.map */

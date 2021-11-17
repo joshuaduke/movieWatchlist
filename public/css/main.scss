@@ -6,25 +6,20 @@
     padding:0;
     line-height: 1.6rem;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 body{
-    background-color:steelblue ;
+    background-color:#000 ;
 }
 
 a{
     text-decoration: none;
 }
 
-header {
-    h1{
-        color:green;
-    }
-}
-
 footer{
     width:100%;
-    padding:30px;
+    padding:20px;
     position: fixed;
     bottom:0;
     background-color: #241616;
@@ -55,6 +50,18 @@ nav{
 #homeContainer{
 
     margin-bottom:120px;
+
+    .sectionContainer{
+        color:#FBBC04;
+        a{
+            color:#5FA0ED;
+        }
+
+        h2{
+            font-weight: normal;
+        }
+    }
+
     .carouselContainer{
         a{
             display: inline-block;
@@ -65,15 +72,21 @@ nav{
         }
 
         img{
-            width:100%;
-            max-width: 400px;
+            width:110%;
+            max-width: 300px;
+            min-width: 70px;
             height: auto;
         }
     }
 
     .titleContainer{
-        padding:20px;
+        padding:20px 20px 10px 20px;
         display: flex;
         justify-content: space-between;
+
+        a{
+            display: inline-block;
+
+        }
     }
 }

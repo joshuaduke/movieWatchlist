@@ -16,6 +16,11 @@ app.get('/', (req, res)=>{
     res.render('home')
 })
 
+app.get('/:option', (req, res)=> {
+    let title = req.params.option;
+    res.render('homeOptions', {title : title});
+})
+
 app.get('/search', (req, res)=>{
     res.render('search')
 })
