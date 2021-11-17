@@ -1,10 +1,12 @@
 // Required Core Stylesheet
 // @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
 
+$headerYellow :#FBBC04;
+
 *{
     margin:0;
     padding:0;
-    line-height: 1.6rem;
+    line-height: 1.4rem;
     box-sizing: border-box;
     font-family: sans-serif;
 }
@@ -52,7 +54,7 @@ nav{
     margin-bottom:120px;
 
     .sectionContainer{
-        color:#FBBC04;
+        color:$headerYellow;
         a{
             color:#5FA0ED;
         }
@@ -88,5 +90,51 @@ nav{
             display: inline-block;
 
         }
+    }
+}
+
+#optionsHeader{
+    padding:20px 25px;
+    display: flex;
+    justify-content: space-between;
+
+    h2{
+        color:$headerYellow;
+    }
+}
+
+#optionsContainer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    // padding:20px;
+    margin:20px 25px;
+    justify-items: center;
+
+    .content{
+        padding:0 10px 10px 10px;
+    }
+
+    h3, span, p{
+        display: inline-block;
+        font-size: 0.9em;
+    }
+
+    span{
+        font-size:0.7em;
+    }
+
+    .gridItem{
+        display: inline-block;
+        width:100%;
+        max-width:300px;
+        background-color: #e4e4e4;
+    }
+
+
+    .gridItem img{
+        width:100%;
+        max-width: 300px;
+        height:auto;
     }
 }

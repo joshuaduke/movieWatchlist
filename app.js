@@ -13,7 +13,49 @@ app.use(express.static('public'))
 app.use('/dist', express.static(__dirname + '/node_modules/@glidejs/glide/dist/'))
 
 app.get('/', (req, res)=>{
-    res.render('home')
+    const apiKey = "k_7893g9qe"
+    const url = `https://imdb-api.com/en/API/ComingSoon/${apiKey}`;
+
+    // let comingSoonData = ''
+
+    // https.get(url, (response)=>{
+    //     response.on('data', (data)=>{
+    //         comingSoonData += data;
+    //     });
+
+    //     response.on('end', ()=>{
+    //         console.log(comingSoonData);
+    //         comingSoonData = JSON.parse(comingSoonData)
+    //         console.log(comingSoonData);
+            
+    //         res.render('home', {data : comingSoonData.item});
+    //     })
+        
+    // }).on('error', (err)=>{
+    //     console.log("ERROR" + err.message);
+    // })
+
+    let comingSoonData = '';
+
+    https.get(url, (response)=>{
+        response.on('data', (data)=>{
+            comingSoonData += data;
+        });
+
+        response.on('end', ()=>{
+            // console.log(comingSoonData);
+            let data = JSON.parse(comingSoonData)
+            console.log(typeof data);
+            
+            res.render('home', {data : data.items});
+        })
+        
+    }).on('error', (err)=>{
+        console.log("ERROR" + err.message);
+    })
+
+    // let data = [true, false]
+    // res.render('home', {data: data})
 })
 
 app.get('/:option', (req, res)=> {

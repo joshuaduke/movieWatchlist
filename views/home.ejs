@@ -14,12 +14,37 @@
 
         <div class="titleContainer">
           <h2>Coming Soon</h2>
-          <a href="">See all</a>
+          <a href="/comingSoon">See all</a>
         </div>
         <%- include ('partials/homeCarousel')  -%> 
     </div>
 
     <div class="sectionContainer">
+
+        <div class="titleContainer">
+          <h2>Coming Soon x2</h2>
+          <a href="/comingSoon">See all</a>
+        </div>
+
+        <div class="glide carouselContainer" >
+            <div class="glide__track" data-glide-el="track">
+                
+            <ul class="glide__slides">
+                <% data.forEach(element => { %>
+                    <a href="">
+                        <li class="glide__slide">
+                            <img src="<%= element.image %> " alt="">
+                        </li>
+                    </a>
+                <% }); %>
+            </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- <div class="sectionContainer">
 
         <div class="titleContainer">
           <h2>In Theatres Soon</h2>
@@ -45,7 +70,7 @@
         </div>
         <%- include ('partials/homeCarousel')  -%> 
     </div>
-   
+    -->
     
 
 
