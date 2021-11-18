@@ -1,8 +1,40 @@
 <%- include ('partials/header.ejs')  -%> 
 
 
-<main id="homeContainer">
-    <%- include ('partials/homeCarousel.ejs') -%>
+<main id="searchPage">
+    <div id="searchContainer">
+        <form action="">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search for a movie">
+
+        </form>
+    </div>
+
+    <section id="searchOptionsContainer">
+        <!-- Loop through each item  -->
+
+        <a href="#" class="gridItem">
+            <div >
+                <img src="/images/Spider-Man.jpeg" alt="">
+    
+                <div class="content">
+                    <h3>Top Movies</h3>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="gridItem">
+            <div>
+                <img src="/images/Spider-Man.jpeg" alt="">
+    
+                <div class="content">
+                    <h3>All time Box Office</h3>
+                </div>
+            </div>
+        </a>
+        
+    </section>
+
 </main>
 
 
