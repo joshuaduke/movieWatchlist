@@ -50,10 +50,27 @@
         // gap:5,
     }
 
+    let castConfig = {
+        type: "carousel",
+        perView: 3,
+        autoplay: 3000,
+        hoverpause: true,
+        animationTimingFunc: "ease-out",
+        animationDuration: 800,
+        perTouch: 3, 
+        gap:15,
+        peek: {
+            before: 0,
+            after: 50,
+        },
+    }
+
     let carousels = document.querySelectorAll('.glide');
     carousels.forEach(element => {
         new Glide(element, config).mount()
     });
+
+    new Glide('.castGlide', castConfig).mount();
     // new Glide('.glide1', config).mount()
 
   </script>

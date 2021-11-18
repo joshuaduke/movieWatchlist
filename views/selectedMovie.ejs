@@ -1,4 +1,77 @@
 
+<%- include ('partials/header') %>
 
+<main id="moviePage">
+    <img id="movieBackground" src="/images/theBatman.jpeg" alt="">
+
+    <section id="movieContainer">
+        <div class="movieContent">
+
+            <div class="header">
+                <h1 class="title">The Batman</h1>
+                <div class="watchlist">
+                    <a href=""><i class="far fa-bookmark fa-2x"></i></a>
+                    <!-- <p>Watchlist</p> -->
+                </div>
+            </div>
+
+
+            <p class="releaseDate"> Released: 2022</p>
+            <p class="rating"> Unrated</p>
+
+            <div class="genre-watched">
+                <p class="genre"> Action/Crime/Drama</p>
+                <button class="watched"> Watched?</button>
+            </div>
+
+            <div class="rating">
+                <div class="stars">
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <span>0/10 Rating</span>
+            </div>
+
+            <div id="descriptionContainer">
+                <h2>Description</h2>
+                <p class="description">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et unde quod, nulla, cupiditate reiciendis, laudantium minima obcaecati incidunt voluptatibus aperiam accusantium nesciunt quisquam possimus provident dolor eveniet? Reprehenderit, blanditiis mollitia.
+                </p>
+            </div>
+
+            <div id="castContainer">
+                <h2>Cast</h2>
+                <div class="castGlide">
+                    <div class="glide__track" data-glide-el="track">
+                      <ul class="glide__slides">
+                        <li class="glide__slide">
+                            Robert Pattinson
+                        </li>
+                        <li class="glide__slide">
+                            Zoe Kravitz
+                        </li>
+                        <li class="glide__slide">
+                            Andy Serkis
+                        </li>
+                        <li class="glide__slide">
+                            The riddler guy
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+
+        </div>
+
+    </section>
+</main>
 
 <%- include ('partials/footer.ejs')  -%> 
