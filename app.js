@@ -65,7 +65,15 @@ app.get('/search/:option', (req, res)=>{
 app.get('/movie/:selected', (req, res)=>{
     let selected = req.params.option;
     res.render('selectedMovie');
-})
+});
+
+app.get('/watchlist', (req, res)=>{
+    res.render('watchlist')
+});
+
+app.get('/watched', (req, res)=>{
+    res.render('watched')
+});
 
 
 

@@ -1,4 +1,46 @@
 
 
+<%- include ('partials/header.ejs')  -%> 
+
+<section id="watchlistPage">
+    <header>
+        <h1>Movies Watched</h1>
+        <div class="headerContent">
+            <h2>1 Movie(s)</h2>
+            <div>
+                <label for="filter">Filter</label>
+                <select name="filter" id="filter">
+                    <option value="">Alphabetical</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main id="watchlistContent">
+        <a href="/" class="watchlistItem">
+
+            <div class="group1">
+                <img src="/images/DarkKnight.jpg" alt="">
+                
+                <div>
+                    <h3>Title</h3>
+                    <p>Genre</p>
+                    <p>
+                        <i class="far fa-star"></i> 9.0
+                        <i class="far fa-star"></i> 0.0
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="group2">
+                <button class="removeWatchlist"> X</button>
+                <p>Dec 18, 2021</p>
+            </div>
+        </a>
+
+    </main>
+</section>
+
 
 <%- include ('partials/footer.ejs')  -%> 

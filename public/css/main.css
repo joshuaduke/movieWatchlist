@@ -10,11 +10,11 @@
 #movieContainer {
   width: 100%;
   height: 600px;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.7)), to(black));
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), black);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(black));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), black);
   border-radius: 50px 50px 0 0;
-  position: fixed;
-  bottom: 60px;
+  position: absolute;
+  top: 40vh;
 }
 
 #movieContainer .movieContent {
@@ -58,6 +58,89 @@
 #descriptionContainer h2, #castContainer h2 {
   font-weight: normal;
   padding: 10px 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+header {
+  background-color: #848484;
+  padding: 20px;
+}
+
+.headerContent {
+  margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.watchlistItem {
+  width: 100%;
+  height: auto;
+  padding: 10px 20px;
+  background-color: #e4e4e4;
+  border-bottom: 1px solid #848484;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 6fr 1fr;
+      grid-template-columns: 6fr 1fr;
+}
+
+.watchlistItem .group1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.watchlistItem .group1 div {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.watchlistItem .group2 {
+  text-align: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.watchlistItem .group2 button {
+  margin-left: auto;
+  margin-right: 0;
+  width: 30px;
+}
+
+.watchlistItem img {
+  width: 15%;
 }
 
 * {
