@@ -23,29 +23,29 @@ app.get('/', (req, res)=>{
 
     let comingSoonData = '';
 
-    // https.get(url, (response)=>{
-    //     response.on('data', (data)=>{
-    //         comingSoonData += data;
-    //     });
+    https.get(url, (response)=>{
+        response.on('data', (data)=>{
+            comingSoonData += data;
+        });
 
-    //     response.on('end', ()=>{
-    //         // console.log(comingSoonData);
-    //         let data = JSON.parse(comingSoonData)
-    //         console.log(typeof data);
+        response.on('end', ()=>{
+            // console.log(comingSoonData);
+            let data = JSON.parse(comingSoonData)
+            console.log(data);
             
-    //         res.render('home', {data : data.items});
-    //     })
+            res.render('home', {data : data.items});
+        })
         
-    // }).on('error', (err)=>{
-    //     console.log("ERROR" + err.message);
-    // })
+    }).on('error', (err)=>{
+        console.log("ERROR" + err.message);
+    })
 
     //API CALL FOR HIGH QUALITY PICTURES
     // let data = moviePoster();
 
     // console.log('Task 1: ')
     // console.log(data)
-    res.render('home')
+    // res.render('home')
 })
 
 app.get('/home/:option', (req, res)=> {
@@ -63,8 +63,30 @@ app.get('/search/:option', (req, res)=>{
 })
 
 app.get('/movie/:selected', (req, res)=>{
-    let selected = req.params.option;
-    res.render('selectedMovie');
+    let selectedId = req.params.selected;
+
+    const apiKey = "k_7893g9qe"
+    const url = `https://imdb-api.com/en/API/Title/${apiKey}/${selectedId}`;
+
+    let movieData = '';
+
+    https.get(url, (response)=>{
+        response.on('data', (data)=>{
+            movieData += data;
+        });
+
+        response.on('end', ()=>{
+            // console.log(movieData);
+            let data = JSON.parse(movieData)
+            console.log(data);
+            
+            res.render('selectedMovie', {data : data});
+        })
+        
+    }).on('error', (err)=>{
+        console.log("ERROR" + err.message);
+    })
+    // res.render('selectedMovie');
 });
 
 app.get('/watchlist', (req, res)=>{

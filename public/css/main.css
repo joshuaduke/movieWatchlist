@@ -15,6 +15,7 @@
   border-radius: 50px 50px 0 0;
   position: absolute;
   top: 40vh;
+  padding-bottom: 60px;
 }
 
 #movieContainer .movieContent {
@@ -58,6 +59,11 @@
 #descriptionContainer h2, #castContainer h2 {
   font-weight: normal;
   padding: 10px 0;
+}
+
+#castContainer img {
+  width: 100%;
+  height: auto;
 }
 
 h1 {

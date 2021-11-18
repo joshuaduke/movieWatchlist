@@ -2,13 +2,13 @@
 <%- include ('partials/header') %>
 
 <main id="moviePage">
-    <img id="movieBackground" src="/images/theBatman.jpeg" alt="">
+    <img id="movieBackground" src="<%= data.image %>" alt="">
 
     <section id="movieContainer">
         <div class="movieContent">
 
             <div class="header">
-                <h1 class="title">The Batman</h1>
+                <h1 class="title"><%= data.title %></h1>
                 <div class="watchlist">
                     <a href=""><i class="far fa-bookmark fa-2x"></i></a>
                     <!-- <p>Watchlist</p> -->
@@ -16,11 +16,11 @@
             </div>
 
 
-            <p class="releaseDate"> Released: 2022</p>
-            <p class="rating"> Unrated</p>
+            <p class="releaseDate"> Released: <%= data.year %></p>
+            <p class="director"> <%= data.directors %></p>
 
             <div class="genre-watched">
-                <p class="genre"> Action/Crime/Drama</p>
+                <p class="genre"> <%= data.genres %></p>
                 <button class="watched"> Watched?</button>
             </div>
 
@@ -37,21 +37,27 @@
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <span>0/10 Rating</span>
+                <span><%= data.imDbRating %>/10 Rating</span>
             </div>
 
             <div id="descriptionContainer">
                 <h2>Description</h2>
-                <p class="description">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et unde quod, nulla, cupiditate reiciendis, laudantium minima obcaecati incidunt voluptatibus aperiam accusantium nesciunt quisquam possimus provident dolor eveniet? Reprehenderit, blanditiis mollitia.
-                </p>
-            </div>
+                <p class="description"> <%= data.plot %> </p>
+            </div> 
 
             <div id="castContainer">
                 <h2>Cast</h2>
                 <div class="castGlide">
                     <div class="glide__track" data-glide-el="track">
                       <ul class="glide__slides">
+
+                        <% data.actorList.forEach(element => { %>
+                            <li class="glide__slide">
+                                <img src="<%= element.image %> " alt="">
+                                <p><%= element.name %></p>
+                            </li>
+                        <% }); %>
+<!-- 
                         <li class="glide__slide">
                             Robert Pattinson
                         </li>
@@ -63,7 +69,7 @@
                         </li>
                         <li class="glide__slide">
                             The riddler guy
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </div>
