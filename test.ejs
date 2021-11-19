@@ -1,77 +1,56 @@
-<%- include ('partials/header.ejs')  -%> 
-
-<main id="homeContainer">
-
-    <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon</h2>
-          <a href="/comingSoon">See all</a>
-        </div>
-        <%- include ('partials/homeCarousel')  -%> 
+<main id="homeOptions">
+    <div id="optionsHeader">
+        <a href="/"> <i class="fas fa-chevron-left"></i> Back</a>
+        <h2><%= title %></h2>
     </div>
 
-    <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon x2</h2>
-          <a href="/comingSoon">See all</a>
-        </div>
-
-        <div class="glide carouselContainer" >
-            <div class="glide__track" data-glide-el="track">
-                
-            <ul class="glide__slides">
-                 <% data.forEach(element => { %>
-                    <a href="">
-                        <li class="glide__slide">
-                            <img src="<%= element.image %> " alt="">
-                        </li>
-                    </a>
-                <% }); %>
-            </ul>
+    <section id="optionsContainer">
+        <!-- Loop through each item  -->
+<!-- 
+        <a href="/movie/batman">
+            <div class="gridItem">
+                <img src="/images/Spider-Man.jpeg" alt="">
+    
+                <div class="content">
+                    <h3>Spider-Man No Way Home</h3>
+                    <span>December 17, 2021</span>
+                    <p>Action/Adventure/ Sci-Fi</p>
+                </div>
             </div>
-        </div>
+        </a> -->
 
-    </div>
-
-    <!-- <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon</h2>
-          <a href="/comingSoon">See all</a>
-        </div>
-        <%- include ('partials/homeCarousel')  -%> 
-    </div>
-
-    <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon x2</h2>
-          <a href="/comingSoon">See all</a>
-        </div>
-
-        <div class="glide carouselContainer" >
-            <div class="glide__track" data-glide-el="track">
-                
-            <ul class="glide__slides">
-                <% data.forEach(element => { %>
-                    <a href="">
-                        <li class="glide__slide">
-                            <img src="<%= element.image %> " alt="">
-                        </li>
-                    </a>
-                <% }); %>
-            </ul>
-            </div>
-        </div>
-
-    </div> -->
+        <% data.forEach(element => { %>
+            <a href="/movie/<%= element.id %>">
+                <div class="gridItem">
+                    <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
+        
+                    <div class="content">
+                        <h3><%= element.title %></h3>
+                        <span><%= element.release_date %></span>
+                        <p>Rating: <%= element.vote_average%></p>
+                    </div>
+                </div>
+            </a>
+        <% }); %>
 
 
+
+        
+    </section>
 </main>
 
+<% element.forEach(item => { %>
+    
+<% }); %> 
 
+<a href="/movie/<%= element.id %>">
+    <div class="gridItem">
+        <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
 
-
-<%- include ('partials/footer.ejs')  -%> 
+        <div class="content">
+            <h3><%= element.title %></h3>
+            <span><%= element.release_date %></span>
+            <p>Rating: <%= element.vote_average%></p>
+        </div>
+    </div>
+</a>

@@ -35,7 +35,7 @@
                 <% comingSoon.forEach(element => { %>
                     <a href="/movie/<%= element.id %>">
                         <li class="glide__slide">
-                            <img src="<%= element.image %> " alt="">
+                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " alt="">
                         </li>
                     </a>
                 <% }); %>
@@ -59,9 +59,9 @@
             <ul class="glide__slides">
 
                 <% theatres.forEach(element => { %>
-                    <a href="">
+                    <a href="/movie/<%= element.id %>">
                         <li class="glide__slide">
-                            <img src="<%= element.image %> " alt="">
+                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " alt="">
                         </li>
                     </a>
                 <% }); %>

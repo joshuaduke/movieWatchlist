@@ -22,17 +22,25 @@
         </a> -->
 
         <% data.forEach(element => { %>
-            <a href="/movie/<%= element.id %>">
-                <div class="gridItem">
-                    <img src="<%= element.image %>" alt="">
-        
-                    <div class="content">
-                        <h3><%= element.title %></h3>
-                        <span><%= element.releaseState %></span>
-                        <p><%= element.genres%></p>
+
+            <% element.forEach(item => { %>
+
+                <a href="/movie/<%= item.id %>">
+                    <div class="gridItem">
+                        <img src="https://image.tmdb.org/t/p/w500<%= item.poster_path %>" alt="">
+                
+                        <div class="content">
+                            <h3><%= item.title %></h3>
+                            <span><%= item.release_date %></span>
+                            <p>Rating: <%= item.vote_average%></p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+
+            <% }); %> 
+            
+
+            
         <% }); %>
 
 
