@@ -21,6 +21,9 @@
 
             <div class="genre-watched">
                 <p class="genre"> <%= data.genres %></p>
+                <!-- EJS IF STATEMENT. iof not watched link to add watch page-->
+                <!-- if watched then button background green , modal pop up  -->
+                <!-- prompt if they really want to remove from watched -->
                 <button class="watched"> Watched?</button>
             </div>
 
@@ -53,11 +56,12 @@
 
                         <% data.actorList.forEach(element => { %>
                             <li class="glide__slide">
-                                <img src="<%= element.image %> " alt="">
                                 <p><%= element.name %></p>
+                                <img src="<%= element.image %> " alt="">
                             </li>
                         <% }); %>
-<!-- 
+                        
+                    <!-- 
                         <li class="glide__slide">
                             Robert Pattinson
                         </li>

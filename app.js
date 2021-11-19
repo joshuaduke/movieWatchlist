@@ -3,7 +3,7 @@ const https = require('https')
 const axios = require('axios');
 const ejs = require('ejs');
 const app = express();
-
+const apiKey = "k_7893g9qe";
 // const moviePoster = require(__dirname + '/public/javascript/getPosters.js')
 // let data = moviePoster();
 
@@ -19,7 +19,7 @@ app.use('/dist', express.static(__dirname + '/node_modules/@glidejs/glide/dist/'
 app.get('/', (req, res)=>{
     
     /* WORKING API CALL FOR LOW QUALITY POSTERS */
-    const apiKey = "k_7893g9qe"
+
     const comingSoon = axios.get(`https://imdb-api.com/en/API/ComingSoon/${apiKey}`);
     const inTheatres = axios.get(`https://imdb-api.com/en/API/InTheaters/${apiKey}`);
 
@@ -37,39 +37,39 @@ app.get('/', (req, res)=>{
         .catch(errors => {
             console.error(errors)
         })
-
-    // const url = `https://imdb-api.com/en/API/ComingSoon/${apiKey}`;
-
-    // let comingSoonData = '';
-
-    // https.get(url, (response)=>{
-    //     response.on('data', (data)=>{
-    //         comingSoonData += data;
-    //     });
-
-    //     response.on('end', ()=>{
-    //         // console.log(comingSoonData);
-    //         let data = JSON.parse(comingSoonData)
-    //         // console.log(data);
-            
-    //         res.render('home', {data : data.items});
-    //     })
-        
-    // }).on('error', (err)=>{
-    //     console.log("ERROR" + err.message);
-    // })
-
-    //API CALL FOR HIGH QUALITY PICTURES
-    // let data = moviePoster();
-
-    // console.log('Task 1: ')
-    // console.log(data)
-    // res.render('home')
 })
 
 app.get('/home/:option', (req, res)=> {
-    let title = req.params.option;
-    res.render('homeOptions', {title : title});
+    let pageOption = req.params.option;
+
+    if(pageOption == 'comingSoon'){
+    let title = 'Coming Soon';
+    const url = `https://imdb-api.com/en/API/ComingSoon/${apiKey}`;
+
+    axios.get(url)
+        .then((response)=>{
+            let data = response.data;
+            console.log('Coming Soon:');
+            console.log(data);
+            res.render('homeOptions', {data: data.items, title: title})
+        })
+        .catch(err => console.error(err));
+
+    } else if(pageOption == 'inTheatres') {
+        let title = 'In Theatres';
+        const url = `https://imdb-api.com/en/API/InTheaters/${apiKey}`;
+
+        axios.get(url)
+            .then((response)=>{
+                let data = response.data;
+                console.log('In Theatres:');
+                console.log(data);
+                res.render('homeOptions', {data: data.items, title:title})
+            })
+            .catch(err => console.error(err));
+    }
+
+    // res.render('homeOptions', {title : title});
 })
 
 app.get('/search', (req, res)=>{
@@ -87,25 +87,16 @@ app.get('/movie/:selected', (req, res)=>{
     const apiKey = "k_7893g9qe"
     const url = `https://imdb-api.com/en/API/Title/${apiKey}/${selectedId}`;
 
-    let movieData = '';
-
-    https.get(url, (response)=>{
-        response.on('data', (data)=>{
-            movieData += data;
-        });
-
-        response.on('end', ()=>{
-            // console.log(movieData);
-            let data = JSON.parse(movieData)
+    axios.get(url)
+        .then((response)=>{
+            let data = response.data;
+            console.log('Movie Data:');
             console.log(data);
-            
-            res.render('selectedMovie', {data : data});
+            res.render('selectedMovie', {data: data})
         })
-        
-    }).on('error', (err)=>{
-        console.log("ERROR" + err.message);
-    })
-    // res.render('selectedMovie');
+        .catch(err => console.error(err));
+
+    
 });
 
 app.get('/watchlist', (req, res)=>{
