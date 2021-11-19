@@ -1,5 +1,6 @@
 const express = require('express');
 const https = require('https')
+const axios = require('axios');
 const ejs = require('ejs');
 const app = express();
 
@@ -19,26 +20,44 @@ app.get('/', (req, res)=>{
     
     /* WORKING API CALL FOR LOW QUALITY POSTERS */
     const apiKey = "k_7893g9qe"
-    const url = `https://imdb-api.com/en/API/ComingSoon/${apiKey}`;
+    const comingSoon = axios.get(`https://imdb-api.com/en/API/ComingSoon/${apiKey}`);
+    const inTheatres = axios.get(`https://imdb-api.com/en/API/InTheaters/${apiKey}`);
 
-    let comingSoonData = '';
+    axios.all([comingSoon, inTheatres])
+        .then(
+            axios.spread((...responses) => {
+                const comingSoonData = responses[0];
+                const inTheatresData = responses[1];
 
-    https.get(url, (response)=>{
-        response.on('data', (data)=>{
-            comingSoonData += data;
-        });
+                console.log(comingSoonData.data, inTheatresData.data);
 
-        response.on('end', ()=>{
-            // console.log(comingSoonData);
-            let data = JSON.parse(comingSoonData)
-            console.log(data);
-            
-            res.render('home', {data : data.items});
+                res.render('home', {comingSoon : comingSoonData.data.items, theatres: inTheatresData.data.items})
+            })
+        )
+        .catch(errors => {
+            console.error(errors)
         })
+
+    // const url = `https://imdb-api.com/en/API/ComingSoon/${apiKey}`;
+
+    // let comingSoonData = '';
+
+    // https.get(url, (response)=>{
+    //     response.on('data', (data)=>{
+    //         comingSoonData += data;
+    //     });
+
+    //     response.on('end', ()=>{
+    //         // console.log(comingSoonData);
+    //         let data = JSON.parse(comingSoonData)
+    //         // console.log(data);
+            
+    //         res.render('home', {data : data.items});
+    //     })
         
-    }).on('error', (err)=>{
-        console.log("ERROR" + err.message);
-    })
+    // }).on('error', (err)=>{
+    //     console.log("ERROR" + err.message);
+    // })
 
     //API CALL FOR HIGH QUALITY PICTURES
     // let data = moviePoster();
