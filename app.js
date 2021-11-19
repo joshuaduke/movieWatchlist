@@ -119,93 +119,50 @@ app.get('/home/:option', (req, res)=> {
                     console.log('inside get user');
                     console.log(data);
                     return getPageData(data)
-                    // async function getPageData() {
-                    //     let pagesData = [];
-
-                    //     for (let index = 1; index < data; index++) {
-                    //         try {
-                    //             const response = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${index}region=US`);
-      
-                    //             let data = response.data;
-                    //             pagesData.push(data);
-                    //             // console.log(data.total_pages)
-                    //             // return data.total_pages;
-                    //           } catch (error) {
-                    //             console.error(error);
-                    //           }
-                    //     }
-                    //     return pagesData;
-                    //   }   
-
-
                 })  
                 .catch(err => console.log(err))
 
-                async function getPageData(data) {
-                    let pagesDataArr = [];
 
-                    for (let i = 0; i < 3; i++) {
-                        let pageData = axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${i}region=US`);
-                        pagesDataArr[i] = pageData;
+                //replace with 'data' 
+                // 2 is for testing
+            async function getPageData(data) {
+                let pagesDataArr = [];
+                let page = 1;
+                for (let i = 0; i < data; i++) {
+
+                    let pageData = axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}region=US`);
+                    page++;
+                    pagesDataArr[i] = pageData;
                         
-                    }
+                }
+
+                console.log('Pages data');
+                pagesDataArr.forEach(element => {
+                    console.log(element);
+                });
 
 
-                    axios.all(pagesDataArr)
-                    .then(
-                        axios.spread((...responses) => {
-                            let data = [];
-                            responses.forEach(element => {
-                                // console.log(element.data)
-                                data.push(element.data.results);
-                            });
-
-                            // console.log(data[0])
-                            // console.log(typeof data)
-                            // const comingSoonData = responses[0];
-                            // const inTheatresData = responses[1];
+                axios.all(pagesDataArr)
+                .then(
+                    axios.spread((...responses) => {
+                        let data = [];
+                        console.log(responses[0].data)
+                        responses.forEach(element => {
+                            // console.log('LOOP');
+                            // console.log(element.data.results);
+                            data.push(element.data.results);
+                        });
             
-                            // console.log(comingSoonData.data, inTheatresData.data);
-            
-                            res.render('homeOptions', {data: data, title:title})
-                            //     })
-                        })
-                    )
-                    .catch(errors => {
-                        console.error(errors)
+                        res.render('homeOptions', {data: data, title:title})
                     })
+                )
+                .catch(errors => {
+                    console.error(errors)
+                })
 
-                    // try {
-                    //     console.log('Inside get page data function')
-                    //     console.log(data);
-                    //   return data;
-                    // } catch (error) {
-                    //   console.error(error);
-                    // }
-                  }
-
-            //for each object store in array
-            // getPageData()
-            //     .then(data => {
-            //         console.log('Inside get page data')
-            //         console.log(data);
-            //     })
-            //     .catch(err => console.log(err))
-
-
-            //   console.log(totalPages);
-
-        // axios.get(url)
-        //     .then((response)=>{
-        //         let data = response.data;
-        //         console.log('In Theatres:');
-        //         console.log(data.total_pages);
-        //         res.render('homeOptions', {data: data.results, title:title})
-        //     })
-        //     .catch(err => console.error(err));
+            }
     }
 
-    // res.render('homeOptions', {title : title});
 })
 
 app.get('/search', (req, res)=>{
