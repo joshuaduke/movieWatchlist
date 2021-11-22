@@ -296,6 +296,10 @@ nav p {
   height: auto;
 }
 
+#searchPage {
+  padding-bottom: 70px;
+}
+
 #searchContainer {
   width: 100%;
   background-color: #494949;
@@ -348,5 +352,111 @@ nav p {
   width: 100%;
   max-width: 300px;
   height: auto;
+}
+
+.searchItem {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #202124;
+}
+
+.searchItem .group1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.searchItem .group1 div {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 5px 0;
+}
+
+.searchItem .group1 h3 {
+  color: #fff;
+}
+
+.searchItem .group1 p {
+  font-size: 0.8em;
+  color: #848484;
+  line-height: 1em;
+}
+
+.searchItem .group1 img {
+  width: 17%;
+  padding: 3px;
+}
+
+.watchlistItem {
+  width: 100%;
+  height: auto;
+  padding: 10px 20px;
+  background-color: #e4e4e4;
+  border-bottom: 1px solid #848484;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 6fr 1fr;
+      grid-template-columns: 6fr 1fr;
+}
+
+.watchlistItem .group1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.watchlistItem .group1 div {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.watchlistItem .group2 {
+  text-align: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.watchlistItem .group2 button {
+  margin-left: auto;
+  margin-right: 0;
+  width: 30px;
+}
+
+.watchlistItem img {
+  width: 15%;
 }
 /*# sourceMappingURL=main.css.map */

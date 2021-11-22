@@ -43,14 +43,21 @@
     
 <% }); %> 
 
-<a href="/movie/<%= element.id %>">
-    <div class="gridItem">
-        <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
 
-        <div class="content">
-            <h3><%= element.title %></h3>
-            <span><%= element.release_date %></span>
-            <p>Rating: <%= element.vote_average%></p>
+
+<!-- //searched data -->
+<% searchedData.forEach(element => { %>
+    <section id="completedSearch">
+        <div class="searchItem">
+
+            <a href="/movie/<%= element.id %>" class="group1">
+                <img  src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
+                
+                <div>
+                    <h3><%= element.original_title %></h3>
+                    <p><%= element.release_date%></p>
+                </div>
+            </a>
         </div>
-    </div>
-</a>
+    </section>
+<% }); %>

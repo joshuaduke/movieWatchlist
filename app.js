@@ -153,7 +153,38 @@ app.get("/home/:option", (req, res) => {
 });
 
 app.get("/search", (req, res) => {
-  res.render("search");
+    let data = false;
+    let inputvalue = '';
+  res.render("search", {searchedData: false, data: data, inputvalue: inputvalue});
+});
+
+
+app.post('/search', (req, res)=>{
+    const searchedValue = req.body.movieTitle;
+    const page = 1;
+    console.log('Input value ' + searchedValue);
+
+    const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`
+
+    if (searchedValue == '') {
+        res.redirect('/search')
+    } else {
+        axios.get(urlTMDB)
+        .then( (response) =>{
+            let data = response.data;
+            // console.log(data);
+            res.render('search', {searchedData: data, data : true , inputvalue: searchedValue})
+        })
+    }
+
+
+    // axios.get(urlTMDB)
+    //     .then( (response) =>{
+    //         let data = response.data;
+    //         // console.log(data);
+    //         res.render('search', {searchedData: data, data : true , inputvalue: searchedValue})
+    //     })
+
 });
 
 app.get("/search/:option", (req, res) => {
@@ -176,8 +207,16 @@ app.get("/movie/:selected", (req, res) => {
         axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
             .then((movieData) => {
                 console.log(movieData.data);
-                let data = movieData.data;
-                res.render("selectedMovie", { data: data });
+                // let data = movieData.data;
+                // res.render("selectedMovie", { data: data });
+
+                if(movieData.data.title == null){
+                    console.log('No information on this is available');
+                    res.redirect('/search')
+                } else {
+                    let data = movieData.data;
+                    res.render("selectedMovie", { data: data });
+                }
             })
             .catch((err) => console.error(err));
     //   let data = response.data;

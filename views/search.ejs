@@ -3,59 +3,146 @@
 
 <main id="searchPage">
     <div id="searchContainer">
-        <form action="">
-            <i class="fas fa-search"></i>
-            <input type="search" placeholder="Search for a movie">
+        <form action="/search" method="post">
+            <i class="fas fa-search" ></i>
+            <input type="search" name="movieTitle" id="searchMovie" placeholder="Search for a movie" value="<%=inputvalue%>">
 
         </form>
     </div>
+<!-- 
+    <section id="completedSearch">
+        <div class="searchItem">
 
-    <section id="searchOptionsContainer">
-        <!-- Loop through each item  -->
+            <a href="" class="group1">
+                <img  src="/images/Spider-Man.jpeg" alt="">
+                
+                <div>
+                    <h3>Title</h3>
+                    <p>2021</p>
+                    <p>Genre</p>
 
-        <a href="/search/topMovies" class="gridItem">
-            <div >
-                <img src="/images/eternals.jpg" alt="">
-    
-                <div class="content">
-                    <h3>Top Movies</h3>
+                    <p>Director</p>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
+    </section> -->
 
-        <a href="/search/alltimebo" class="gridItem">
-            <div>
-                <img src="/images/Spider-Man.jpeg" alt="">
+    <% if (data == false) { %>
+        <section id="searchOptionsContainer">
     
-                <div class="content">
-                    <h3>All time Box Office</h3>
-                </div>
-            </div>
-        </a>
-
-        <a href="/search/mostpopular" class="gridItem">
-            <div >
-                <img src="/images/DarkKnight.jpg" alt="">
-    
-                <div class="content">
-                    <h3>Top Movies</h3>
-                </div>
-            </div>
-        </a>
-
-        <a href="/search/topboxoffice" class="gridItem">
-            <div>
-                <img src="/images/Spider-Man.jpeg" alt="">
-    
-                <div class="content">
-                    <h3>Top Box Office</h3>
-                </div>
-            </div>
-        </a>
+            <a href="/search/topMovies" class="gridItem">
+                <div >
+                    <img src="/images/eternals.jpg" alt="">
         
-    </section>
+                    <div class="content">
+                        <h3>Top Movies</h3>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="/search/alltimebo" class="gridItem">
+                <div>
+                    <img src="/images/Spider-Man.jpeg" alt="">
+        
+                    <div class="content">
+                        <h3>All time Box Office</h3>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="/search/mostpopular" class="gridItem">
+                <div >
+                    <img src="/images/DarkKnight.jpg" alt="">
+        
+                    <div class="content">
+                        <h3>Top Movies</h3>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="/search/topboxoffice" class="gridItem">
+                <div>
+                    <img src="/images/Spider-Man.jpeg" alt="">
+        
+                    <div class="content">
+                        <h3>Top Box Office</h3>
+                    </div>
+                </div>
+            </a>
+            
+        </section>
+    <% } else { %>
+        <section id="completedSearchContainer">
+            <% searchedData.results.forEach(element => { %>
+                <div class="completedSearch">
+                    <div class="searchItem">
+            
+                        <a href="/movie/<%= element.id %>" class="group1">
+                            <img  src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
+                            
+                            <div>
+                                <h3><%= element.original_title %></h3>
+                                <p><%= element.release_date%></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            <% }); %>
+        </section>
+    <% } %> 
+    
+
+
 
 </main>
 
+<!-- <script>
+    let searchContainer = document.getElementById('completedSearchContainer');
+    let searchOptionsContainer = document.getElementById('searchOptionsContainer')
+    let searchMovieInput = document.getElementById("searchMovie");
+    
+    let searchForm = document.querySelector('form');
+
+    searchForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const searchedValue = searchMovieInput.value;
+
+        if(searchedValue != ''){
+            console.log('Blank search');
+            document.location.href = `/search`;
+            return searchedValue;
+        }
+    })
+    
+    searchMovieInput.addEventListener("search", function(event) {
+        if(searchMovieInput == ''){
+
+        } else {
+            while (searchContainer.firstChild) {
+            searchContainer.removeChild(searchContainer.firstChild);
+            document.location.href = `/search/${searchMovieInput.value}`;
+            }
+        }
+    });
+</script> -->
+
+<script>
+    let searchContainer = document.getElementById('completedSearchContainer');
+    let searchOptionsContainer = document.getElementById('searchOptionsContainer')
+    let searchMovieInput = document.getElementById("searchMovie");
+    
+    let searchForm = document.querySelector('form');
+
+    searchMovieInput.addEventListener("search", function(event) {
+        while (searchContainer.firstChild) {
+            if(searchMovieInput.value == ''){
+                searchContainer.removeChild(searchContainer.firstChild);
+                document.location.href = `/search/${searchMovieInput.value}`;
+            }
+            searchForm.submit();
+            break;
+        }
+    });
+</script>
 
 <%- include ('partials/footer.ejs')  -%> 
