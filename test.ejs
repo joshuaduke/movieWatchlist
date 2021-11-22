@@ -46,18 +46,25 @@
 
 
 <!-- //searched data -->
-<% searchedData.forEach(element => { %>
-    <section id="completedSearch">
-        <div class="searchItem">
 
-            <a href="/movie/<%= element.id %>" class="group1">
-                <img  src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
-                
-                <div>
-                    <h3><%= element.original_title %></h3>
-                    <p><%= element.release_date%></p>
-                </div>
-            </a>
+<%console.log("no exist");%>
+<div class="errorNotFound">
+    <p>No information is available for this title</p>
+</div>
+
+
+
+<% data.items.forEach(element => { %>
+    <a href="/movie/<%= element.id %>">
+        <div class="gridItem">
+            <img src="<%= element.image%>" alt="">
+
+            <div class="content">
+                <h3><%= element.title %></h3>
+                <p>Rank: <%= element.rank %></p>
+                <p>IMDB Rating: <%= element.imDbRating %></p>
+                <p><%= element.year %></p>
+            </div>
         </div>
-    </section>
+    </a>
 <% }); %>

@@ -1,5 +1,6 @@
 @import '_selectedMovie';
 @import '_watchlist';
+@import '_addReview';
 
 $headerYellow :#FBBC04;
 
@@ -32,7 +33,7 @@ footer{
     }
 }
 
-nav{
+#footerNav{
     // display: grid;
     // grid-template-columns: repeat(4, 1fr);
     display: flex;

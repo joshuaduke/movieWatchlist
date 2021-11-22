@@ -32,26 +32,6 @@
     
             <a href="/search/topMovies" class="gridItem">
                 <div >
-                    <img src="/images/eternals.jpg" alt="">
-        
-                    <div class="content">
-                        <h3>Top Movies</h3>
-                    </div>
-                </div>
-            </a>
-    
-            <a href="/search/alltimebo" class="gridItem">
-                <div>
-                    <img src="/images/Spider-Man.jpeg" alt="">
-        
-                    <div class="content">
-                        <h3>All time Box Office</h3>
-                    </div>
-                </div>
-            </a>
-    
-            <a href="/search/mostpopular" class="gridItem">
-                <div >
                     <img src="/images/DarkKnight.jpg" alt="">
         
                     <div class="content">
@@ -60,7 +40,27 @@
                 </div>
             </a>
     
-            <a href="/search/topboxoffice" class="gridItem">
+            <a href="/search/allTimeBo" class="gridItem">
+                <div>
+                    <img src="/images/avatar.jpg" alt="">
+        
+                    <div class="content">
+                        <h3>All time Box Office</h3>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="/search/mostPopular" class="gridItem">
+                <div >
+                    <img src="/images/Spider-Man.jpeg" alt="">
+        
+                    <div class="content">
+                        <h3>Most Popular</h3>
+                    </div>
+                </div>
+            </a>
+    
+            <a href="/search/topBoxOffice" class="gridItem">
                 <div>
                     <img src="/images/Spider-Man.jpeg" alt="">
         
@@ -95,36 +95,6 @@
 
 
 </main>
-
-<!-- <script>
-    let searchContainer = document.getElementById('completedSearchContainer');
-    let searchOptionsContainer = document.getElementById('searchOptionsContainer')
-    let searchMovieInput = document.getElementById("searchMovie");
-    
-    let searchForm = document.querySelector('form');
-
-    searchForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const searchedValue = searchMovieInput.value;
-
-        if(searchedValue != ''){
-            console.log('Blank search');
-            document.location.href = `/search`;
-            return searchedValue;
-        }
-    })
-    
-    searchMovieInput.addEventListener("search", function(event) {
-        if(searchMovieInput == ''){
-
-        } else {
-            while (searchContainer.firstChild) {
-            searchContainer.removeChild(searchContainer.firstChild);
-            document.location.href = `/search/${searchMovieInput.value}`;
-            }
-        }
-    });
-</script> -->
 
 <script>
     let searchContainer = document.getElementById('completedSearchContainer');

@@ -153,43 +153,95 @@ app.get("/home/:option", (req, res) => {
 });
 
 app.get("/search", (req, res) => {
-    let data = false;
-    let inputvalue = '';
-  res.render("search", {searchedData: false, data: data, inputvalue: inputvalue});
+  let data = false;
+  let inputvalue = "";
+  res.render("search", {
+    searchedData: false,
+    data: data,
+    inputvalue: inputvalue,
+  });
 });
 
+app.post("/search", (req, res) => {
+  const searchedValue = req.body.movieTitle;
+  const page = 1;
+  console.log("Input value " + searchedValue);
 
-app.post('/search', (req, res)=>{
-    const searchedValue = req.body.movieTitle;
-    const page = 1;
-    console.log('Input value ' + searchedValue);
+  const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`;
 
-    const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`
+  if (searchedValue == "") {
+    res.redirect("/search");
+  } else {
+    axios.get(urlTMDB).then((response) => {
+      let data = response.data;
+      // console.log(data);
+      res.render("search", {
+        searchedData: data,
+        data: true,
+        inputvalue: searchedValue,
+      });
+    });
+  }
 
-    if (searchedValue == '') {
-        res.redirect('/search')
-    } else {
-        axios.get(urlTMDB)
-        .then( (response) =>{
-            let data = response.data;
-            // console.log(data);
-            res.render('search', {searchedData: data, data : true , inputvalue: searchedValue})
-        })
-    }
-
-
-    // axios.get(urlTMDB)
-    //     .then( (response) =>{
-    //         let data = response.data;
-    //         // console.log(data);
-    //         res.render('search', {searchedData: data, data : true , inputvalue: searchedValue})
-    //     })
-
+  // axios.get(urlTMDB)
+  //     .then( (response) =>{
+  //         let data = response.data;
+  //         // console.log(data);
+  //         res.render('search', {searchedData: data, data : true , inputvalue: searchedValue})
+  //     })
 });
 
 app.get("/search/:option", (req, res) => {
   let option = req.params.option;
-  res.render("searchOptions", { option: option });
+  let url = '';
+  let title = '';
+  console.log(option);
+
+  switch (option) {
+    case "topMovies":
+      url = `https://imdb-api.com/en/API/Top250Movies/${apiKey}`;
+      axios.get(url).then((response) => {
+        let data = response.data;
+        title = "Top 250 Movies"  
+        // console.log(data);
+        res.render("searchOptions", { data: data, option: title });
+      });
+      break;
+
+    case "allTimeBo":
+      url = `https://imdb-api.com/en/API/BoxOfficeAllTime/${apiKey}`;
+      axios.get(url).then((response) => {
+        let data = response.data;
+        title = "All Time Box Office"  
+        // console.log(data);
+        res.render("searchOptions", { data: data, option: title });
+      });
+      break;
+
+      case "mostPopular":
+        url = `https://imdb-api.com/en/API/MostPopularMovies/${apiKey}`;
+        axios.get(url).then((response) => {
+          let data = response.data;
+          title = "Most Popular Movies"  
+          // console.log(data);
+          res.render("searchOptions", { data: data, option: title });
+        });
+        break;
+
+        case "topBoxOffice":
+            url = `https://imdb-api.com/en/API/BoxOffice/${apiKey}`;
+            axios.get(url).then((response) => {
+              let data = response.data;
+              title = "Box Office"  
+              // console.log(data);
+              res.render("searchOptions", { data: data, option: title });
+            });
+            break;
+
+    default:
+      break;
+  }
+  //   res.render("searchOptions", { option: option });
 });
 
 app.get("/movie/:selected", (req, res) => {
@@ -202,27 +254,28 @@ app.get("/movie/:selected", (req, res) => {
   axios
     .get(urlTMDB)
     .then((response) => {
-        let movieId = response.data.imdb_id;
+      let movieId = response.data.imdb_id;
 
-        axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-            .then((movieData) => {
-                console.log(movieData.data);
-                // let data = movieData.data;
-                // res.render("selectedMovie", { data: data });
+      axios
+        .get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+        .then((movieData) => {
+          console.log(movieData.data);
+          // let data = movieData.data;
+          // res.render("selectedMovie", { data: data });
 
-                if(movieData.data.title == null){
-                    console.log('No information on this is available');
-                    res.redirect('/search')
-                } else {
-                    let data = movieData.data;
-                    res.render("selectedMovie", { data: data });
-                }
-            })
-            .catch((err) => console.error(err));
-    //   let data = response.data;
-    //   console.log("Movie Data:");
-    //   console.log(data);
-    //   res.render("selectedMovie", { data: data });
+          if (movieData.data.title == null) {
+            console.log("No information on this is available");
+            res.redirect("/search");
+          } else {
+            let data = movieData.data;
+            res.render("selectedMovie", { data: data });
+          }
+        })
+        .catch((err) => console.error(err));
+      //   let data = response.data;
+      //   console.log("Movie Data:");
+      //   console.log(data);
+      //   res.render("selectedMovie", { data: data });
     })
     .catch((err) => console.error(err));
 
@@ -246,7 +299,7 @@ app.get("/watched", (req, res) => {
 });
 
 app.get("/addNew", (req, res) => {
-  res.render();
+  res.render('addReview');
 });
 
 app.listen(process.env.PORT || 3000, () => {

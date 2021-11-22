@@ -1,0 +1,44 @@
+<%- include ('partials/header.ejs')  -%> 
+
+<nav id="reviewNav">
+    <a href="/">Back</a>
+</nav>
+
+<main id="reviewPage">
+    <div id="reviewContainer">
+        <form action="" method="post">
+            <div>
+                <p>What do you think of:</p>
+                <h1>Title</h1>
+            </div>
+
+            <div class="rating">
+                <label for="">How would you rate this movie</label>
+                <p><input type="number">/10</p>
+            </div>
+            <div class="review box">
+                <h3>Review:</h3>
+                <textarea name="" id="" cols="30" rows="10" placeholder="Give a short review of what you thought about this movie"></textarea>
+            </div>
+            <div class="recommendation box">
+                <div>
+                    <label for="">Would recommend?</label>
+                    <input type="radio" name="" id="">
+                    <input type="radio" name="" id="">
+                </div>
+                <div>
+                    <label for="">Would Rewatch</label>
+                    <input type="radio" name="" id="">
+                    <input type="radio" name="" id="">
+                </div>
+            </div>
+            <div>
+                <label for="dateWatched">Date Watched</label>
+                <input type="date" name="dateWatched" id="dateWatched">
+                <button type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<%- include ('partials/footer.ejs')  -%> 

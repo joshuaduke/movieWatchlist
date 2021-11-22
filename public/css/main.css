@@ -149,6 +149,27 @@ header {
   width: 15%;
 }
 
+#reviewNav {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+}
+
+#reviewPage {
+  color: #fff;
+  padding: 20px;
+}
+
+#reviewContainer div {
+  margin: 10px 0;
+}
+
+#reviewContainer .box {
+  width: 100%;
+  background-color: #e4e4e4;
+  padding: 10px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -179,7 +200,7 @@ footer a {
   color: #fff;
 }
 
-nav {
+#footerNav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -188,12 +209,12 @@ nav {
           justify-content: center;
 }
 
-nav .iconContainer {
+#footerNav .iconContainer {
   margin: 0 15px;
   text-align: center;
 }
 
-nav p {
+#footerNav p {
   font-size: 0.8em;
 }
 
