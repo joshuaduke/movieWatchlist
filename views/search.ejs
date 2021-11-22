@@ -130,6 +130,8 @@
     let searchContainer = document.getElementById('completedSearchContainer');
     let searchOptionsContainer = document.getElementById('searchOptionsContainer')
     let searchMovieInput = document.getElementById("searchMovie");
+    let searchIcon = document.querySelector('.fa-search');
+
     
     let searchForm = document.querySelector('form');
 
@@ -143,6 +145,10 @@
             break;
         }
     });
+
+    searchIcon.addEventListener('click', ()=>{
+        searchForm.submit();
+    })
 </script>
 
 <%- include ('partials/footer.ejs')  -%> 
