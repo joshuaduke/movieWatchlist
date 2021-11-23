@@ -1,4 +1,111 @@
 
+<%- include ('partials/header') %>
 
+<main id="moviePage">
+    <!-- <img id="movieBackground" src="<%#= data.image %>" alt=""> -->
+    <img id="movieBackground" src="/images/darkKnightTextLess.jpeg" alt="">
+
+    <section id="movieContainer">
+        <div class="movieContent">
+
+            <div class="header">
+                <!-- <h1 class="title"><%#= data.title %></h1> -->
+                <h1 class="title">The Dark Knight</h1>
+                <div class="watchlist">
+                    <a href="/watchlist"><i class="far fa-bookmark fa-2x"></i></a>
+                    <!-- <p>Watchlist</p> -->
+                </div>
+            </div>
+
+
+            <p class="releaseDate"> Watched On: <%#= data.year %></p>
+            <p class="director"> <%#= data.directors %></p>
+
+            <div class="genre-watched">
+                <!-- <p class="genre"> <%#= data.genres %></p> -->
+                <p class="genre"> Action/Crime/Drama</p>
+            </div>
+
+            <div class="movieRating">
+                <div class="stars-outer">
+                    <div class="stars-inner">
+
+                    </div>
+                </div>
+                <span class="number-rating"></span>
+                <!-- <div class="stars">
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div> -->
+                <span><%#= data.imDbRating %> <span class="userRatingNum">8.5</span>/10 Rating</span>
+            </div>
+
+            <div id="descriptionContainer">
+                <h2>Review</h2>
+                <!-- <p class="description"> <%#= data.plot %> </p> -->
+                <p class="description">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui accusantium ut aliquam aspernatur quas veritatis molestiae? Aperiam doloribus laborum officiis sapiente magnam voluptates a ipsam placeat culpa quod ipsa cum, eveniet enim perferendis omnis. Nesciunt quam officia unde laboriosam quia odit natus aliquid, nostrum sint exercitationem illum enim voluptatibus perspiciatis recusandae saepe sapiente eum, molestiae est dicta quisquam sit eveniet? Maiores dolorum error harum debitis cumque quas nemo, magnam vero.
+                </p>
+            </div> 
+
+            <div id="castContainer">
+                <div>
+                    <p>Recommed? <span>Yes</span></p>
+                    <p>Rewatch? <span>Yes</span></p>
+                </div>
+            </div>
+            <div id="links">
+                <a href="">More Info ></a>
+                <a href="">Edit ></a>
+            </div>
+
+        </div>
+
+    </section>
+</main>
 
 <%- include ('partials/footer.ejs')  -%> 
+
+<script>
+    //initial ratings
+    let userRatingNum = document.querySelector('.userRatingNum').innerText;
+
+    const ratings = {
+        movieRating: userRatingNum,
+    }
+
+    //total stars
+    const starsTotal = 10;
+
+    //run getRatings when DOM loads
+
+    document.addEventListener('DOMContentLoaded', getRatings);
+
+    //get rating
+    function getRatings(){
+        console.log('ran'); 
+        for(let rating in ratings){
+            console.log(ratings[rating]);
+            //get percentage
+            const starPercentage = (ratings[rating] / starsTotal) * 100;
+            console.log(starPercentage);
+
+            //Round to nearest 10
+            const starPercentageRounded = `${Math.round(starPercentage / 10) * 10 }%`
+
+            console.log(starPercentageRounded);
+
+            //set width of stars inner to percenetage
+            document.querySelector(`.${rating} .stars-inner`).style.width = `${starPercentage}%`;
+            console.log(document.querySelector(`.movieRating`));
+        }
+    }
+</script>

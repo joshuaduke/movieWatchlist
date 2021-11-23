@@ -24,24 +24,16 @@
                 <!-- EJS IF STATEMENT. iof not watched link to add watch page-->
                 <!-- if watched then button background green , modal pop up  -->
                 <!-- prompt if they really want to remove from watched -->
-                <a href=""><button class="watched"> Watched?</button></a>
+                <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>
             </div>
 
-            <div class="rating">
-                <div class="stars">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
+            <div class="movieRating">
+                <div class="stars-outer">
+                    <div class="stars-inner"></div>
                 </div>
-                <span><%= data.imDbRating %>/10 Rating</span>
+                <p><span id="imDbRating"><%= data.imDbRating %></span>/10 Rating</p>
             </div>
+            
 
             <div id="descriptionContainer">
                 <h2>Description</h2>
@@ -97,4 +89,38 @@
     watchedBtn.addEventListener('click', ()=>{
         alert('Clicked')
     })
+
+     //initial ratings
+     let userRatingNum = document.querySelector('#imDbRating').innerText;
+
+    const ratings = {
+        movieRating: 9,
+    }
+
+//total stars
+const starsTotal = 10;
+
+//run getRatings when DOM loads
+
+document.addEventListener('DOMContentLoaded', getRatings);
+
+//get rating
+function getRatings(){
+    console.log('ran'); 
+    for(let rating in ratings){
+        console.log(ratings[rating]);
+        //get percentage
+        const starPercentage = (ratings[rating] / starsTotal) * 100;
+        console.log(starPercentage);
+
+        //Round to nearest 10
+        const starPercentageRounded = `${Math.round(starPercentage / 10) * 10 }%`
+
+        console.log(starPercentageRounded);
+
+        //set width of stars inner to percenetage
+        document.querySelector(`.movieRating .stars-inner`).style.width = `${starPercentage}%`;
+        console.log(document.querySelector(`.movieRating .star-inner`));
+    }
+}
 </script>

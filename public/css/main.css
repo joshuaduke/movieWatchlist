@@ -157,17 +157,160 @@ header {
 
 #reviewPage {
   color: #fff;
-  padding: 20px;
+  padding: 20px 20px 70px 20px;
 }
 
-#reviewContainer div {
+#reviewPageContainer div {
   margin: 10px 0;
 }
 
-#reviewContainer .box {
+#reviewPageContainer h1 {
+  padding: 20px 0;
+}
+
+#reviewPageContainer .recommendation {
   width: 100%;
   background-color: #e4e4e4;
-  padding: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+#reviewPageContainer .recommendation p {
+  color: #000;
+}
+
+#reviewPageContainer textarea {
+  width: 100%;
+  resize: none;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #e4e4e4;
+}
+
+#reviewPageContainer .box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#reviewPageContainer .switchField {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 10px;
+}
+
+#reviewPageContainer .switchField input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+}
+
+#reviewPageContainer .switchField label {
+  background-color: #e4e4e4;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 8px 16px;
+  margin-right: -1px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+#reviewPageContainer .switchField label:hover {
+  cursor: pointer;
+}
+
+#reviewPageContainer .switchField #rewatch-Yes:checked + label,
+#reviewPageContainer .switchField #recommend-Yes:checked + label {
+  background-color: #a5dc86;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+#reviewPageContainer .switchField #rewatch-No:checked + label,
+#reviewPageContainer .switchField #recommend-No:checked + label {
+  background-color: red;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+#reviewPageContainer .switchField label:first-of-type {
+  border-radius: 10px 0 0 10px;
+}
+
+#reviewPageContainer .switchField label:last-of-type {
+  border-radius: 0 10px 10px 0;
+}
+
+#reviewPageContainer #completeReview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 10px 0;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#reviewPageContainer #completeReview input, #reviewPageContainer #completeReview button {
+  border-radius: 10px;
+  border: none;
+}
+
+#reviewPageContainer #completeReview input {
+  padding: 0 10px;
+}
+
+#reviewPageContainer #completeReview button {
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+#accountPage {
+  padding: 20px;
+}
+
+#accountPage .container {
+  width: 100%;
+  height: auto;
+  background-color: #e4e4e4;
+  margin: 10px 0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#accountPage .copyright {
+  color: #fff;
+}
+
+#accountPage .deleteBtn {
+  width: 90%;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid red;
+  border-radius: 10px;
 }
 
 * {
@@ -479,5 +622,47 @@ footer a {
 
 .watchlistItem img {
   width: 15%;
+}
+
+.movieRating {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.stars-outer {
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  margin-right: 5px;
+}
+
+.stars-outer::before {
+  content: "\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005 \f005";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: #f8ce0b;
 }
 /*# sourceMappingURL=main.css.map */

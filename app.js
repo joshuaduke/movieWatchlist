@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
   );
   const inTheatres = axios.get(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=1`
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
   );
 
   axios
@@ -75,38 +75,27 @@ app.get("/", (req, res) => {
 
 app.get("/home/:option", (req, res) => {
   let pageOption = req.params.option;
+    let title = '';
+    let url = '';
 
-  if (pageOption == "comingSoon") {
-    let title = "Coming Soon";
-    const url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&region=US`;
+    if (pageOption == "comingSoon") {
+        title = 'Coming Soon'
+        url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&region=US`;
 
-    axios
-      .get(url)
-      .then((response) => {
-        let data = response.data;
-        console.log("Coming Soon:");
-        console.log(data);
-        res.render("homeOptions", { data: data.results, title: title });
-      })
-      .catch((err) => console.error(err));
-  } else if (pageOption == "inTheatres") {
-    let title = "In Theatres";
-    const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&region=US`;
+        async function getUser() {
+            try {
+              const response = await axios.get(url);
+              let data = response.data;
+              console.log(data.total_pages);
+              return data.total_pages;
+            } catch (error) {
+              console.error(error);
+            }
+          }
 
-    async function getUser() {
-      try {
-        const response = await axios.get(url);
-        let data = response.data;
-        console.log(data.total_pages);
-        return data.total_pages;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getUser()
+        getUser()
       .then((data) => {
-        console.log("inside get user");
+        console.log("inside get user coming soon");
         console.log(data);
         return getPageData(data);
       })
@@ -119,7 +108,7 @@ app.get("/home/:option", (req, res) => {
       let page = 1;
       for (let i = 0; i < 2; i++) {
         let pageData = axios.get(
-          `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}region=US`
+          `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=${page}&region=US`
         );
         page++;
         pagesDataArr[i] = pageData;
@@ -149,7 +138,73 @@ app.get("/home/:option", (req, res) => {
           console.error(errors);
         });
     }
-  }
+
+    } else if (pageOption == 'inTheatres'){
+        title = 'In Theatres'
+        url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&region=US`;
+
+        async function getUser() {
+            try {
+              const response = await axios.get(url);
+              let data = response.data;
+              console.log(data.total_pages);
+              return data.total_pages;
+            } catch (error) {
+              console.error(error);
+            }
+          }
+
+        getUser()
+      .then((data) => {
+        console.log("inside get user");
+        console.log(data);
+        return getPageData(data);
+      })
+      .catch((err) => console.log(err));
+
+    //replace with 'data'
+    // 2 is for testing
+    async function getPageData(data) {
+      let pagesDataArr = [];
+      let page = 1;
+      for (let i = 0; i < 2; i++) {
+        let pageData = axios.get(
+          `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}&region=US`
+        );
+        page++;
+
+        pagesDataArr[i] = pageData;
+      }
+
+      console.log("Pages data");
+      pagesDataArr.forEach((element) => {
+        console.log(element);
+      });
+
+      axios
+        .all(pagesDataArr)
+        .then(
+          axios.spread((...responses) => {
+            let data = [];
+            console.log(responses.data);
+            responses.forEach((element) => {
+              // console.log('LOOP');
+              // console.log(element.data.results);
+              data.push(element.data.results);
+            });
+            console.log('DATA:')
+            console.log(data)
+            res.render("homeOptions", { data: data, title: title });
+          })
+        )
+        .catch((errors) => {
+          console.error(errors);
+        });
+    }
+    }
+
+
+ 
 });
 
 app.get("/search", (req, res) => {
@@ -298,9 +353,25 @@ app.get("/watched", (req, res) => {
   res.render("watched");
 });
 
-app.get("/addNew", (req, res) => {
-  res.render('addReview');
+app.get('/watched/:selected', (req, res)=>{
+    res.render('selectedWatched')
+})
+
+app.get("/addNew/:movieId", (req, res) => {
+    let movieId = req.params.movieId;
+
+    axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+    .then((movieData) => {
+        console.log(movieData.data);
+        let data = movieData.data;
+        res.render("addReview", { data: data });
+    })
+    .catch((err) => console.error(err));
 });
+
+app.get('/account', (req, res)=>{
+    res.render('account');
+})
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server has started...");

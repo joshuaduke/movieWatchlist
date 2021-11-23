@@ -68,3 +68,81 @@
         </div>
     </a>
 <% }); %>
+
+<!-- Home option-->
+
+if (pageOption == "comingSoon") {
+    let title = "Coming Soon";
+    const url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&region=US`;
+
+    axios
+      .get(url)
+      .then((response) => {
+        let data = response.data;
+        console.log("Coming Soon:");
+        console.log(data);
+        res.render("homeOptions", { data: data.results, title: title });
+      })
+      .catch((err) => console.error(err));
+      
+  } else if (pageOption == "inTheatres") {
+    let title = "In Theatres";
+    const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&region=US`;
+
+    async function getUser() {
+      try {
+        const response = await axios.get(url);
+        let data = response.data;
+        console.log(data.total_pages);
+        return data.total_pages;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getUser()
+      .then((data) => {
+        console.log("inside get user");
+        console.log(data);
+        return getPageData(data);
+      })
+      .catch((err) => console.log(err));
+
+    //replace with 'data'
+    // 2 is for testing
+    async function getPageData(data) {
+      let pagesDataArr = [];
+      let page = 1;
+      for (let i = 0; i < 2; i++) {
+        let pageData = axios.get(
+          `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}region=US`
+        );
+        page++;
+        pagesDataArr[i] = pageData;
+      }
+
+      console.log("Pages data");
+      pagesDataArr.forEach((element) => {
+        console.log(element);
+      });
+
+      axios
+        .all(pagesDataArr)
+        .then(
+          axios.spread((...responses) => {
+            let data = [];
+            console.log(responses[0].data);
+            responses.forEach((element) => {
+              // console.log('LOOP');
+              // console.log(element.data.results);
+              data.push(element.data.results);
+            });
+
+            res.render("homeOptions", { data: data, title: title });
+          })
+        )
+        .catch((errors) => {
+          console.error(errors);
+        });
+    }
+  }
