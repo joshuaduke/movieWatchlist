@@ -94,7 +94,7 @@
      let userRatingNum = document.querySelector('#imDbRating').innerText;
 
     const ratings = {
-        movieRating: 9,
+        movieRating: userRatingNum,
     }
 
 //total stars
@@ -120,7 +120,7 @@ function getRatings(){
 
         //set width of stars inner to percenetage
         document.querySelector(`.movieRating .stars-inner`).style.width = `${starPercentage}%`;
-        console.log(document.querySelector(`.movieRating .star-inner`));
+        console.log(document.querySelector(`.movieRating .stars-inner`));
     }
 }
 </script>
