@@ -313,6 +313,35 @@ header {
   border-radius: 10px;
 }
 
+body {
+  background-image: url("/images/darkKnightTextLess.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+#logInContainer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+#logInContainer h1 {
+  text-align: left;
+  font-size: 2em;
+  padding: 10px 0;
+  color: #fff;
+}
+
+#logInContainer .credentialsContainer {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+}
+
 * {
   margin: 0;
   padding: 0;

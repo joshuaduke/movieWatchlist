@@ -1,0 +1,34 @@
+body{
+    background-image: url('/images/darkKnightTextLess.jpeg');
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.register{
+    // padding:20px;
+
+}
+
+#logInContainer{
+    width: 100%;
+    position: absolute;
+    bottom:0;
+    margin-bottom: 60px;
+    padding:0 20px;
+
+    h1{
+        text-align: left;
+        font-size: 2em;
+        padding:10px 0;
+        color:#fff;
+    }
+
+    .credentialsContainer{
+        padding:20px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
+
+}

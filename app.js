@@ -50,28 +50,9 @@ app.get("/", (req, res) => {
     });
 });
 
-// app.get('/', (req, res)=>{
-
-//     /* WORKING API CALL FOR LOW QUALITY POSTERS */
-
-//     const comingSoon = axios.get(`https://imdb-api.com/en/API/ComingSoon/${apiKey}`);
-//     const inTheatres = axios.get(`https://imdb-api.com/en/API/InTheaters/${apiKey}`);
-
-//     axios.all([comingSoon, inTheatres])
-//         .then(
-//             axios.spread((...responses) => {
-//                 const comingSoonData = responses[0];
-//                 const inTheatresData = responses[1];
-
-//                 console.log(comingSoonData.data, inTheatresData.data);
-
-//                 res.render('home', {comingSoon : comingSoonData.data.items, theatres: inTheatresData.data.items})
-//             })
-//         )
-//         .catch(errors => {
-//             console.error(errors)
-//         })
-// })
+app.get("/login", (req, res)=>{
+  res.render('login')
+})
 
 app.get("/home/:option", (req, res) => {
   let pageOption = req.params.option;
