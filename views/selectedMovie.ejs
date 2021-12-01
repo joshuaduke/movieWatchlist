@@ -10,7 +10,11 @@
             <div class="header">
                 <h1 class="title"><%= data.title %></h1>
                 <div class="watchlist">
-                    <a href="/watchlist"><i class="far fa-bookmark fa-2x"></i></a>
+                    <form action="/movie/<%= data.id%>" method="post">
+                        <input type="hidden" name="currentMovie" value="<%= data.id%>">
+                        <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                    </form>
+                    <!-- <a href="/watchlist"></a> -->
                     <!-- <p>Watchlist</p> -->
                 </div>
             </div>
@@ -87,7 +91,7 @@
     let watchedBtn = document.querySelector('.watched');
 
     watchedBtn.addEventListener('click', ()=>{
-        alert('Clicked')
+        // alert('Clicked')
     })
 
      //initial ratings

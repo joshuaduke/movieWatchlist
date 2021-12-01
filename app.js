@@ -2,11 +2,45 @@ const express = require("express");
 const https = require("https");
 const axios = require("axios");
 const ejs = require("ejs");
+const mongoose = require('mongoose');
 const app = express();
 const apiKey = "k_7893g9qe";
 const apikeyTMDB = "16c3a911dbc1dfc97fc092d38dba2b03";
 // const moviePoster = require(__dirname + '/public/javascript/getPosters.js')
 // let data = moviePoster();
+
+//setting up mongoose
+//connection
+mongoose.connect('mongodb://localhost:27017/watchlist');
+// const Cat = mongoose.model('Cat', { name: String });
+// const kitty = new Cat({ name: 'Zildjian' });
+// kitty.save().then(() => console.log('meow'));
+
+//schema 
+const watchlistSchema = {
+  imdbID: String,
+  movieTitle: String,
+  movieGenre: String,
+  movieRating: Number,
+  movieReleaseYear: String,
+  movieLength: String
+}
+
+//model
+const Watchlist = mongoose.model('Watchlist', watchlistSchema);
+
+//create a new document
+const newMovie = new Watchlist({
+  imdbID: 123,
+  movieTitle: 'This is a test',
+  movieGenre: "Action",
+  movieRating: 86,
+  movieReleaseYear: "2021",
+  movieLength: "20h45"
+});
+
+// newMovie.save();
+
 
 app.set("view engine", "ejs");
 
@@ -52,6 +86,10 @@ app.get("/", (req, res) => {
 
 app.get("/login", (req, res)=>{
   res.render('login')
+})
+
+app.get("/signup", (req, res)=>{
+  res.render('signup')
 })
 
 app.get("/home/:option", (req, res) => {
@@ -295,7 +333,7 @@ app.get("/movie/:selected", (req, res) => {
       axios
         .get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
         .then((movieData) => {
-          console.log(movieData.data);
+          // console.log(movieData.data);
           // let data = movieData.data;
           // res.render("selectedMovie", { data: data });
 
@@ -326,7 +364,75 @@ app.get("/movie/:selected", (req, res) => {
   //     .catch((err) => console.error(err));
 });
 
+app.post("/movie/:selected", (req, res)=>{
+  const currentMovie = req.body.currentMovie;
+  console.log(`Current Movie is: ${currentMovie}`);
+
+  // Watchlist.findOne({imdbID: '123'}, (err, result)=>{
+  //   if (err) {
+  //       console.log(err);
+  //   } else {
+  //     console.log(result.toObject());
+  //   }
+  // })
+
+  Watchlist.findOne({imdbID: currentMovie}, (err, result)=>{
+    if (!result) {
+      axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
+      .then((movieData)=>{
+
+        const newMovie = new Watchlist({
+          imdbID: currentMovie,
+          movieTitle: movieData.data.title,
+          movieGenre: movieData.data.genres,
+          movieRating: movieData.data.imDbRating,
+          movieReleaseYear: movieData.data.year,
+          movieLength: movieData.data.runtimeStr
+        });
+
+        newMovie.save()
+        console.log('Save to the watchlist DB');
+      })
+      .catch((err) => console.error(err));
+
+    } else{
+      console.log('Does Exist');
+    }
+  })
+
+  // console.log(Watchlist.find({imdbID: currentMovie}));
+    // if(Watchlist.find({imdbID: currentMovie})){
+    //   console.log('Already Exists');
+    // } else {
+    //   axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
+    //   .then((movieData)=>{
+
+    //     const newMovie = new Watchlist({
+    //       imdbID: currentMovie,
+    //       movieTitle: movieData.data.title,
+    //       movieGenre: movieData.data.genres,
+    //       movieRating: movieData.data.imDbRating,
+    //       movieReleaseYear: movieData.data.year,
+    //       movieLength: movieData.data.runtimeStr
+    //     });
+
+    //     newMovie.save()
+    //     console.log('Save to the watchlist DB');
+    //   })
+    //   .catch((err) => console.error(err));
+    // }
+})
+
 app.get("/watchlist", (req, res) => {
+  Watchlist.find({}, (err, results)=>{
+    if (err) {
+        console.log(err);
+    } else {
+      results.forEach(element => {
+        console.log(element);
+      });
+    }
+  })
   res.render("watchlist");
 });
 

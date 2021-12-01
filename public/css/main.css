@@ -313,7 +313,9 @@ header {
   border-radius: 10px;
 }
 
-body {
+.register {
+  width: 100%;
+  height: 100vh;
   background-image: url("/images/darkKnightTextLess.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -333,13 +335,60 @@ body {
   text-align: left;
   font-size: 2em;
   padding: 10px 0;
+  margin-bottom: 10px;
   color: #fff;
 }
 
 #logInContainer .credentialsContainer {
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.6);
+  padding: 10px 20px 20px 20px;
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
+}
+
+#logInContainer input {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+#logInContainer input:focus {
+  outline: none;
+}
+
+#logInContainer a {
+  color: #175AA9;
+}
+
+#logInContainer p {
+  margin: 10px 0;
+  color: #fff;
+}
+
+#logInContainer button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#logInContainer button .fa-google {
+  float: left;
+  margin-top: 5px;
+  color: green;
+}
+
+#logInContainer button:nth-of-type(2) {
+  background-color: #175AA9;
+  color: #fff;
+}
+
+#logInContainer .or {
+  text-align: center;
 }
 
 * {
@@ -352,6 +401,7 @@ body {
 }
 
 body {
+  background-image: none;
   background-color: #000;
 }
 
