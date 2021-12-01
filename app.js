@@ -23,7 +23,8 @@ const watchlistSchema = {
   movieGenre: String,
   movieRating: Number,
   movieReleaseYear: String,
-  movieLength: String
+  movieLength: String,
+  moviePoster: String
 }
 
 //model
@@ -387,7 +388,8 @@ app.post("/movie/:selected", (req, res)=>{
           movieGenre: movieData.data.genres,
           movieRating: movieData.data.imDbRating,
           movieReleaseYear: movieData.data.year,
-          movieLength: movieData.data.runtimeStr
+          movieLength: movieData.data.runtimeStr,
+          moviePoster: movieData.data.image
         });
 
         newMovie.save()
@@ -428,12 +430,13 @@ app.get("/watchlist", (req, res) => {
     if (err) {
         console.log(err);
     } else {
-      results.forEach(element => {
-        console.log(element);
-      });
+      // results.forEach(element => {
+      //   console.log(element);
+      // });
+      res.render("watchlist", {data: results});
     }
   })
-  res.render("watchlist");
+
 });
 
 app.get("/watched", (req, res) => {
