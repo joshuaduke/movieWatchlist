@@ -1,7 +1,12 @@
 <%- include ('partials/header.ejs')  -%> 
 
 <nav id="reviewNav">
-    <a href="/movie/<%= data.id%>">Back</a>
+    <% if (data.id == undefined) { %>
+        <a href="/watched/<%= data.imdbID%>">Back</a>
+    <% } else { %>
+        <a href="/movie/<%= data.id%>">Back</a>
+    <% } %>
+    
 </nav>
 
 <main id="reviewPage">
@@ -9,7 +14,10 @@
         <form action="/addNew/<%= data.id%>" method="post">
             <div>
                 <p>What do you think of:</p>
-                <h1><%= data.title %></h1>
+                <% console.log(data) %> 
+
+                <h1><%= data.title == undefined ? data.movieTitle : data.title %></h1>
+                
             </div>
 
             <div class="rating">
@@ -17,12 +25,14 @@
                 <div class="star-outer">
                     <div class="star-inner"></div>
                 </div>
-                <p><input name="userRating" type="number" required>/100</p>
+                <p><input name="userRating" type="number" required value="<%= data.userRating ? data.userRating : 0 %>">/100</p>
             </div>
 
             <div id="reviewContainer">
                 <h3>Review:</h3>
-                <textarea name="userReview" id="" cols="30" rows="10" placeholder="Give a short review of what you thought about <%= data.title%>"></textarea>
+                <!-- <textarea name="userReview" id="" cols="30" rows="10" placeholder="hello"> </textarea> -->
+                <textarea name="userReview" cols="30" rows="10" placeholder="Hello" ><%= data.userReview ? data.userReview : '' %>
+                </textarea>
             </div>
 
             <div class="recommendation ">
@@ -30,22 +40,56 @@
                     <p>Would recommend?</p>
                     <div class="switchField">
 
-                        <input type="radio" name="recommend" value="true" id="recommend-Yes" required>
-                        <label for="recommend-Yes">Yes</label>    
+                        <% if (data.recommended == true) { %>
+                            <input type="radio" name="recommend" value="true" id="recommend-Yes" checked required>
+                            <label for="recommend-Yes">Yes</label>   
 
-                        <input type="radio" name="recommend" value="false" id="recommend-No" required> 
-                        <label for="recommend-No">No</label>
+                            <input type="radio" name="recommend" value="false" id="recommend-No" required> 
+                            <label for="recommend-No">No</label>
+                        <% } else if(data.recommended == false) { %> 
 
+                            <input type="radio" name="recommend" value="true" id="recommend-Yes"  required>
+                            <label for="recommend-Yes">Yes</label>   
+
+                            <input type="radio" name="recommend" value="false" id="recommend-No" checked required> 
+                            <label for="recommend-No">No</label>
+
+                        <% }  else { %>
+                            <input type="radio" name="recommend" value="true" id="recommend-Yes" required>
+                            <label for="recommend-Yes">Yes</label>   
+
+                            <input type="radio" name="recommend" value="false" id="recommend-No" required> 
+                            <label for="recommend-No">No</label>
+                        <% } %>
+ 
                     </div>
                 </div>
                 <div class="box">
                     <p for="rewatch">Would Rewatch</p>
                     <div class="switchField">
-                        <input type="radio" name="rewatch" value="true" id="rewatch-Yes" required>
-                        <label for="rewatch-Yes">Yes</label>
 
-                        <input type="radio" name="rewatch" value="false" id="rewatch-No" required>
-                        <label for="rewatch-No">No</label>
+                        <% if (data.rewatch == true) { %>
+                            <input type="radio" name="rewatch" value="true" id="rewatch-Yes" checked required>
+                            <label for="rewatch-Yes">Yes</label>
+    
+                            <input type="radio" name="rewatch" value="false" id="rewatch-No" required>
+                            <label for="rewatch-No">No</label>
+
+                        <% } else if (data.rewatch == false) { %>
+                            <input type="radio" name="rewatch" value="true" id="rewatch-Yes" required>
+                            <label for="rewatch-Yes">Yes</label>
+    
+                            <input type="radio" name="rewatch" value="false" id="rewatch-No" checked required>
+                            <label for="rewatch-No">No</label>
+
+                        <% } else { %>
+                            <input type="radio" name="rewatch" value="true" id="rewatch-Yes" required>
+                            <label for="rewatch-Yes">Yes</label>
+    
+                            <input type="radio" name="rewatch" value="false" id="rewatch-No" required>
+                            <label for="rewatch-No">No</label>
+                        <% } %>
+
         
                     </div>
                 </div>
@@ -53,9 +97,20 @@
             <div id="completeReview">
                 <div>
                     <p>Date Watched</p>
-                    <input type="date" name="dateWatched" id="dateWatched" required>
+                    <% if (data.userWatchedDate) { %>
+                        <input type="date" name="dateWatched" id="dateWatched" value="<%= data.userWatchedDate%>" required>
+                    <% } else { %>
+                        <input type="date" name="dateWatched" id="dateWatched"  required>
+                    <% } %>
+                    
                 </div>
-                <button type="submit">Add</button>
+                
+                <% if (data) { %>
+                    <button type="submit">Update</button>
+                <% } else { %>
+                    <button type="submit">Add</button>
+                <% }%>
+
             </div>
         </form>
     </div>

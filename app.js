@@ -91,6 +91,11 @@ app.use(
 app.get("/", (req, res) => {
   /* WORKING API CALL FOR LOW QUALITY POSTERS */
 
+  // we need to use a promise in order to store the data in a variable
+  // Watchlist.find({}, (err, wacthlistMovies)=>{
+
+  // })
+
   const comingSoon = axios.get(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
   );
@@ -550,23 +555,41 @@ app.post('/watched/:selected', (req, res)=>{
     }
   })
 })
-
+ 
 
 
 app.get("/addNew/:movieId", (req, res) => {
     let movieId = req.params.movieId;
 
-    axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-    .then((movieData) => {
-        // console.log(movieData.data);
-        let data = movieData.data;
-        res.render("addReview", { data: data });
+    Watched.findOne({imdbID: movieId}, (err, result)=>{
+
+      if(result){
+        // console.log('Exists');
+        // console.log('Already watched');
+        res.render("addReview", { data: result });
+
+      } else {
+        // console.log('Does not exist');
+
+        axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+        .then((movieData) => {
+            console.log('Not watched yet');
+            let data = movieData.data;
+            res.render("addReview", { data: data });
+        })
+        .catch((err) => console.error(err));
+      }
     })
-    .catch((err) => console.error(err));
+
+    
 });
 
 app.post("/addNew/:movieId", (req, res) => {
   let movieId = req.params.movieId;
+  
+  /* check if movieID exists within the watched database
+    if it does run the findOne and update Command if it doesn't run the insertMany Code
+  */
 
   axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
   .then((movieData) => {
