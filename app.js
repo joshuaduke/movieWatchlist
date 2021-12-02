@@ -27,8 +27,41 @@ const watchlistSchema = {
   moviePoster: String
 }
 
+const watchedSchema = {
+  imdbID: String,
+  movieTitle: String,
+  movieGenre: String,
+  movieRating: String,
+  movieReleaseYear: String,
+  movieLength: String,
+  moviePoster: String,
+  userRating: Number,
+  userWatchedDate: String,
+  userReview: String,
+  recommended: Boolean,
+  rewatch: Boolean,
+}
+
 //model
 const Watchlist = mongoose.model('Watchlist', watchlistSchema);
+const Watched = mongoose.model('Watched', watchedSchema);
+
+const watchedTest = new Watched({
+  imdbID: "tt1375666",
+  movieTitle: 'Inception',
+  movieGenre: 'Test genre',
+  movieRating: '8.8',
+  movieReleaseYear: '2010',
+  movieLength: 'Long',
+  moviePoster: 'https://imdb-api.com/images/original/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_Ratio0.6762_AL_.jpg',
+  userRating: 90,
+  userWatchedDate: '2021-12-01',
+  userReview: 'Fantastic movie, my mind is bended, maybe that\' because im high but who knows :)',
+  recommended: true,
+  rewatch: true
+});
+
+// watchedTest.save();
 
 //create a new document
 const newMovie = new Watchlist({
@@ -106,7 +139,7 @@ app.get("/home/:option", (req, res) => {
             try {
               const response = await axios.get(url);
               let data = response.data;
-              console.log(data.total_pages);
+              // console.log(data.total_pages);
               return data.total_pages;
             } catch (error) {
               console.error(error);
@@ -116,7 +149,7 @@ app.get("/home/:option", (req, res) => {
         getUser()
       .then((data) => {
         console.log("inside get user coming soon");
-        console.log(data);
+        // console.log(data);
         return getPageData(data);
       })
       .catch((err) => console.log(err));
@@ -136,7 +169,7 @@ app.get("/home/:option", (req, res) => {
 
       console.log("Pages data");
       pagesDataArr.forEach((element) => {
-        console.log(element);
+        // console.log(element);
       });
 
       axios
@@ -144,7 +177,7 @@ app.get("/home/:option", (req, res) => {
         .then(
           axios.spread((...responses) => {
             let data = [];
-            console.log(responses[0].data);
+            // console.log(responses[0].data);
             responses.forEach((element) => {
               // console.log('LOOP');
               // console.log(element.data.results);
@@ -167,7 +200,7 @@ app.get("/home/:option", (req, res) => {
             try {
               const response = await axios.get(url);
               let data = response.data;
-              console.log(data.total_pages);
+              // console.log(data.total_pages);
               return data.total_pages;
             } catch (error) {
               console.error(error);
@@ -177,7 +210,7 @@ app.get("/home/:option", (req, res) => {
         getUser()
       .then((data) => {
         console.log("inside get user");
-        console.log(data);
+        // console.log(data);
         return getPageData(data);
       })
       .catch((err) => console.log(err));
@@ -198,7 +231,7 @@ app.get("/home/:option", (req, res) => {
 
       console.log("Pages data");
       pagesDataArr.forEach((element) => {
-        console.log(element);
+        // console.log(element);
       });
 
       axios
@@ -206,14 +239,14 @@ app.get("/home/:option", (req, res) => {
         .then(
           axios.spread((...responses) => {
             let data = [];
-            console.log(responses.data);
+            // console.log(responses.data);
             responses.forEach((element) => {
               // console.log('LOOP');
               // console.log(element.data.results);
               data.push(element.data.results);
             });
             console.log('DATA:')
-            console.log(data)
+            // console.log(data)
             res.render("homeOptions", { data: data, title: title });
           })
         )
@@ -343,7 +376,16 @@ app.get("/movie/:selected", (req, res) => {
             res.redirect("/search");
           } else {
             let data = movieData.data;
-            res.render("selectedMovie", { data: data });
+            
+            Watchlist.findOne({imdbID: data.id}, (err, result)=>{
+              if (!result) {
+                res.render("selectedMovie", { data: data, exists: false });
+              } else{
+                res.render("selectedMovie", { data: data, exists: true });
+                console.log('Does Exist');
+              }
+            })
+            
           }
         })
         .catch((err) => console.error(err));
@@ -369,15 +411,7 @@ app.post("/movie/:selected", (req, res)=>{
   const currentMovie = req.body.currentMovie;
   console.log(`Current Movie is: ${currentMovie}`);
 
-  // Watchlist.findOne({imdbID: '123'}, (err, result)=>{
-  //   if (err) {
-  //       console.log(err);
-  //   } else {
-  //     console.log(result.toObject());
-  //   }
-  // })
-
-  Watchlist.findOne({imdbID: currentMovie}, (err, result)=>{
+  Watchlist.findOneAndDelete({imdbID: currentMovie}, (err, result)=>{
     if (!result) {
       axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
       .then((movieData)=>{
@@ -394,35 +428,15 @@ app.post("/movie/:selected", (req, res)=>{
 
         newMovie.save()
         console.log('Save to the watchlist DB');
+        res.redirect(`/movie/${currentMovie}`);
       })
       .catch((err) => console.error(err));
 
     } else{
-      console.log('Does Exist');
+      console.log('Does Exist and has been deleted');
+      res.redirect(`/movie/${currentMovie}`);
     }
   })
-
-  // console.log(Watchlist.find({imdbID: currentMovie}));
-    // if(Watchlist.find({imdbID: currentMovie})){
-    //   console.log('Already Exists');
-    // } else {
-    //   axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
-    //   .then((movieData)=>{
-
-    //     const newMovie = new Watchlist({
-    //       imdbID: currentMovie,
-    //       movieTitle: movieData.data.title,
-    //       movieGenre: movieData.data.genres,
-    //       movieRating: movieData.data.imDbRating,
-    //       movieReleaseYear: movieData.data.year,
-    //       movieLength: movieData.data.runtimeStr
-    //     });
-
-    //     newMovie.save()
-    //     console.log('Save to the watchlist DB');
-    //   })
-    //   .catch((err) => console.error(err));
-    // }
 })
 
 app.get("/watchlist", (req, res) => {
@@ -436,28 +450,165 @@ app.get("/watchlist", (req, res) => {
       res.render("watchlist", {data: results});
     }
   })
-
 });
 
+// app.post()
+
+
+
 app.get("/watched", (req, res) => {
-  res.render("watched");
+  Watched.find({}, (err, results)=>{
+    if(err){
+      console.log(err);
+
+    } else {
+      console.log('Watched: Results');
+      console.log(results);
+      res.render("watched", {data: results});
+    }
+  })
+
 });
 
 app.get('/watched/:selected', (req, res)=>{
-    res.render('selectedWatched')
+    const userReview = req.params.selected;
+    const movieId = req.body.currentMovie;
+    console.log(userReview);
+    console.log(movieId);
+
+    Watched.findOne({_id: userReview}, (err, data)=>{
+      Watchlist.findOne({imdbID: data.imdbID}, (err, result)=>{
+        if(!result){
+          res.render("selectedWatched", { data: data, exists: false });
+        } else {
+          res.render("selectedWatched", { data: data, exists: true });
+          console.log('Does Exist');
+        }
+      })
+    })
+
+    // Watchlist.findOne({imdbID: movieId}, (err, result)=>{
+    //   if(err){
+    //     console.log(err);
+
+    //   } else if (!result) {
+    //     Watched.findOne({_id: userReview}, (err, data)=>{
+    //       res.render("selectedWatched", { data: data, exists: false });
+    //     })
+        
+    //   } else{
+    //     Watched.findOne({_id: userReview}, (err, data)=>{
+    //       res.render("selectedWatched", { data: data, exists: true });
+    //     })
+    //     console.log('Does Exist');
+    //   }
+    // })
+
+    // Watched.findOne({_id: userReview}, (err, result)=>{
+    //   if(err){
+    //     console.log(err);
+    //   } else if (!result) {
+    //     res.render("selectedWatched", { data: result, exists: false });
+    //   } else{
+    //     res.render("selectedWatched", { data: result, exists: true });
+    //     console.log('Does Exist');
+    //   }
+    // })
 })
+
+app.post('/watched/:selected', (req, res)=>{
+  const currentMovie = req.params.selected;
+  console.log("currentMovie");
+  console.log(currentMovie);
+  const currentMovieID = req.body.currentMovie;
+  console.log(`Current Movie is: ${currentMovieID}`);
+
+  Watchlist.findOneAndDelete({imdbID: currentMovieID}, (err, result)=>{
+    if (!result) {
+      axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovieID}`)
+      .then((movieData)=>{
+
+        const newMovie = new Watchlist({
+          imdbID: currentMovieID,
+          movieTitle: movieData.data.title,
+          movieGenre: movieData.data.genres,
+          movieRating: movieData.data.imDbRating,
+          movieReleaseYear: movieData.data.year,
+          movieLength: movieData.data.runtimeStr,
+          moviePoster: movieData.data.image
+        });
+
+        newMovie.save()
+        console.log('Save to the watchlist DB');
+        res.redirect(`/watched/${currentMovie}`);
+      })
+      .catch((err) => console.error(err));
+
+    } else{
+      console.log('Does Exist and has been deleted');
+      res.redirect(`/watched/${currentMovie}`);
+    }
+  })
+})
+
+
 
 app.get("/addNew/:movieId", (req, res) => {
     let movieId = req.params.movieId;
 
     axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
     .then((movieData) => {
-        console.log(movieData.data);
+        // console.log(movieData.data);
         let data = movieData.data;
         res.render("addReview", { data: data });
     })
     .catch((err) => console.error(err));
 });
+
+app.post("/addNew/:movieId", (req, res) => {
+  let movieId = req.params.movieId;
+
+  axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+  .then((movieData) => {
+      // console.log(movieData.data);
+      let data = movieData.data;
+      // res.render("addReview", { data: data });
+
+      const userReview = [
+        {imdbID: req.params.movieId,
+        movieTitle: movieData.data.title,
+        movieGenre: movieData.data.genres,
+        movieRating: movieData.data.imDbRating,
+        movieReleaseYear: movieData.data.releaseDate,
+        movieLength: movieData.data.runtimeStr,
+        moviePoster: movieData.data.image,
+        userRating: req.body.userRating,
+        userWatchedDate: req.body.dateWatched,
+        userReview: req.body.userReview,
+        recommended: req.body.recommend,
+        rewatch: req.body.rewatch
+        }
+      ]
+
+      Watched.insertMany(userReview, (err, docs)=>{
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Watched: Docs');
+          console.log(docs);  
+          res.redirect('/watched');
+        }
+      })
+
+      // const rating = req.body.userRating;
+      // const review = req.body.userReview;
+      // const recommended = req.body.recommend;
+      // const rewatch = req.body.rewatch;
+      // const dateWatched = req.body.dateWatched;
+
+  })
+  .catch((err) => console.error(err));
+})
 
 app.get('/account', (req, res)=>{
     res.render('account');

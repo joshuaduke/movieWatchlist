@@ -37,6 +37,16 @@
   text-align: center;
 }
 
+#movieContainer .watchlist button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#movieContainer .watchlist .fa-bookmark {
+  color: #fff;
+}
+
 #movieContainer .genre-watched .genre {
   padding-top: 7px;
 }

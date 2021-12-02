@@ -6,7 +6,7 @@
 
 <main id="reviewPage">
     <div id="reviewPageContainer">
-        <form action="" method="post">
+        <form action="/addNew/<%= data.id%>" method="post">
             <div>
                 <p>What do you think of:</p>
                 <h1><%= data.title %></h1>
@@ -17,12 +17,12 @@
                 <div class="star-outer">
                     <div class="star-inner"></div>
                 </div>
-                <p><input type="number">/100</p>
+                <p><input name="userRating" type="number" required>/100</p>
             </div>
 
             <div id="reviewContainer">
                 <h3>Review:</h3>
-                <textarea name="" id="" cols="30" rows="10" placeholder="Give a short review of what you thought about <%= data.title%>"></textarea>
+                <textarea name="userReview" id="" cols="30" rows="10" placeholder="Give a short review of what you thought about <%= data.title%>"></textarea>
             </div>
 
             <div class="recommendation ">
@@ -30,10 +30,10 @@
                     <p>Would recommend?</p>
                     <div class="switchField">
 
-                        <input type="radio" name="recommend" value="yes" id="recommend-Yes">
+                        <input type="radio" name="recommend" value="true" id="recommend-Yes" required>
                         <label for="recommend-Yes">Yes</label>    
 
-                        <input type="radio" name="recommend" value="no" id="recommend-No">
+                        <input type="radio" name="recommend" value="false" id="recommend-No" required> 
                         <label for="recommend-No">No</label>
 
                     </div>
@@ -41,10 +41,10 @@
                 <div class="box">
                     <p for="rewatch">Would Rewatch</p>
                     <div class="switchField">
-                        <input type="radio" name="rewatch" value="yes" id="rewatch-Yes">
+                        <input type="radio" name="rewatch" value="true" id="rewatch-Yes" required>
                         <label for="rewatch-Yes">Yes</label>
 
-                        <input type="radio" name="rewatch" value="no" id="rewatch-No">
+                        <input type="radio" name="rewatch" value="false" id="rewatch-No" required>
                         <label for="rewatch-No">No</label>
         
                     </div>
@@ -53,7 +53,7 @@
             <div id="completeReview">
                 <div>
                     <p>Date Watched</p>
-                    <input type="date" name="dateWatched" id="dateWatched">
+                    <input type="date" name="dateWatched" id="dateWatched" required>
                 </div>
                 <button type="submit">Add</button>
             </div>

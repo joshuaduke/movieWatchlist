@@ -6,7 +6,7 @@
     <header>
         <h1>Movies Watched</h1>
         <div class="headerContent">
-            <h2>1 Movie(s)</h2>
+            <h2><%= data.length %>  Movie(s)</h2>
             <div>
                 <label for="filter">Filter</label>
                 <select name="filter" id="filter">
@@ -17,27 +17,30 @@
     </header>
 
     <main id="watchlistContent">
-        <a href="/" class="watchlistItem">
+        <% data.forEach(element => { %>
+            <a href="/watched/<%= element._id%>" class="watchlistItem">
 
-            <div class="group1">
-                <img src="/images/DarkKnight.jpg" alt="">
-                
-                <div>
-                    <h3>Title</h3>
-                    <p>Genre</p>
-                    <p>
-                        <i class="far fa-star"></i> 9.0
-                        <i class="far fa-star"></i> 0.0
-                    </p>
-
+                <div class="group1">
+                    <img src="<%= element.moviePoster%>" alt="">
+                    
+                    <div>
+                        <h3><%= element.movieTitle %></h3>
+                        <p><%= element.movieGenre %></p>
+                        <p>
+                            <i class="far fa-star"></i> <%= element.movieRating%>
+                            <i class="far fa-star"></i> <%= element.userRating %>
+                        </p>
+    
+                    </div>
                 </div>
-            </div>
-
-            <div class="group2">
-                <button class="removeWatchlist"> X</button>
-                <p>Dec 18, 2021</p>
-            </div>
-        </a>
+    
+                <div class="group2">
+                    <button class="removeWatchlist"> X</button>
+                    <p><%= element.userWatchedDate %></p>
+                </div>
+            </a>
+        <% }); %> 
+        
 
     </main>
 </section>

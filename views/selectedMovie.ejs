@@ -12,7 +12,12 @@
                 <div class="watchlist">
                     <form action="/movie/<%= data.id%>" method="post">
                         <input type="hidden" name="currentMovie" value="<%= data.id%>">
-                        <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                        <% if (exists) { %>
+                            <button type="submit"><i class="fas fa-bookmark fa-2x"></i></button>
+                        <% } else { %>
+                            <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                        <% } %>
+                        
                     </form>
                     <!-- <a href="/watchlist"></a> -->
                     <!-- <p>Watchlist</p> -->
@@ -28,7 +33,13 @@
                 <!-- EJS IF STATEMENT. iof not watched link to add watch page-->
                 <!-- if watched then button background green , modal pop up  -->
                 <!-- prompt if they really want to remove from watched -->
-                <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>
+                <%# if(watched){ %>
+                    <!-- <a href="/addNew/<%= data.id %>"><button style="background-color: green;" class="watched"> Watched</button></a>                 -->
+                <%# } else { %>
+                    <!-- <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>                 -->
+                <%# } %> 
+                <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>                
+                    
             </div>
 
             <div class="movieRating">

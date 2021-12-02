@@ -3,27 +3,33 @@
 
 <main id="moviePage">
     <!-- <img id="movieBackground" src="<%#= data.image %>" alt=""> -->
-    <img id="movieBackground" src="/images/darkKnightTextLess.jpeg" alt="">
+    <img id="movieBackground" src="<%= data.moviePoster %>" alt="">
 
     <section id="movieContainer">
         <div class="movieContent">
 
             <div class="header">
                 <!-- <h1 class="title"><%#= data.title %></h1> -->
-                <h1 class="title">The Dark Knight</h1>
+                <h1 class="title"><%= data.movieTitle %></h1>
                 <div class="watchlist">
-                    <a href="/watchlist"><i class="far fa-bookmark fa-2x"></i></a>
-                    <!-- <p>Watchlist</p> -->
+                    <form action="/watched/<%= data._id%>" method="post">
+                        <input type="hidden" name="currentMovie" value="<%= data.imdbID%>">
+                        <% if (exists) { %>
+                            <button type="submit"><i class="fas fa-bookmark fa-2x"></i></button>
+                        <% } else { %>
+                            <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                        <% } %>
+                        
+                    </form>
                 </div>
             </div>
 
 
-            <p class="releaseDate"> Watched On: <%#= data.year %></p>
-            <p class="director"> <%#= data.directors %></p>
+            <p class="releaseDate"> Watched On: <%= data.userWatchedDate %></p>
 
             <div class="genre-watched">
                 <!-- <p class="genre"> <%#= data.genres %></p> -->
-                <p class="genre"> Action/Crime/Drama</p>
+                <p class="genre"> <%= data.movieGenre %></p>
             </div>
 
             <div class="movieRating">
@@ -33,37 +39,26 @@
                     </div>
                 </div>
                 <span class="number-rating"></span>
-                <!-- <div class="stars">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div> -->
-                <span><%#= data.imDbRating %> <span class="userRatingNum">8.5</span>/10 Rating</span>
+
+                <span><span class="userRatingNum"><%= data.userRating %> </span>  /10 Rating</span>
             </div>
 
             <div id="descriptionContainer">
                 <h2>Review</h2>
                 <!-- <p class="description"> <%#= data.plot %> </p> -->
                 <p class="description">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui accusantium ut aliquam aspernatur quas veritatis molestiae? Aperiam doloribus laborum officiis sapiente magnam voluptates a ipsam placeat culpa quod ipsa cum, eveniet enim perferendis omnis. Nesciunt quam officia unde laboriosam quia odit natus aliquid, nostrum sint exercitationem illum enim voluptatibus perspiciatis recusandae saepe sapiente eum, molestiae est dicta quisquam sit eveniet? Maiores dolorum error harum debitis cumque quas nemo, magnam vero.
+                    <%= data.userReview %>
                 </p>
             </div> 
 
             <div id="castContainer">
                 <div>
-                    <p>Recommed? <span>Yes</span></p>
-                    <p>Rewatch? <span>Yes</span></p>
+                    <p>Recommed? <span><%= data.recommended ? 'Yes' : 'No' %></span></p>
+                    <p>Rewatch? <span><%= data.rewatch ? 'Yes' : 'No' %></span></p>
                 </div>
             </div>
             <div id="links">
-                <a href="">More Info ></a>
+                <a href="/movie/<%= data.imdbID %>">More Info ></a>
                 <a href="">Edit ></a>
             </div>
 
@@ -105,7 +100,7 @@
 
             //set width of stars inner to percenetage
             document.querySelector(`.${rating} .stars-inner`).style.width = `${starPercentage}%`;
-            console.log(document.querySelector(`.movieRating`));
+            console.log(document.querySelector(`.movieRating .star-inner`));
         }
     }
 </script>

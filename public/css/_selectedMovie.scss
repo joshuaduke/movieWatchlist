@@ -38,6 +38,19 @@
         }
     }
 
+    .watchlist{
+
+        button{
+            background:none;
+            border:none;
+            cursor:pointer;
+        }
+
+        .fa-bookmark{
+            color:#fff;
+        }
+    }
+
     .genre-watched{
         .genre{
             padding-top: 7px;
