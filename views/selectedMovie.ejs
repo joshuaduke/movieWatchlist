@@ -24,9 +24,9 @@
                 </div>
             </div>
 
-
-            <p class="releaseDate"> Released: <%= data.year %></p>
             <p class="director"> <%= data.directors %></p>
+            <p class="releaseDate"> Released: <%= data.year %></p>
+
 
             <div class="genre-watched">
                 <p class="genre"> <%= data.genres %></p>
@@ -63,7 +63,13 @@
 
                         <% data.actorList.forEach(element => { %>
                             <li class="glide__slide">
-                                <p><%= element.name %></p>
+                                <p>
+                                    <% if (element.name.length > 15) { %>
+                                        <%= element.name.substring(0, 12) + '...'%>
+                                    <% } else { %>
+                                        <%= element.name    %>
+                                    <% }%>
+                                </p>
                                 <img src="<%= element.image %> " alt="">
                             </li>
                         <% }); %>

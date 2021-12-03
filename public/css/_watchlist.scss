@@ -21,11 +21,14 @@ header{
 .watchlistItem{
     width: 100%;
     height:auto;
-    padding:10px 20px;
     background-color: #e4e4e4;
     border-bottom: 1px solid #848484;
     display: grid;
     grid-template-columns: 6fr 1fr;
+    
+    h3{
+        font-size:1em;
+    }
 
     .group1{
         display: flex;
@@ -39,6 +42,7 @@ header{
 
     .group2{
         text-align: right;
+        margin:10px 10px 0 0;
         @include flexDisplay(column);
 
         button{
@@ -49,6 +53,6 @@ header{
     }
 
     img{
-        width:15%;
+        width:25%;
     }
 }

@@ -252,40 +252,40 @@ footer{
     }
 }
 
-.watchlistItem{
-    width: 100%;
-    height:auto;
-    padding:10px 20px;
-    background-color: #e4e4e4;
-    border-bottom: 1px solid #848484;
-    display: grid;
-    grid-template-columns: 6fr 1fr;
+// .watchlistItem{
+//     width: 100%;
+//     height:auto;
+//     padding:10px 20px;
+//     background-color: #e4e4e4;
+//     border-bottom: 1px solid #848484;
+//     display: grid;
+//     grid-template-columns: 6fr 1fr;
 
-    .group1{
-        display: flex;
-        flex-direction: row;
+//     .group1{
+//         display: flex;
+//         flex-direction: row;
 
-        div{
-            margin-left:10px;
-            @include flexDisplay(column);
-        }
-    }
+//         div{
+//             margin-left:10px;
+//             @include flexDisplay(column);
+//         }
+//     }
 
-    .group2{
-        text-align: right;
-        @include flexDisplay(column);
+//     .group2{
+//         text-align: right;
+//         @include flexDisplay(column);
 
-        button{
-            margin-left:auto;
-            margin-right: 0;
-            width:30px;
-        }
-    }
+//         button{
+//             margin-left:auto;
+//             margin-right: 0;
+//             width:30px;
+//         }
+//     }
 
-    img{
-        width:15%;
-    }
-}
+//     img{
+//         width:15%;
+//     }
+// }
 
 // STAR RATING
 
