@@ -587,50 +587,70 @@ app.get("/addNew/:movieId", (req, res) => {
 app.post("/addNew/:movieId", (req, res) => {
   let movieId = req.params.movieId;
   
+  console.log(movieId);
   /* check if movieID exists within the watched database
     if it does run the findOne and update Command if it doesn't run the insertMany Code
   */
+ Watched.findOne({_id: movieId}, (err, result)=>{
+  
+   if(!result){
+    console.log('Not in the DB');
+    axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+    .then((movieData) => {
+        // console.log(movieData.data);
+        let data = movieData.data;
+        // res.render("addReview", { data: data });
 
-  axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-  .then((movieData) => {
-      // console.log(movieData.data);
-      let data = movieData.data;
-      // res.render("addReview", { data: data });
+        const userReview = [
+          {imdbID: req.params.movieId,
+          movieTitle: movieData.data.title,
+          movieGenre: movieData.data.genres,
+          movieRating: movieData.data.imDbRating,
+          movieReleaseYear: movieData.data.releaseDate,
+          movieLength: movieData.data.runtimeStr,
+          moviePoster: movieData.data.image,
+          userRating: req.body.userRating,
+          userWatchedDate: req.body.dateWatched,
+          userReview: req.body.userReview,
+          recommended: req.body.recommend,
+          rewatch: req.body.rewatch
+          }
+        ]
 
-      const userReview = [
-        {imdbID: req.params.movieId,
-        movieTitle: movieData.data.title,
-        movieGenre: movieData.data.genres,
-        movieRating: movieData.data.imDbRating,
-        movieReleaseYear: movieData.data.releaseDate,
-        movieLength: movieData.data.runtimeStr,
-        moviePoster: movieData.data.image,
-        userRating: req.body.userRating,
-        userWatchedDate: req.body.dateWatched,
-        userReview: req.body.userReview,
-        recommended: req.body.recommend,
-        rewatch: req.body.rewatch
+        Watched.insertMany(userReview, (err, docs)=>{
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('Watched: Docs');
+            console.log(docs);  
+            res.redirect('/watched');
+          }
+        })
+    })
+    .catch((err) => console.error(err));
+
+   } else {
+      const userReview = 
+        {
+          userRating: req.body.userRating,
+          userWatchedDate: req.body.dateWatched,
+          userReview: req.body.userReview,
+          recommended: req.body.recommend,
+          rewatch: req.body.rewatch
         }
-      ]
 
-      Watched.insertMany(userReview, (err, docs)=>{
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Watched: Docs');
-          console.log(docs);  
-          res.redirect('/watched');
-        }
-      })
+     console.log('It is in the DB');
+     Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
+       if(err){
+         console.log(err);
+       }
+     });
+     res.redirect('/watched');
+   }
 
-      // const rating = req.body.userRating;
-      // const review = req.body.userReview;
-      // const recommended = req.body.recommend;
-      // const rewatch = req.body.rewatch;
-      // const dateWatched = req.body.dateWatched;
+ })
 
-  })
-  .catch((err) => console.error(err));
+
 })
 
 app.get('/account', (req, res)=>{
