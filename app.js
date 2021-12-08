@@ -11,10 +11,19 @@ const apikeyTMDB = "16c3a911dbc1dfc97fc092d38dba2b03";
 
 //setting up mongoose
 //connection
-mongoose.connect('mongodb://localhost:27017/watchlist');
-// const Cat = mongoose.model('Cat', { name: String });
-// const kitty = new Cat({ name: 'Zildjian' });
-// kitty.save().then(() => console.log('meow'));
+// mongoose.connect('mongodb://localhost:27017/watchlist');
+mongoose.connect('mongodb://localhost:27017/movieDB ');
+
+
+const userSchema = new Schema({
+  email: String,
+  username: String,
+  password: String,
+
+})
+
+// watchlist: [{type: mongoose.Schema.Types.ObjectId, ref: "Watchlist"}],
+// moviesWatched: [{type: mongoose.Schema.Types.ObjectId, ref: "Watched"}],
 
 //schema 
 const watchlistSchema = {
@@ -127,8 +136,8 @@ app.get("/login", (req, res)=>{
   res.render('login')
 })
 
-app.get("/signup", (req, res)=>{
-  res.render('signup')
+app.get("/register", (req, res)=>{
+  res.render('register')
 })
 
 app.get("/home/:option", (req, res) => {
