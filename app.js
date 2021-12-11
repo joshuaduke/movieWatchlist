@@ -602,7 +602,7 @@ app.get("/watchlist", (req, res) => {
 
 app.get("/watched", (req, res) => {
   if(req.isAuthenticated()){
-    Watched.find({}, (err, results)=>{
+    Watched.find({users: req.user._id}, (err, results)=>{
       if(err){
         console.log(err);
   
@@ -678,29 +678,33 @@ app.post('/watched/:selected', (req, res)=>{
   }
 
 })
+
  
 
 app.get("/addNew/:movieId", (req, res) => {
   if(req.isAuthenticated()){
     let movieId = req.params.movieId;
 
-    Watched.findOne({imdbID: movieId}, (err, result)=>{
+    User.findOne({_id: req.user._id}).populate('moviesWatched').exec((err, user)=>{
+      if(err){
+        console.log(err);
+      }else {
+        // console.log(user.moviesWatched);
+        let obj = user.moviesWatched.find(found => found.imdbID === movieId)
+        if(obj){
+          console.log(obj);
+          res.render("addReview", { data: obj });
+        } else {
+          console.log('not found');
 
-      if(result){
-        // console.log('Exists');
-        // console.log('Already watched');
-        res.render("addReview", { data: result });
-
-      } else {
-        // console.log('Does not exist');
-
-        axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-        .then((movieData) => {
-            console.log('Not watched yet');
-            let data = movieData.data;
-            res.render("addReview", { data: data });
-        })
-        .catch((err) => console.error(err));
+          axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+          .then((movieData) => {
+              console.log('Not watched yet');
+              let data = movieData.data;
+              res.render("addReview", { data: data });
+          })
+          .catch((err) => console.error(err));
+        }
       }
     })
   } else {
@@ -714,51 +718,64 @@ app.get("/addNew/:movieId", (req, res) => {
 app.post("/addNew/:movieId", (req, res) => {
   if(req.isAuthenticated()){
     let movieId = req.params.movieId;
-  
     console.log(movieId);
+    // console.log(movieId);
+    console.log('POST ADD NEW');
+    console.log(req.user);
     /* check if movieID exists within the watched database
       if it does run the findOne and update Command if it doesn't run the insertMany Code
     */
-   Watched.findOne({_id: movieId}, (err, result)=>{
-    
-     if(!result){
-      console.log('Not in the DB');
-      axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-      .then((movieData) => {
-          // console.log(movieData.data);
-          let data = movieData.data;
-          // res.render("addReview", { data: data });
-  
-          const userReview = [
-            {imdbID: req.params.movieId,
-            movieTitle: movieData.data.title,
-            movieGenre: movieData.data.genres,
-            movieRating: movieData.data.imDbRating,
-            movieReleaseYear: movieData.data.releaseDate,
-            movieLength: movieData.data.runtimeStr,
-            moviePoster: movieData.data.image,
-            userRating: req.body.userRating,
-            userWatchedDate: req.body.dateWatched,
-            userReview: req.body.userReview,
-            recommended: req.body.recommend,
-            rewatch: req.body.rewatch
-            }
-          ]
-  
-          Watched.insertMany(userReview, (err, docs)=>{
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('Watched: Docs');
-              console.log(docs);  
+
+      Watched.findOne({_id: movieId, users: req.user._id}, (err, results)=>{
+        console.log('Add new Results');
+        console.log(results);
+
+        if(!results){
+          console.log('Not in the DB');
+          axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+          .then((movieData) => {
+              // console.log(movieData.data);
+              let data = movieData.data;
+              // res.render("addReview", { data: data });
+      
+              const userReview = 
+                {
+                imdbID: req.params.movieId,
+                movieTitle: movieData.data.title,
+                movieGenre: movieData.data.genres,
+                movieRating: movieData.data.imDbRating,
+                movieReleaseYear: movieData.data.releaseDate,
+                movieLength: movieData.data.runtimeStr,
+                moviePoster: movieData.data.image,
+                userRating: req.body.userRating,
+                userWatchedDate: req.body.dateWatched,
+                userReview: req.body.userReview,
+                recommended: req.body.recommend,
+                rewatch: req.body.rewatch,
+                users: req.user._id
+                }
+              
+
+              const newReview = new Watched(userReview);
+              newReview.save();
+              console.log('Added review ');
+
+              User.findOne({_id: req.user._id}, (err, user)=>{
+                user.moviesWatched.push(newReview._id);
+                user.save();
+                console.log('Added review to the user');
+              })
+
+
               res.redirect('/watched');
-            }
+
           })
-      })
-      .catch((err) => console.error(err));
-  
-     } else {
-        const userReview = 
+          .catch((err) => console.error(err));
+        } else {
+          console.log("results");
+          console.log(results);
+
+          const userReview = 
           {
             userRating: req.body.userRating,
             userWatchedDate: req.body.dateWatched,
@@ -766,23 +783,177 @@ app.post("/addNew/:movieId", (req, res) => {
             recommended: req.body.recommend,
             rewatch: req.body.rewatch
           }
+
+          Watched.updateOne({_id : results._id}, userReview, (err)=>{
+            console.log(err);
+          })
+          res.redirect('/watched');
+        }
+      })
+
+    // User.findOne({_id : req.user._id}).populate('moviesWatched').exec((err, user)=>{
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     // if(user.moviesWatched.find((movie) => movie._id)){
+    //     //   console.log(movie);
+    //     // }
+    //     // console.log('USER');
+    //     // console.log(user);
+
+    //     let result = Watched.find({ $where: function() { 
+    //         return users == req.user._id && imdbID == movieId
+    //       }
+      
+
+    //     })
+
+    //     console.log(result);
+
+    //     // let obj = user.moviesWatched.find(found => found.imdbID == movieId);
+    //     // console.log('OBJ');
+    //     // console.log(obj);
+
+    //     // if(obj){
+    //     //   console.log(obj);
+    //     //   //if the movie is in the database update the fields
+          
+    //     //   const userReview = 
+    //     //     {
+    //     //       userRating: req.body.userRating,
+    //     //       userWatchedDate: req.body.dateWatched,
+    //     //       userReview: req.body.userReview,
+    //     //       recommended: req.body.recommend,
+    //     //       rewatch: req.body.rewatch
+    //     //     }
+
+    //     //     user.updateMany(userReview);
+    //     //     user.save((err)=>{
+    //     //       if (err) {
+    //     //         console.log(err);
+    //     //       } else {
+    //     //         console.log('This movie has been updated');
+    //     //       }
+    //     //     })
+            
+    //     //     //      console.log('It is in the DB');
+    //     //     //      Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
+    //     //     //        if(err){
+    //     //     //          console.log(err);
+    //     //     //        }
+    //     //     //      });
+    //     //     //      res.redirect('/watched');
+    //     // } else {
+    //     //   //if the movie is not in the database add it
+    //     // }
+
+    //     // console.log(user.moviesWatched);
+    //     // console.log('MOVIE');
+    //     // console.log(user.moviesWatched.find(movie => movie.imdbID == movieId));
+
+    //     // axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+    //     //     .then((movieData) => {
+    //     //       // console.log(movieData.data);
+    //     //       let data = movieData.data;
+    //     //       // res.render("addReview", { data: data });
+      
+    //     //       const userReview = 
+    //     //         {
+    //     //           imdbID: req.params.movieId,
+    //     //           movieTitle: movieData.data.title,
+    //     //           movieGenre: movieData.data.genres,
+    //     //           movieRating: movieData.data.imDbRating,
+    //     //           movieReleaseYear: movieData.data.releaseDate,
+    //     //           movieLength: movieData.data.runtimeStr,
+    //     //           moviePoster: movieData.data.image,
+    //     //           userRating: req.body.userRating,
+    //     //           userWatchedDate: req.body.dateWatched,
+    //     //           userReview: req.body.userReview,
+    //     //           recommended: req.body.recommend,
+    //     //           rewatch: req.body.rewatch,
+    //     //           users: req.user._id
+    //     //         }
+              
+    //     //       const newMovieWatched = new Watched(userReview);
+    //     //       newMovieWatched.save(()=>{
+    //     //         console.log('New movie watched saved to WATCHED DB');
+    //     //       })
+    //     //       user.moviesWatched.push(newMovieWatched)
+
+    //     //       user.save(()=>{
+    //     //         console.log('New movie watched saved to USER DB');
+    //     //       })
+    //     //       res.redirect('/watched');
+    //     //   })
+    //     //   .catch((err) => console.error(err));
+    //   }
+
+        
+    //   })
   
-       console.log('It is in the DB');
-       Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
-         if(err){
-           console.log(err);
-         }
-       });
-       res.redirect('/watched');
-     }
+
+  //   Watched.findOne({_id: movieId}, (err, result)=>{
+    
+  //    if(!result){
+  //     console.log('Not in the DB');
+  //     axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
+  //     .then((movieData) => {
+  //         // console.log(movieData.data);
+  //         let data = movieData.data;
+  //         // res.render("addReview", { data: data });
   
-   })
+  //         const userReview = [
+  //           {imdbID: req.params.movieId,
+  //           movieTitle: movieData.data.title,
+  //           movieGenre: movieData.data.genres,
+  //           movieRating: movieData.data.imDbRating,
+  //           movieReleaseYear: movieData.data.releaseDate,
+  //           movieLength: movieData.data.runtimeStr,
+  //           moviePoster: movieData.data.image,
+  //           userRating: req.body.userRating,
+  //           userWatchedDate: req.body.dateWatched,
+  //           userReview: req.body.userReview,
+  //           recommended: req.body.recommend,
+  //           rewatch: req.body.rewatch
+  //           }
+  //         ]
+  
+  //         Watched.insertMany(userReview, (err, docs)=>{
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log('Watched: Docs');
+  //             console.log(docs);  
+  //             res.redirect('/watched');
+  //           }
+  //         })
+  //     })
+  //     .catch((err) => console.error(err));
+  
+  //    } else {
+  //       const userReview = 
+  //         {
+  //           userRating: req.body.userRating,
+  //           userWatchedDate: req.body.dateWatched,
+  //           userReview: req.body.userReview,
+  //           recommended: req.body.recommend,
+  //           rewatch: req.body.rewatch
+  //         }
+  
+  //      console.log('It is in the DB');
+  //      Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
+  //        if(err){
+  //          console.log(err);
+  //        }
+  //      });
+  //      res.redirect('/watched');
+  //    }
+  
+  //  })
+
   } else {
     res.redirect('/login')
   }
-
-
-
 })
 
 app.get('/account', (req, res)=>{
@@ -810,5 +981,5 @@ app.listen(process.env.PORT || 3000, () => {
 // if(req.isAuthenticated()){
 
 // } else {
-//   res.redirect('/login')
+//   res.redirect('/login') 
 // }
