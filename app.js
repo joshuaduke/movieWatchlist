@@ -467,7 +467,7 @@ app.get("/movie/:selected", (req, res) => {
             } else {
               let data = movieData.data;
               
-              Watchlist.findOne({imdbID: data.id}, (err, result)=>{
+              Watchlist.findOne({imdbID: data.id, users: req.user._id}, (err, result)=>{
                 if (!result) {
                   res.render("selectedMovie", { data: data, exists: false });
                 } else{
@@ -512,31 +512,36 @@ app.post("/movie/:selected", (req, res)=>{
       if (err) {
         console.log(err);
       } else {
-        axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
-        .then((movieData)=>{
-
-          const newMovie = new Watchlist({
-            imdbID: currentMovie,
-            movieTitle: movieData.data.title,
-            movieGenre: movieData.data.genres,
-            movieRating: movieData.data.imDbRating,
-            movieReleaseYear: movieData.data.year,
-            movieLength: movieData.data.runtimeStr,
-            moviePoster: movieData.data.image,
-            users: req.user._id
-          });
-
-          newMovie.save()
-          user.watchlist.push(newMovie)
-          user.save(()=>{
-            console.log('Watchlist saved to user DB');
-          })
-          // User.create({watchlist: newMovie}, (err, result)=>{
-          //   console.log('Movie saved');
-          // })
-
-          console.log('Save to the watchlist DB');
-          res.redirect(`/movie/${currentMovie}`);
+        Watchlist.findOneAndDelete({users: req.user._id, imdbID: currentMovie}, (err, result)=>{
+          if (!result) {
+            axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
+            .then((movieData)=>{
+      
+              const newMovie = new Watchlist({
+                imdbID: currentMovie,
+                movieTitle: movieData.data.title,
+                movieGenre: movieData.data.genres,
+                movieRating: movieData.data.imDbRating,
+                movieReleaseYear: movieData.data.year,
+                movieLength: movieData.data.runtimeStr,
+                moviePoster: movieData.data.image,
+                users: req.user._id,
+              });
+      
+              newMovie.save()
+              user.watchlist.push(newMovie)
+              user.save(()=>{
+                console.log('Watchlist saved to user DB');
+              })
+              console.log('Save to the watchlist DB');
+              res.redirect(`/movie/${currentMovie}`);
+            })
+            .catch((err) => console.error(err));
+      
+          } else{
+            console.log('Does Exist and has been deleted');
+            res.redirect(`/movie/${currentMovie}`);
+          }
         })
       }
     })
