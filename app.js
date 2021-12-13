@@ -641,7 +641,7 @@ app.get("/watched", (req, res) => {
   
       } else {
         console.log('Watched: Results');
-        console.log(results);
+        // console.log(results);
         res.render("watched", {data: results});
       }
     })
@@ -654,11 +654,11 @@ app.get('/watched/:selected', (req, res)=>{
   if(req.isAuthenticated()){
     const userReview = req.params.selected;
     const movieId = req.body.currentMovie;
-    console.log(userReview);
-    console.log(movieId);
+    // console.log(userReview);
+    // console.log(movieId);
 
     Watched.findOne({_id: userReview}, (err, data)=>{
-      Watchlist.findOne({imdbID: data.imdbID}, (err, result)=>{
+      Watchlist.findOne({imdbID: data.imdbID, users: req.user._id}, (err, result)=>{
         if(!result){
           res.render("selectedWatched", { data: data, exists: false });
         } else {
@@ -679,39 +679,124 @@ app.post('/watched/:selected', (req, res)=>{
     console.log(currentMovie);
     const currentMovieID = req.body.currentMovie;
     console.log(`Current Movie is: ${currentMovieID}`);
-  
-    Watchlist.findOneAndDelete({imdbID: currentMovieID}, (err, result)=>{
-      if (!result) {
-        axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovieID}`)
-        .then((movieData)=>{
-  
-          const newMovie = new Watchlist({
-            imdbID: currentMovieID,
-            movieTitle: movieData.data.title,
-            movieGenre: movieData.data.genres,
-            movieRating: movieData.data.imDbRating,
-            movieReleaseYear: movieData.data.year,
-            movieLength: movieData.data.runtimeStr,
-            moviePoster: movieData.data.image
-          });
-  
-          newMovie.save()
-          console.log('Save to the watchlist DB');
-          res.redirect(`/watched/${currentMovie}`);
+
+    User.findOne({_id: req.user._id}, (err, user)=>{
+      if (err) {
+        console.log(err);
+      } else {
+        Watchlist.findOneAndDelete({imdbID: currentMovieID}, (err, result)=>{
+          if (!result) {
+            axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovieID}`)
+            .then((movieData)=>{
+      
+              const newMovie = new Watchlist({
+                imdbID: currentMovieID,
+                movieTitle: movieData.data.title,
+                movieGenre: movieData.data.genres,
+                movieRating: movieData.data.imDbRating,
+                movieReleaseYear: movieData.data.year,
+                movieLength: movieData.data.runtimeStr,
+                moviePoster: movieData.data.image
+              });
+      
+              newMovie.save()
+              console.log('Save to the watchlist DB');
+              res.redirect(`/watched/${currentMovie}`);
+            })
+            .catch((err) => console.error(err));
+      
+          } else{
+            console.log('Does Exist and has been deleted');
+            let resultID = result._id;
+            console.log(resultID);
+            let obj = user.watchlist.findIndex(findWatchlistMovie)
+
+            function findWatchlistMovie(movie){
+                // return movie._id === result._id
+                // console.log("DATA");
+                let movieID = JSON.stringify(movie._id);
+                let resultID = JSON.stringify(result._id);
+
+                if (movieID === resultID) {
+                  console.log('They same');
+                  return movieID === resultID;
+                } else {
+                  console.log('Not same');
+                }
+            }
+
+            if(obj >= 0){
+
+                user.watchlist.splice(obj, 1);
+                user.save(()=>{
+                  console.log('Item removed');
+                })
+                
+            }
+            res.redirect(`/watched`);
+          }
         })
-        .catch((err) => console.error(err));
-  
-      } else{
-        console.log('Does Exist and has been deleted');
-        res.redirect(`/watched/${currentMovie}`);
       }
     })
+  
+
   } else {
     res.redirect('/login')
   }
 
 })
 
+app.post('/delete/:selected', (req, res)=>{
+  const currentMovie = req.params.selected;
+  console.log(`Current Movie is: ${currentMovie}`);
+
+  if(req.isAuthenticated()){
+    User.findOne({_id: req.user._id}, (err, user)=>{
+      if (err) {
+        console.log(err);
+      } else {
+        Watched.findOneAndDelete({users: req.user._id, imdbID: currentMovie}, (err, result)=>{
+          if(!result){
+            console.log('not found');
+            res.redirect('/watched');
+          } else {
+            console.log('Deleted from Watched db');
+
+            let resultID = result._id;
+            console.log(resultID);
+            let obj = user.moviesWatched.findIndex(findWatchedMovie)
+
+            function findWatchedMovie(movie){
+                // return movie._id === result._id
+                // console.log("DATA");
+                let movieID = JSON.stringify(movie._id);
+                let resultID = JSON.stringify(result._id);
+
+                if (movieID === resultID) {
+                  console.log('They same');
+                  return movieID === resultID;
+                } else {
+                  console.log('Not same');
+                }
+            }
+
+            if(obj >= 0){
+
+                user.moviesWatched.splice(obj, 1);
+                user.save(()=>{
+                  console.log('Item removed');
+                })
+            }
+            res.redirect('/watched')
+
+          }
+        })
+      }
+    })
+  } else {
+    res.redirect('/login');
+  }
+})
  
 
 app.get("/addNew/:movieId", (req, res) => {
@@ -814,7 +899,7 @@ app.post("/addNew/:movieId", (req, res) => {
             userWatchedDate: req.body.dateWatched,
             userReview: req.body.userReview,
             recommended: req.body.recommend,
-            rewatch: req.body.rewatch
+            rewatch: req.body.rewatch,
           }
 
           Watched.updateOne({_id : results._id}, userReview, (err)=>{

@@ -1,148 +1,73 @@
-<main id="homeOptions">
-    <div id="optionsHeader">
-        <a href="/"> <i class="fas fa-chevron-left"></i> Back</a>
-        <h2><%= title %></h2>
-    </div>
+app.post('/watched/:selected', (req, res)=>{
+  if(req.isAuthenticated()){
+    const currentMovie = req.params.selected;
+    console.log("currentMovie");
+    console.log(currentMovie);
+    const currentMovieID = req.body.currentMovie;
+    console.log(`Current Movie is: ${currentMovieID}`);
 
-    <section id="optionsContainer">
-        <!-- Loop through each item  -->
-<!-- 
-        <a href="/movie/batman">
-            <div class="gridItem">
-                <img src="/images/Spider-Man.jpeg" alt="">
-    
-                <div class="content">
-                    <h3>Spider-Man No Way Home</h3>
-                    <span>December 17, 2021</span>
-                    <p>Action/Adventure/ Sci-Fi</p>
-                </div>
-            </div>
-        </a> -->
-
-        <% data.forEach(element => { %>
-            <a href="/movie/<%= element.id %>">
-                <div class="gridItem">
-                    <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %>" alt="">
-        
-                    <div class="content">
-                        <h3><%= element.title %></h3>
-                        <span><%= element.release_date %></span>
-                        <p>Rating: <%= element.vote_average%></p>
-                    </div>
-                </div>
-            </a>
-        <% }); %>
-
-
-
-        
-    </section>
-</main>
-
-<% element.forEach(item => { %>
-    
-<% }); %> 
-
-
-
-<!-- //searched data -->
-
-<%console.log("no exist");%>
-<div class="errorNotFound">
-    <p>No information is available for this title</p>
-</div>
-
-
-
-<% data.items.forEach(element => { %>
-    <a href="/movie/<%= element.id %>">
-        <div class="gridItem">
-            <img src="<%= element.image%>" alt="">
-
-            <div class="content">
-                <h3><%= element.title %></h3>
-                <p>Rank: <%= element.rank %></p>
-                <p>IMDB Rating: <%= element.imDbRating %></p>
-                <p><%= element.year %></p>
-            </div>
-        </div>
-    </a>
-<% }); %>
-
-<!-- Home option-->
-
-if (pageOption == "comingSoon") {
-    let title = "Coming Soon";
-    const url = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&region=US`;
-
-    axios
-      .get(url)
-      .then((response) => {
-        let data = response.data;
-        console.log("Coming Soon:");
-        console.log(data);
-        res.render("homeOptions", { data: data.results, title: title });
-      })
-      .catch((err) => console.error(err));
+    User.findOne({_id: req.user._id}, (err, user)=>{
+      if (err) {
+        console.log(err);
+      } else {
+        Watchlist.findOneAndDelete({imdbID: currentMovieID}, (err, result)=>{
+          if (!result) {
+            axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovieID}`)
+            .then((movieData)=>{
       
-  } else if (pageOption == "inTheatres") {
-    let title = "In Theatres";
-    const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&region=US`;
+              const newMovie = new Watchlist({
+                imdbID: currentMovieID,
+                movieTitle: movieData.data.title,
+                movieGenre: movieData.data.genres,
+                movieRating: movieData.data.imDbRating,
+                movieReleaseYear: movieData.data.year,
+                movieLength: movieData.data.runtimeStr,
+                moviePoster: movieData.data.image
+              });
+      
+              newMovie.save()
+              console.log('Save to the watchlist DB');
+              res.redirect(`/watched/${currentMovie}`);
+            })
+            .catch((err) => console.error(err));
+      
+          } else{
+            console.log('Does Exist and has been deleted');
+            let resultID = result._id;
+            console.log(resultID);
+            let obj = user.wacthed.findIndex(findWatchedMovie)
 
-    async function getUser() {
-      try {
-        const response = await axios.get(url);
-        let data = response.data;
-        console.log(data.total_pages);
-        return data.total_pages;
-      } catch (error) {
-        console.error(error);
+            function findWatchedMovie(movie){
+                // return movie._id === result._id
+                // console.log("DATA");
+                let movieID = JSON.stringify(movie._id);
+                let resultID = JSON.stringify(result._id);
+
+                if (movieID === resultID) {
+                  console.log('They same');
+                  return movieID === resultID;
+                } else {
+                  console.log('Not same');
+                }
+            }
+
+            if(obj >= 0){
+
+                user.watched.splice(obj, 1);
+                user.save(()=>{
+                  console.log('Item removed');
+                })
+                
+            }
+            res.redirect(`/watched`);
+          }
+        })
       }
-    }
+    })
+  
 
-    getUser()
-      .then((data) => {
-        console.log("inside get user");
-        console.log(data);
-        return getPageData(data);
-      })
-      .catch((err) => console.log(err));
-
-    //replace with 'data'
-    // 2 is for testing
-    async function getPageData(data) {
-      let pagesDataArr = [];
-      let page = 1;
-      for (let i = 0; i < 2; i++) {
-        let pageData = axios.get(
-          `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}region=US`
-        );
-        page++;
-        pagesDataArr[i] = pageData;
-      }
-
-      console.log("Pages data");
-      pagesDataArr.forEach((element) => {
-        console.log(element);
-      });
-
-      axios
-        .all(pagesDataArr)
-        .then(
-          axios.spread((...responses) => {
-            let data = [];
-            console.log(responses[0].data);
-            responses.forEach((element) => {
-              // console.log('LOOP');
-              // console.log(element.data.results);
-              data.push(element.data.results);
-            });
-
-            res.render("homeOptions", { data: data, title: title });
-          })
-        )
-        .catch((errors) => {
-          console.error(errors);
-        });
-    }
+  } else {
+    res.redirect('/login')
   }
+
+})

@@ -35,8 +35,11 @@
                 </div>
     
                 <div class="group2">
-                    <button class="removeWatchlist"> X</button>
-                    <p><%= element.userWatchedDate.substring(0,4) %></p>
+                    <form action="/delete/<%= element.imdbID%>" method="post">
+                        <input type="hidden" name="currentMovie" value="<%= element.imdbID%>">
+                        <button type="submit" class="removeWatchlist"> X</button>
+                        <p><%= element.userWatchedDate.substring(0,4) %></p>
+                    </form>
                 </div>
             </a>
         <% }); %> 
