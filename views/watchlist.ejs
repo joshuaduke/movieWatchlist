@@ -33,7 +33,8 @@
                 </a>
     
                 <div class="group2">
-                    <form action="/watchlist" method="post">
+                    <form action="/movie/<%= element.imdbID%>" method="post">
+                        <input type="hidden" name="currentMovie" value="<%= element.imdbID%>">
                         <button type="submit" class="removeWatchlist"> X</button>
                     </form>
                     <p><%= element.movieLength %></p>

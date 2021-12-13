@@ -507,7 +507,7 @@ app.post("/movie/:selected", (req, res)=>{
 
 
   if(req.isAuthenticated()){
-    console.log(req.user._id);
+    // console.log(req.user._id);
     User.findOne({_id : req.user._id}).populate('watchlist').exec((err, user)=>{
       if (err) {
         console.log(err);
@@ -534,13 +534,41 @@ app.post("/movie/:selected", (req, res)=>{
                 console.log('Watchlist saved to user DB');
               })
               console.log('Save to the watchlist DB');
-              res.redirect(`/movie/${currentMovie}`);
+              // res.redirect(`/movie/${currentMovie}`);
+              res.redirect(`/watchlist`);
             })
             .catch((err) => console.error(err));
       
           } else{
             console.log('Does Exist and has been deleted');
-            res.redirect(`/movie/${currentMovie}`);
+
+            let resultID = result._id;
+            console.log(resultID);
+            let obj = user.watchlist.findIndex(findWatchlistMovie)
+
+            function findWatchlistMovie(movie){
+                // return movie._id === result._id
+                // console.log("DATA");
+                let movieID = JSON.stringify(movie._id);
+                let resultID = JSON.stringify(result._id);
+
+                if (movieID === resultID) {
+                  console.log('They same');
+                  return movieID === resultID;
+                } else {
+                  console.log('Not same');
+                }
+            }
+
+            if(obj >= 0){
+
+                user.watchlist.splice(obj, 1);
+                user.save(()=>{
+                  console.log('Item removed');
+                })
+                
+            }
+            res.redirect(`/watchlist`);
           }
         })
       }
@@ -582,7 +610,7 @@ app.post("/movie/:selected", (req, res)=>{
 app.get("/watchlist", (req, res) => {
   if(req.isAuthenticated()){
     User.findOne({_id: req.user._id}).populate('watchlist').exec((err, user)=>{
-      console.log(user.watchlist);
+      // console.log(user.watchlist);
       res.render("watchlist", {data: user.watchlist});
     })
     // Watchlist.find({}, (err, results)=>{
