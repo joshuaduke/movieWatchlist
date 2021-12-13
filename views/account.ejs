@@ -3,8 +3,8 @@
 <main id="accountPage">
 
     <section class="container">
-        <h1>Joshua Duke</h1>
-        <p>dukejoshua24@gmail.com</p>
+        <h1><%= data.fullname %></h1>
+        <p><%= data.username %></p>
         <a href="">Edit Profile</a>
     </section>
 
@@ -14,7 +14,7 @@
             <span>69%</span>
         </p>
         <div class="stats">
-            <p>Movies watched: 1</p>
+            <p>Movies watched: <%= data.moviesWatched.length%></p>
             <p>See all stats >></p>
         </div>
     </section>

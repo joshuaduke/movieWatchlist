@@ -166,14 +166,18 @@ app.route('/register')
       res.render('register')
     })
     .post((req, res)=>{
-      User.register({username: req.body.username}, req.body.password, (err, user)=>{
+      User.register({username: req.body.username, fullname: req.body.fullName}, req.body.password, (err, user)=>{
         if (err) {
           console.log(err);
           res.redirect('/register');
         } else {
-          passport.authenticate("local") (req, res, ()=>{
+          if (req.body.password === req.body.confirmPassword) {
+            passport.authenticate("local", {failureRedirect: '/register'}) (req, res, ()=>{
+              res.redirect('/');
+            })
+          } else {
             res.redirect('/');
-          })
+          }
         }
       })
     });
@@ -194,7 +198,7 @@ app.route('/login')
           console.log(err);
           res.redirect('/login')
         } else {
-          passport.authenticate('local') (req, res, ()=>{
+          passport.authenticate('local', {failureRedirect: '/login'}) (req, res, ()=>{
             res.redirect('/');
           })
         }
@@ -1076,7 +1080,8 @@ app.post("/addNew/:movieId", (req, res) => {
 
 app.get('/account', (req, res)=>{
   if(req.isAuthenticated()){
-    res.render('account');
+
+    res.render('account', {data: req.user});
   } else {
     res.redirect('/login')
   }
