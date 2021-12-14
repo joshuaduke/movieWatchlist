@@ -492,6 +492,11 @@ footer a {
   display: inline;
 }
 
+#homeContainer .carouselContainer li p {
+  font-size: 0.5em;
+  color: #e4e4e4;
+}
+
 #homeContainer .carouselContainer img {
   width: 110%;
   max-width: 300px;

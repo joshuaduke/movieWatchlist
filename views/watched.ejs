@@ -21,7 +21,7 @@
             <a href="/watched/<%= element._id%>" class="watchlistItem">
 
                 <div class="group1">
-                    <img src="<%= element.moviePoster%>" alt="">
+                    <img src="<%= element.moviePoster%>" onerror="this.src='/images/Image-Not-Available.png'" alt="">
                     
                     <div>
                         <h3><%= element.movieTitle.substring(0, 20) + '...'%></h3>

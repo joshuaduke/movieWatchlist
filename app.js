@@ -93,15 +93,7 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-  //check if user is authenticated
   if(req.isAuthenticated()){
-    // we need to use a promise in order to store the data in a variable
-    // Watchlist.find({}, (err, wacthlistMovies)=>{
-
-    // })
-
-  // req.user.populate(['watchlist', 'moviesWatched'])
-
 
   const comingSoon = axios.get(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
@@ -121,9 +113,6 @@ app.get('/', (req, res) => {
           const comingSoonData = responses[0];
           const inTheatresData = responses[1];
   
-          // console.log(comingSoonData.data, inTheatresData.data);
-          console.log('User');
-          // console.log(user);
           res.render("home", {
             comingSoon: comingSoonData.data.results,
             theatres: inTheatresData.data.results,
@@ -908,9 +897,47 @@ app.get('/account', (req, res)=>{
   }
 })
 
+//route to delete account
 app.post('/account', (req, res)=>{
   if(req.isAuthenticated()){
     console.log(req.user);
+    /*  
+      Find current user 
+      Search through Watchlist and find 
+      all watchlist items with the current user ID
+      delete them
+      do the same for the Watched DB
+      Delete user from the DB
+    */
+
+      User.findOneAndDelete({_id: req.user.id}, (err, user)=>{
+        if (err) {
+          console.log('User not found');
+        } else {
+
+          Watchlist.deleteMany({users: user._id}, (err, count)=>{
+            if (err) {
+              console.log('Error while deleting');
+            } else {
+              
+              console.log(`${count} items have been deleted from Watchlist DB`);
+            }
+          });
+
+          Watched.deleteMany({users: user._id}, (err, count)=>{
+            if (err) {
+              console.log('Error while deleting');
+            } else {
+              
+              console.log(`${count} items have been deleted from Watched DB`);
+            }
+          });
+
+          console.log("Deleted User: ", user);
+          res.redirect('/logout')
+        }
+      })
+
     
 } else {
   res.redirect('/login') 

@@ -2,24 +2,6 @@
 
 <main id="homeContainer">
 
-    <!-- <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon</h2>
-          <a href="/home/comingSoon">See all</a>
-        </div>
-        <%#- include ('partials/homeCarousel')  -%> 
-    </div>
-
-    <div class="sectionContainer">
-
-        <div class="titleContainer">
-          <h2>Coming Soon</h2>
-          <a href="/home/comingSoon">See all</a>
-        </div>
-        <%#- include ('partials/homeCarousel')  -%> 
-    </div> -->
-
     <div class="sectionContainer">
 
         <div class="titleContainer">
@@ -35,8 +17,9 @@
                 <% comingSoon.forEach(element => { %>
                     <a href="/movie/<%= element.id %>">
                         <li class="glide__slide">
-                            <span><%= element.title.substring(0, 10)+ '...' %></span>
-                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " alt="">
+                            <p><%= element.title.substring(0, 10)+ '...' %></p>
+
+                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " onerror="this.src='/images/Image-Not-Available.png'" alt="">
                         </li>
                     </a>
                 <% }); %>
@@ -62,8 +45,8 @@
                 <% theatres.forEach(element => { %>
                     <a href="/movie/<%= element.id %>">
                         <li class="glide__slide">
-                            <span><%= element.title.substring(0, 10)+ '...' %></span>
-                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " alt="">
+                            <p><%= element.title.substring(0, 10)+ '...' %></p>
+                            <img src="https://image.tmdb.org/t/p/w500<%= element.poster_path %> " onerror="this.src='/images/Image-Not-Available.png'" alt="">
                         </li>
                     </a>
                 <% }); %>
@@ -89,8 +72,9 @@
                 <% user.watchlist.forEach(element => { %>
                     <a href="/movie/<%= element.imdbID %>">
                         <li class="glide__slide">
-                            <span><%= element.movieTitle.substring(0, 10)+ '...' %></span>
-                            <img src="<%= element.moviePoster %> " alt="<%= element.movieTitle%>">
+                            <p><%= element.movieTitle.substring(0, 10)+ '...' %></p>
+
+                            <img src="<%= element.moviePoster %> " onerror="this.src='/images/Image-Not-Available.png' " alt="<%= element.movieTitle%>">
                         </li>
                     </a>
                 <% }); %>
@@ -116,8 +100,8 @@
                 <% user.moviesWatched.forEach(element => { %>
                     <a href="/watched/<%= element._id %>">
                         <li class="glide__slide">
-                            <span><%= element.movieTitle.substring(0, 10)+ '...' %></span>
-                            <img src="<%= element.moviePoster %> " alt="">
+                            <p><%= element.movieTitle.substring(0, 10)+ '...' %></p>
+                            <img src="<%= element.moviePoster %> " onerror="this.src='/images/Image-Not-Available.png'" alt="">
                         </li>
                     </a>
                 <% }); %>

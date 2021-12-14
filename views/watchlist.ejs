@@ -20,7 +20,7 @@
             <div class="watchlistItem">
 
                 <a href="/movie/<%= element.imdbID%>" class="group1">
-                    <img  src="<%= element.moviePoster %>" alt="">
+                    <img  src="<%= element.moviePoster %>" onerror="this.src='/images/Image-Not-Available.png'" alt="">
                     
                     <div>
                         <h3><%= element.movieTitle %></h3>
