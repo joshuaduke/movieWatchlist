@@ -10,8 +10,6 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const app = express();
 const apiKey = process.env.API_KEY;
 const apikeyTMDB = process.env.TMDB_API_KEY;
-// const moviePoster = require(__dirname + '/public/javascript/getPosters.js')
-// let data = moviePoster();
 
 //configuring express session
 app.use(session({
@@ -25,8 +23,6 @@ app.use(passport.initialize());
 app.use(passport.session()); //informs passport to use our configured session
 
 //setting up mongoose
-//connection
-// mongoose.connect('mongodb://localhost:27017/watchlist');
 mongoose.connect('mongodb://localhost:27017/movieDB ');
 
 const userSchema = new mongoose.Schema({
@@ -39,9 +35,6 @@ const userSchema = new mongoose.Schema({
 
 //configuring passport local mongoose
 userSchema.plugin(passportLocalMongoose);
-
-// watchlist: [{type: mongoose.Schema.Types.ObjectId, ref: "Watchlist"}],
-// moviesWatched: [{type: mongoose.Schema.Types.ObjectId, ref: "Watched"}],
 
 //schema 
 const watchlistSchema = {
@@ -86,7 +79,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 //locate static files in the public folder
 app.use(express.static("public"));
-// app.use('/css', express.static(__dirname + '/node_modules/@glidejs/glide/dist/css'))
 app.use(
   "/dist",
   express.static(__dirname + "/node_modules/@glidejs/glide/dist/")
@@ -194,8 +186,8 @@ app.get("/home/:option", (req, res) => {
             try {
               const response = await axios.get(url);
               let data = response.data;
-              // console.log(data.total_pages);
               return data.total_pages;
+
             } catch (error) {
               console.error(error);
             }
@@ -203,8 +195,6 @@ app.get("/home/:option", (req, res) => {
 
         getUser()
       .then((data) => {
-        console.log("inside get user coming soon");
-        // console.log(data);
         return getPageData(data);
       })
       .catch((err) => console.log(err));
@@ -214,7 +204,7 @@ app.get("/home/:option", (req, res) => {
     async function getPageData(data) {
       let pagesDataArr = [];
       let page = 1;
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < data; i++) {
         let pageData = axios.get(
           `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=${page}&region=US`
         );
@@ -232,10 +222,8 @@ app.get("/home/:option", (req, res) => {
         .then(
           axios.spread((...responses) => {
             let data = [];
-            // console.log(responses[0].data);
+
             responses.forEach((element) => {
-              // console.log('LOOP');
-              // console.log(element.data.results);
               data.push(element.data.results);
             });
 
@@ -264,8 +252,6 @@ app.get("/home/:option", (req, res) => {
 
         getUser()
       .then((data) => {
-        console.log("inside get user");
-        // console.log(data);
         return getPageData(data);
       })
       .catch((err) => console.log(err));
@@ -275,7 +261,7 @@ app.get("/home/:option", (req, res) => {
     async function getPageData(data) {
       let pagesDataArr = [];
       let page = 1;
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < data; i++) {
         let pageData = axios.get(
           `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=${page}&region=US`
         );
@@ -294,14 +280,11 @@ app.get("/home/:option", (req, res) => {
         .then(
           axios.spread((...responses) => {
             let data = [];
-            // console.log(responses.data);
+
             responses.forEach((element) => {
-              // console.log('LOOP');
-              // console.log(element.data.results);
               data.push(element.data.results);
             });
-            console.log('DATA:')
-            // console.log(data)
+
             res.render("homeOptions", { data: data, title: title });
           })
         )
@@ -344,7 +327,7 @@ app.post("/search", (req, res) => {
     } else {
       axios.get(urlTMDB).then((response) => {
         let data = response.data;
-        // console.log(data);
+
         res.render("search", {
           searchedData: data,
           data: true,
@@ -371,7 +354,7 @@ app.get("/search/:option", (req, res) => {
         axios.get(url).then((response) => {
           let data = response.data;
           title = "Top 250 Movies"  
-          // console.log(data);
+
           res.render("searchOptions", { data: data, option: title });
         });
         break;
@@ -381,7 +364,7 @@ app.get("/search/:option", (req, res) => {
         axios.get(url).then((response) => {
           let data = response.data;
           title = "All Time Box Office"  
-          // console.log(data);
+
           res.render("searchOptions", { data: data, option: title });
         });
         break;
@@ -391,7 +374,7 @@ app.get("/search/:option", (req, res) => {
           axios.get(url).then((response) => {
             let data = response.data;
             title = "Most Popular Movies"  
-            // console.log(data);
+
             res.render("searchOptions", { data: data, option: title });
           });
           break;
@@ -401,7 +384,7 @@ app.get("/search/:option", (req, res) => {
               axios.get(url).then((response) => {
                 let data = response.data;
                 title = "Box Office"  
-                // console.log(data);
+
                 res.render("searchOptions", { data: data, option: title });
               });
               break;
@@ -409,7 +392,7 @@ app.get("/search/:option", (req, res) => {
       default:
         break;
     }
-    //   res.render("searchOptions", { option: option });
+
   } else {
     res.redirect('/login')
   }
@@ -419,7 +402,6 @@ app.get("/movie/:selected", (req, res) => {
   if(req.isAuthenticated()){
     let selectedId = req.params.selected;
 
-    //   const apiKey = "k_7893g9qe";
     const urlTMDB = `https://api.themoviedb.org/3/movie/${selectedId}/external_ids?api_key=${apikeyTMDB}`;
     const url = `https://imdb-api.com/en/API/Title/${apiKey}/${selectedId}`;
   
@@ -431,9 +413,6 @@ app.get("/movie/:selected", (req, res) => {
         axios
           .get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
           .then((movieData) => {
-            // console.log(movieData.data);
-            // let data = movieData.data;
-            // res.render("selectedMovie", { data: data });
   
             if (movieData.data.title == null) {
               console.log("No information on this is available");
@@ -446,29 +425,15 @@ app.get("/movie/:selected", (req, res) => {
                   res.render("selectedMovie", { data: data, exists: false });
                 } else{
                   res.render("selectedMovie", { data: data, exists: true });
-                  console.log('Does Exist');
                 }
               })
               
             }
           })
           .catch((err) => console.error(err));
-        //   let data = response.data;
-        //   console.log("Movie Data:");
-        //   console.log(data);
-        //   res.render("selectedMovie", { data: data });
       })
       .catch((err) => console.error(err));
   
-    //   axios
-    //     .get(url)
-    //     .then((response) => {
-    //       let data = response.data;
-    //       console.log("Movie Data:");
-    //       console.log(data);
-    //       res.render("selectedMovie", { data: data });
-    //     })
-    //     .catch((err) => console.error(err));
   } else {
     res.redirect('/login')
   }
@@ -478,10 +443,8 @@ app.post("/movie/:selected", (req, res)=>{
   const currentMovie = req.body.currentMovie;
   console.log(`Current Movie is: ${currentMovie}`);
 
-
-
   if(req.isAuthenticated()){
-    // console.log(req.user._id);
+
     User.findOne({_id : req.user._id}).populate('watchlist').exec((err, user)=>{
       if (err) {
         console.log(err);
@@ -508,26 +471,20 @@ app.post("/movie/:selected", (req, res)=>{
                 console.log('Watchlist saved to user DB');
               })
               console.log('Save to the watchlist DB');
-              // res.redirect(`/movie/${currentMovie}`);
+
               res.redirect(`/watchlist`);
             })
             .catch((err) => console.error(err));
       
           } else{
             console.log('Does Exist and has been deleted');
-
-            let resultID = result._id;
-            console.log(resultID);
             let obj = user.watchlist.findIndex(findWatchlistMovie)
 
             function findWatchlistMovie(movie){
-                // return movie._id === result._id
-                // console.log("DATA");
                 let movieID = JSON.stringify(movie._id);
                 let resultID = JSON.stringify(result._id);
 
                 if (movieID === resultID) {
-                  console.log('They same');
                   return movieID === resultID;
                 } else {
                   console.log('Not same');
@@ -583,29 +540,15 @@ app.post("/movie/:selected", (req, res)=>{
 
 app.get("/watchlist", (req, res) => {
   if(req.isAuthenticated()){
+
     User.findOne({_id: req.user._id}).populate('watchlist').exec((err, user)=>{
-      // console.log(user.watchlist);
       res.render("watchlist", {data: user.watchlist});
     })
-    // Watchlist.find({}, (err, results)=>{
-    //   if (err) {
-    //       console.log(err);
-    //   } else {
-    //     // results.forEach(element => {
-    //     //   console.log(element);
-    //     // });
-    //     res.render("watchlist", {data: results});
-    //   }
-    // })
 
   } else {
     res.redirect('/login');
   }
-
-
 });
-
-// app.post()
 
 app.get("/watched", (req, res) => {
   if(req.isAuthenticated()){
@@ -627,9 +570,6 @@ app.get("/watched", (req, res) => {
 app.get('/watched/:selected', (req, res)=>{
   if(req.isAuthenticated()){
     const userReview = req.params.selected;
-    const movieId = req.body.currentMovie;
-    // console.log(userReview);
-    // console.log(movieId);
 
     Watched.findOne({_id: userReview}, (err, data)=>{
       Watchlist.findOne({imdbID: data.imdbID, users: req.user._id}, (err, result)=>{
@@ -649,8 +589,6 @@ app.get('/watched/:selected', (req, res)=>{
 app.post('/watched/:selected', (req, res)=>{
   if(req.isAuthenticated()){
     const currentMovie = req.params.selected;
-    console.log("currentMovie");
-    console.log(currentMovie);
     const currentMovieID = req.body.currentMovie;
     console.log(`Current Movie is: ${currentMovieID}`);
 
@@ -681,18 +619,13 @@ app.post('/watched/:selected', (req, res)=>{
       
           } else{
             console.log('Does Exist and has been deleted');
-            let resultID = result._id;
-            console.log(resultID);
             let obj = user.watchlist.findIndex(findWatchlistMovie)
 
             function findWatchlistMovie(movie){
-                // return movie._id === result._id
-                // console.log("DATA");
                 let movieID = JSON.stringify(movie._id);
                 let resultID = JSON.stringify(result._id);
 
                 if (movieID === resultID) {
-                  console.log('They same');
                   return movieID === resultID;
                 } else {
                   console.log('Not same');
@@ -700,13 +633,12 @@ app.post('/watched/:selected', (req, res)=>{
             }
 
             if(obj >= 0){
-
                 user.watchlist.splice(obj, 1);
                 user.save(()=>{
                   console.log('Item removed');
                 })
-                
             }
+
             res.redirect(`/watched`);
           }
         })
@@ -741,13 +673,10 @@ app.post('/delete/:selected', (req, res)=>{
             let obj = user.moviesWatched.findIndex(findWatchedMovie)
 
             function findWatchedMovie(movie){
-                // return movie._id === result._id
-                // console.log("DATA");
                 let movieID = JSON.stringify(movie._id);
                 let resultID = JSON.stringify(result._id);
 
                 if (movieID === resultID) {
-                  console.log('They same');
                   return movieID === resultID;
                 } else {
                   console.log('Not same');
@@ -755,7 +684,6 @@ app.post('/delete/:selected', (req, res)=>{
             }
 
             if(obj >= 0){
-
                 user.moviesWatched.splice(obj, 1);
                 user.save(()=>{
                   console.log('Item removed');
@@ -772,7 +700,6 @@ app.post('/delete/:selected', (req, res)=>{
   }
 })
  
-
 app.get("/addNew/:movieId", (req, res) => {
   if(req.isAuthenticated()){
     let movieId = req.params.movieId;
@@ -781,17 +708,14 @@ app.get("/addNew/:movieId", (req, res) => {
       if(err){
         console.log(err);
       }else {
-        // console.log(user.moviesWatched);
         let obj = user.moviesWatched.find(found => found.imdbID === movieId)
         if(obj){
-          console.log(obj);
           res.render("addReview", { data: obj });
         } else {
           console.log('not found');
 
           axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
           .then((movieData) => {
-              console.log('Not watched yet');
               let data = movieData.data;
               res.render("addReview", { data: data });
           })
@@ -810,26 +734,17 @@ app.get("/addNew/:movieId", (req, res) => {
 app.post("/addNew/:movieId", (req, res) => {
   if(req.isAuthenticated()){
     let movieId = req.params.movieId;
-    console.log(movieId);
-    // console.log(movieId);
-    console.log('POST ADD NEW');
-    console.log(req.user);
+
     /* check if movieID exists within the watched database
-      if it does run the findOne and update Command if it doesn't run the insertMany Code
+      if it does run the findOne and update Command if it doesn't, run the insertMany Code
     */
 
       Watched.findOne({_id: movieId, users: req.user._id}, (err, results)=>{
-        console.log('Add new Results');
-        console.log(results);
 
         if(!results){
           console.log('Not in the DB');
           axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-          .then((movieData) => {
-              // console.log(movieData.data);
-              let data = movieData.data;
-              // res.render("addReview", { data: data });
-      
+          .then((movieData) => {      
               const userReview = 
                 {
                 imdbID: req.params.movieId,
@@ -864,8 +779,6 @@ app.post("/addNew/:movieId", (req, res) => {
           })
           .catch((err) => console.error(err));
         } else {
-          console.log("results");
-          console.log(results);
 
           const userReview = 
           {
@@ -900,16 +813,6 @@ app.get('/account', (req, res)=>{
 //route to delete account
 app.post('/account', (req, res)=>{
   if(req.isAuthenticated()){
-    console.log(req.user);
-    /*  
-      Find current user 
-      Search through Watchlist and find 
-      all watchlist items with the current user ID
-      delete them
-      do the same for the Watched DB
-      Delete user from the DB
-    */
-
       User.findOneAndDelete({_id: req.user.id}, (err, user)=>{
         if (err) {
           console.log('User not found');
@@ -937,8 +840,6 @@ app.post('/account', (req, res)=>{
           res.redirect('/logout')
         }
       })
-
-    
 } else {
   res.redirect('/login') 
 }
@@ -949,17 +850,5 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 /*
-    Call tmdb api for coming soon and in theatres
-    once clicked on an option
-    call the external ids api to retrieve IMDB api
-
-    use imdb api to retrieve movie details for the selected
-    movie page
-
+   Joshua Duke
 */
-
-// if(req.isAuthenticated()){
-
-// } else {
-//   res.redirect('/login') 
-// }
