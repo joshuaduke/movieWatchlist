@@ -48,6 +48,20 @@ body{
         margin:5px 0;
     }
 
+    .passContainer{
+        width: 100%;
+        height:auto;
+    }
+
+    .passContainer span{
+        position: absolute;
+        padding:15px 0;
+        right:50px;
+        font-size: 0.9em;
+        color:#757575;
+        cursor: pointer;
+    }
+
     a{
         color:#175AA9;
     }

@@ -371,6 +371,20 @@ header {
   outline: none;
 }
 
+#logInContainer .passContainer {
+  width: 100%;
+  height: auto;
+}
+
+#logInContainer .passContainer span {
+  position: absolute;
+  padding: 15px 0;
+  right: 50px;
+  font-size: 0.9em;
+  color: #757575;
+  cursor: pointer;
+}
+
 #logInContainer a {
   color: #175AA9;
 }

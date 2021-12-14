@@ -6,10 +6,19 @@
         <div class="credentialsContainer">
 
             <form action="/register" method="post">
-                <input type="text" name="username" id="" placeholder="Email" required>
+                <input type="email" name="username" id="" placeholder="Email" required>
                 <input type="text" name="fullName" id="" placeholder="Full Name" required>
-                <input type="text" name="password" id="" placeholder="Password" required>
-                <input type="text" name="confirmPassword" id="" placeholder="Confirm Password" required>
+
+                <div class="passContainer">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <span class="viewPassword" onclick="myFunction('password')">View</span>
+                </div>
+
+                <div class="passContainer">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+                    <span class="viewPassword" onclick="myFunction('confirmPassword')">View</span>
+                </div>
+
                 <p class="or">or</p>
                 <button><i class="fab fa-google fa-lg"></i>Continue with Google</button>
                 <p>
@@ -22,3 +31,18 @@
     </section>
     
 </main>
+
+<script>
+    //password 
+    function myFunction(pass) {
+      var x = document.getElementById(pass);
+      if (x.type === "password") {
+          x.type = "text";
+      } else {
+          x.type = "password";
+      }
+  }
+</script>
+
+</body>
+</html>

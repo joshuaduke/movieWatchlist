@@ -77,39 +77,8 @@ const Watched = new mongoose.model('Watched', watchedSchema);
 const User = new mongoose.model('User', userSchema);
 
 passport.use(User.createStrategy());
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-const watchedTest = new Watched({
-  imdbID: "tt1375666",
-  movieTitle: 'Inception',
-  movieGenre: 'Test genre',
-  movieRating: '8.8',
-  movieReleaseYear: '2010',
-  movieLength: 'Long',
-  moviePoster: 'https://imdb-api.com/images/original/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_Ratio0.6762_AL_.jpg',
-  userRating: 90,
-  userWatchedDate: '2021-12-01',
-  userReview: 'Fantastic movie, my mind is bended, maybe that\' because im high but who knows :)',
-  recommended: true,
-  rewatch: true
-});
-
-// watchedTest.save();
-
-//create a new document
-const newMovie = new Watchlist({
-  imdbID: 123,
-  movieTitle: 'This is a test',
-  movieGenre: "Action",
-  movieRating: 86,
-  movieReleaseYear: "2021",
-  movieLength: "20h45"
-});
-
-// newMovie.save();
-
 
 app.set("view engine", "ejs");
 
@@ -131,6 +100,9 @@ app.get('/', (req, res) => {
 
     // })
 
+  // req.user.populate(['watchlist', 'moviesWatched'])
+
+
   const comingSoon = axios.get(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
   );
@@ -138,24 +110,33 @@ app.get('/', (req, res) => {
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${apikeyTMDB}&language=en-US&page=1&region=US`
   );
 
-  axios
-    .all([comingSoon, inTheatres])
-    .then(
-      axios.spread((...responses) => {
-        const comingSoonData = responses[0];
-        const inTheatresData = responses[1];
+  User.findOne({_id: req.user._id}).populate(['watchlist', 'moviesWatched']).exec((err, user)=>{
+    if (err) {
+      console.log(err);
+    } else {
+      axios
+      .all([comingSoon, inTheatres])
+      .then(
+        axios.spread((...responses) => {
+          const comingSoonData = responses[0];
+          const inTheatresData = responses[1];
+  
+          // console.log(comingSoonData.data, inTheatresData.data);
+          console.log('User');
+          // console.log(user);
+          res.render("home", {
+            comingSoon: comingSoonData.data.results,
+            theatres: inTheatresData.data.results,
+            user: user
+          });
+        })
+      )
+      .catch((errors) => {
+        console.error(errors);
+      });
+    }
+  })
 
-        // console.log(comingSoonData.data, inTheatresData.data);
-
-        res.render("home", {
-          comingSoon: comingSoonData.data.results,
-          theatres: inTheatresData.data.results,
-        });
-      })
-    )
-    .catch((errors) => {
-      console.error(errors);
-    });
   } else {
     res.redirect('/login');
   }
@@ -913,166 +894,6 @@ app.post("/addNew/:movieId", (req, res) => {
         }
       })
 
-    // User.findOne({_id : req.user._id}).populate('moviesWatched').exec((err, user)=>{
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     // if(user.moviesWatched.find((movie) => movie._id)){
-    //     //   console.log(movie);
-    //     // }
-    //     // console.log('USER');
-    //     // console.log(user);
-
-    //     let result = Watched.find({ $where: function() { 
-    //         return users == req.user._id && imdbID == movieId
-    //       }
-      
-
-    //     })
-
-    //     console.log(result);
-
-    //     // let obj = user.moviesWatched.find(found => found.imdbID == movieId);
-    //     // console.log('OBJ');
-    //     // console.log(obj);
-
-    //     // if(obj){
-    //     //   console.log(obj);
-    //     //   //if the movie is in the database update the fields
-          
-    //     //   const userReview = 
-    //     //     {
-    //     //       userRating: req.body.userRating,
-    //     //       userWatchedDate: req.body.dateWatched,
-    //     //       userReview: req.body.userReview,
-    //     //       recommended: req.body.recommend,
-    //     //       rewatch: req.body.rewatch
-    //     //     }
-
-    //     //     user.updateMany(userReview);
-    //     //     user.save((err)=>{
-    //     //       if (err) {
-    //     //         console.log(err);
-    //     //       } else {
-    //     //         console.log('This movie has been updated');
-    //     //       }
-    //     //     })
-            
-    //     //     //      console.log('It is in the DB');
-    //     //     //      Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
-    //     //     //        if(err){
-    //     //     //          console.log(err);
-    //     //     //        }
-    //     //     //      });
-    //     //     //      res.redirect('/watched');
-    //     // } else {
-    //     //   //if the movie is not in the database add it
-    //     // }
-
-    //     // console.log(user.moviesWatched);
-    //     // console.log('MOVIE');
-    //     // console.log(user.moviesWatched.find(movie => movie.imdbID == movieId));
-
-    //     // axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-    //     //     .then((movieData) => {
-    //     //       // console.log(movieData.data);
-    //     //       let data = movieData.data;
-    //     //       // res.render("addReview", { data: data });
-      
-    //     //       const userReview = 
-    //     //         {
-    //     //           imdbID: req.params.movieId,
-    //     //           movieTitle: movieData.data.title,
-    //     //           movieGenre: movieData.data.genres,
-    //     //           movieRating: movieData.data.imDbRating,
-    //     //           movieReleaseYear: movieData.data.releaseDate,
-    //     //           movieLength: movieData.data.runtimeStr,
-    //     //           moviePoster: movieData.data.image,
-    //     //           userRating: req.body.userRating,
-    //     //           userWatchedDate: req.body.dateWatched,
-    //     //           userReview: req.body.userReview,
-    //     //           recommended: req.body.recommend,
-    //     //           rewatch: req.body.rewatch,
-    //     //           users: req.user._id
-    //     //         }
-              
-    //     //       const newMovieWatched = new Watched(userReview);
-    //     //       newMovieWatched.save(()=>{
-    //     //         console.log('New movie watched saved to WATCHED DB');
-    //     //       })
-    //     //       user.moviesWatched.push(newMovieWatched)
-
-    //     //       user.save(()=>{
-    //     //         console.log('New movie watched saved to USER DB');
-    //     //       })
-    //     //       res.redirect('/watched');
-    //     //   })
-    //     //   .catch((err) => console.error(err));
-    //   }
-
-        
-    //   })
-  
-
-  //   Watched.findOne({_id: movieId}, (err, result)=>{
-    
-  //    if(!result){
-  //     console.log('Not in the DB');
-  //     axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}`)
-  //     .then((movieData) => {
-  //         // console.log(movieData.data);
-  //         let data = movieData.data;
-  //         // res.render("addReview", { data: data });
-  
-  //         const userReview = [
-  //           {imdbID: req.params.movieId,
-  //           movieTitle: movieData.data.title,
-  //           movieGenre: movieData.data.genres,
-  //           movieRating: movieData.data.imDbRating,
-  //           movieReleaseYear: movieData.data.releaseDate,
-  //           movieLength: movieData.data.runtimeStr,
-  //           moviePoster: movieData.data.image,
-  //           userRating: req.body.userRating,
-  //           userWatchedDate: req.body.dateWatched,
-  //           userReview: req.body.userReview,
-  //           recommended: req.body.recommend,
-  //           rewatch: req.body.rewatch
-  //           }
-  //         ]
-  
-  //         Watched.insertMany(userReview, (err, docs)=>{
-  //           if (err) {
-  //             console.log(err);
-  //           } else {
-  //             console.log('Watched: Docs');
-  //             console.log(docs);  
-  //             res.redirect('/watched');
-  //           }
-  //         })
-  //     })
-  //     .catch((err) => console.error(err));
-  
-  //    } else {
-  //       const userReview = 
-  //         {
-  //           userRating: req.body.userRating,
-  //           userWatchedDate: req.body.dateWatched,
-  //           userReview: req.body.userReview,
-  //           recommended: req.body.recommend,
-  //           rewatch: req.body.rewatch
-  //         }
-  
-  //      console.log('It is in the DB');
-  //      Watched.findByIdAndUpdate({_id: movieId}, userReview, (err)=>{
-  //        if(err){
-  //          console.log(err);
-  //        }
-  //      });
-  //      res.redirect('/watched');
-  //    }
-  
-  //  })
-
   } else {
     res.redirect('/login')
   }
@@ -1085,6 +906,15 @@ app.get('/account', (req, res)=>{
   } else {
     res.redirect('/login')
   }
+})
+
+app.post('/account', (req, res)=>{
+  if(req.isAuthenticated()){
+    console.log(req.user);
+    
+} else {
+  res.redirect('/login') 
+}
 })
 
 app.listen(process.env.PORT || 3000, () => {
