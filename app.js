@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session()); //informs passport to use our configured session
 
 //setting up mongoose
-mongoose.connect('mongodb://localhost:27017/movieDB ');
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.nt3rk.mongodb.net/movieDB`);
 
 const userSchema = new mongoose.Schema({
   username: String,
