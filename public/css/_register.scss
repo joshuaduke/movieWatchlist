@@ -79,11 +79,23 @@ body{
         border:none;
         font-weight:bold;
         cursor:pointer;
+    }
 
-        .fa-google{
-            float: left;
-            margin-top: 5px;
-            color:green;
+    .socialBody{
+        a{
+            color:#fff;
+            width:100%;
+            border-radius: 10px;
+        }
+    }
+
+    .socialBody{
+        width:100%;
+        display: inline-block;
+        height:38px;
+        padding-top: 7px;
+        a{
+            border:1px solid rgba(0,0,0,0.2);
         }
     }
 

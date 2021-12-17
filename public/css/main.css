@@ -311,20 +311,62 @@ header {
   height: auto;
   background-color: #e4e4e4;
   margin: 10px 0;
+  padding: 20px 0;
   border-radius: 10px;
   text-align: center;
 }
 
+#accountPage .stats {
+  font-size: 2em;
+}
+
+#accountPage p {
+  padding: 10px 0;
+}
+
 #accountPage .copyright {
+  color: #fff;
+  text-align: center;
+}
+
+#accountPage button {
+  width: 90%;
+  padding: 5px 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  margin: 10px 0;
+}
+
+#accountPage .logout {
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid steelblue;
+}
+
+#accountPage .logout:hover {
+  background-color: steelblue;
+}
+
+#accountPage .logout:hover a {
   color: #fff;
 }
 
+#accountPage .logout a {
+  color: steelblue;
+}
+
 #accountPage .deleteBtn {
-  width: 90%;
-  padding: 5px 0;
   background-color: #fff;
   border: 1px solid red;
-  border-radius: 10px;
+  color: red;
+}
+
+#accountPage .deleteBtn:hover {
+  color: #fff;
+  background-color: red;
 }
 
 .register {
@@ -404,10 +446,21 @@ header {
   cursor: pointer;
 }
 
-#logInContainer button .fa-google {
-  float: left;
-  margin-top: 5px;
-  color: green;
+#logInContainer .socialBody a {
+  color: #fff;
+  width: 100%;
+  border-radius: 10px;
+}
+
+#logInContainer .socialBody {
+  width: 100%;
+  display: inline-block;
+  height: 38px;
+  padding-top: 7px;
+}
+
+#logInContainer .socialBody a {
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 #logInContainer button:nth-of-type(2) {

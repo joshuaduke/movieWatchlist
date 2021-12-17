@@ -28,7 +28,7 @@ app.use(passport.session()); //informs passport to use our configured session
 mongoose.connect('mongodb://localhost:27017/movieDB ');
 
 const userSchema = new mongoose.Schema({
-  email: String,
+  username: String,
   fullname: String,
   password: String,
   googleId: String,
@@ -90,7 +90,8 @@ passport.use(new GoogleStrategy({
   callbackURL: "http://localhost:3000/auth/google/home"
 },
 function(accessToken, refreshToken, profile, cb) {
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+  console.log(profile);
+  User.findOrCreate({ googleId: profile.id}, {fullname: profile.displayName, username: profile._json.email}, function (err, user) {
     return cb(err, user);
   });
 }
@@ -147,7 +148,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
 app.get('/auth/google/home', 
@@ -856,13 +857,13 @@ app.get('/account', (req, res)=>{
           avgRating = 0;
         }
         
-        console.log(avgRating);
+        console.log(user);
 
   
         let data = {
           amountWatched: user.moviesWatched.length,
           avgRating: avgRating,
-          fullName: user.fullName,
+          fullName: user.fullname,
           email: user.username
         }
         res.render('account', {data: data});

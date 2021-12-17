@@ -5,25 +5,32 @@
     <section class="container">
         <h1><%= data.fullName %></h1>
         <p><%= data.email %></p>
-        <a href="">Edit Profile</a>
+        <!-- <a href="">Edit Profile</a> -->
     </section>
 
     <section class="container">
         <p>Average Movie Rating 
             <br> 
-            <span><%= data.avgRating %> %</span>
+            <span class="stats"><%= data.avgRating %> %</span>
         </p>
-        <div class="stats">
-            <p>Movies watched: <%= data.amountWatched%></p>
+        <div>
+            <p>Movies watched
+                <br>
+                <span class="stats">
+                    <%= data.amountWatched%>
+                </span> 
+            </p>
             <!-- <p>See all stats >></p> -->
         </div>
     </section>
 
     <section class="container">
-        <p><a href="/logout">Sign Out</a></p>
+        <button class="logout">
+            <a  href="/logout">Sign Out</a>
+        </button>
         
         <form action="/account" method="Post">
-            <button class="deleteBtn">Delete Account Information</button>
+            <button class="deleteBtn">Delete Account</button>
         </form>
     </section>
     <p class="copyright">Created by Joshua Duke 2021</p>

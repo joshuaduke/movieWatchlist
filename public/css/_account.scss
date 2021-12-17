@@ -7,20 +7,59 @@
         height:auto;
         background-color: #e4e4e4;
         margin:10px 0;
+        padding: 20px 0;
         border-radius: 10px;
         text-align: center;
     }
 
+    .stats{
+        font-size: 2em;
+
+    }
+
+    p{
+        padding:10px 0;
+    }
+
     .copyright{
         color:#fff;
+        text-align: center;
+    }
+
+    button{
+        width:90%;
+        padding:5px 0;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin:10px 0;
+    }
+
+    .logout{
+        padding:5px 0;
+        background-color: #fff;
+        border:1px solid steelblue;
+        &:hover{
+            background-color: steelblue;
+            a{
+                color:#fff;
+            }
+        }
+
+        a{
+            color:steelblue;
+        }
     }
 
     .deleteBtn{
-        width:90%;
-        padding:5px 0;
         background-color: #fff;
         border:1px solid red;
-        border-radius: 10px;
+        color:red;
+        &:hover{
+            color:#fff;
+            background-color: red;
+        }
     }
 }
 
