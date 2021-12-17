@@ -12,6 +12,9 @@
   },
   "author": "Joshua Duke",
   "license": "ISC",
+  "engines": {
+    "node": "16.13.1"
+  },
   "bugs": {
     "url": "https://github.com/joshuaduke/movieWatchlist/issues"
   },
