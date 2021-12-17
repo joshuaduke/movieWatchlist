@@ -439,7 +439,7 @@ a {
 
 footer {
   width: 100%;
-  padding: 20px;
+  padding: 15px 10px;
   position: fixed;
   bottom: 0;
   background-color: #241616;
@@ -460,7 +460,7 @@ footer a {
 }
 
 #footerNav .iconContainer {
-  margin: 0 15px;
+  margin: 0 10px;
   text-align: center;
 }
 

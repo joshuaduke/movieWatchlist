@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const findOrCreate = require('mongoose-findorcreate');
 const app = express();
 const apiKey = process.env.API_KEY;
 const apikeyTMDB = process.env.TMDB_API_KEY;
@@ -29,12 +31,14 @@ const userSchema = new mongoose.Schema({
   email: String,
   fullname: String,
   password: String,
+  googleId: String,
   watchlist: [{type: mongoose.Schema.Types.ObjectId, ref: "Watchlist"}],
   moviesWatched: [{type: mongoose.Schema.Types.ObjectId, ref: "Watched"}],
 })
 
 //configuring passport local mongoose
 userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(findOrCreate);
 
 //schema 
 const watchlistSchema = {
@@ -70,8 +74,27 @@ const Watched = new mongoose.model('Watched', watchedSchema);
 const User = new mongoose.model('User', userSchema);
 
 passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/auth/google/home"
+},
+function(accessToken, refreshToken, profile, cb) {
+  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
 
 app.set("view engine", "ejs");
 
@@ -122,6 +145,17 @@ app.get('/', (req, res) => {
     res.redirect('/login');
   }
 });
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] })
+);
+
+app.get('/auth/google/home', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 app.route('/register')
     .get((req, res)=>{
@@ -803,8 +837,39 @@ app.post("/addNew/:movieId", (req, res) => {
 
 app.get('/account', (req, res)=>{
   if(req.isAuthenticated()){
+    
+    User.findOne({_id: req.user._id}).populate(['watchlist', 'moviesWatched']).exec((err, user)=>{
+      if (err) {
+        console.log(err);
+      } else {
+        let avgRating = 0;
 
-    res.render('account', {data: req.user});
+        user.moviesWatched.forEach(element => {
+          avgRating += parseInt(element.userRating)
+        });
+
+        console.log(avgRating);
+        
+        if (user.moviesWatched.length > 0) {
+          avgRating = (avgRating / user.moviesWatched.length) * 10;
+        } else {
+          avgRating = 0;
+        }
+        
+        console.log(avgRating);
+
+  
+        let data = {
+          amountWatched: user.moviesWatched.length,
+          avgRating: avgRating,
+          fullName: user.fullName,
+          email: user.username
+        }
+        res.render('account', {data: data});
+      }
+
+    })
+    
   } else {
     res.redirect('/login')
   }

@@ -3,26 +3,25 @@
 <main id="accountPage">
 
     <section class="container">
-        <h1><%= data.fullname %></h1>
-        <p><%= data.username %></p>
+        <h1><%= data.fullName %></h1>
+        <p><%= data.email %></p>
         <a href="">Edit Profile</a>
     </section>
 
     <section class="container">
         <p>Average Movie Rating 
             <br> 
-            <span>69%</span>
+            <span><%= data.avgRating %> %</span>
         </p>
         <div class="stats">
-            <p>Movies watched: <%= data.moviesWatched.length%></p>
-            <p>See all stats >></p>
+            <p>Movies watched: <%= data.amountWatched%></p>
+            <!-- <p>See all stats >></p> -->
         </div>
     </section>
+
     <section class="container">
-        Themes
-    </section>
-    <section class="container">
-        <a href="/logout">Sign Out</a>
+        <p><a href="/logout">Sign Out</a></p>
+        
         <form action="/account" method="Post">
             <button class="deleteBtn">Delete Account Information</button>
         </form>

@@ -7,22 +7,8 @@
     </div>
 
     <section id="optionsContainer">
-        <!-- Loop through each item  -->
-<!-- 
-        <a href="/movie/batman">
-            <div class="gridItem">
-                <img src="/images/Spider-Man.jpeg" alt="">
-    
-                <div class="content">
-                    <h3>Spider-Man No Way Home</h3>
-                    <span>December 17, 2021</span>
-                    <p>Action/Adventure/ Sci-Fi</p>
-                </div>
-            </div>
-        </a> -->
 
         <% data.forEach(element => { %>
-
             <% element.forEach(item => { %>
 
                 <a href="/movie/<%= item.id %>">
@@ -37,15 +23,8 @@
                     </div>
                 </a>
 
-            <% }); %> 
-            
-
-            
+            <% }); %>  
         <% }); %>
-
-
-
-        
     </section>
 </main>
 
