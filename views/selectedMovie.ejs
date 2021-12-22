@@ -1,6 +1,12 @@
 
 <%- include ('partials/header') %>
 
+<nav class="reviewNav">
+    <a onclick="history.back()"> 
+        <i class="fas fa-chevron-left"></i> Back
+    </a>
+</nav>
+
 <main id="moviePage">
     <img id="movieBackground" src="<%= data.image %>" alt="">
 
@@ -64,8 +70,8 @@
                         <% data.actorList.forEach(element => { %>
                             <li class="glide__slide">
                                 <p>
-                                    <% if (element.name.length > 15) { %>
-                                        <%= element.name.substring(0, 12) + '...'%>
+                                    <% if (element.name.length > 11) { %>
+                                        <%= element.name.substring(0, 10) + '...'%>
                                     <% } else { %>
                                         <%= element.name    %>
                                     <% }%>

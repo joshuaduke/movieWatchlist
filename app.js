@@ -846,7 +846,7 @@ app.get('/account', (req, res)=>{
         let avgRating = 0;
 
         user.moviesWatched.forEach(element => {
-          avgRating += parseInt(element.userRating)
+          avgRating += Number(element.userRating)
         });
 
         console.log(avgRating);

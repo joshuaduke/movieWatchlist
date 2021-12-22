@@ -1,0 +1,14 @@
+{
+    "name": "JED_Movies",
+    "short_name": "JED_Movies",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#000",
+    "theme_color": "#fff",
+    "orientation": "portrait",
+    "icons": [
+        {
+            
+        }
+    ]
+}

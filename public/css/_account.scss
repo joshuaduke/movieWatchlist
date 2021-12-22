@@ -1,6 +1,6 @@
 
 #accountPage{
-    padding:20px;
+    padding:20px 20px 70px 20px;
 
     .container{
         width:100%;
@@ -63,8 +63,11 @@
     }
 }
 
-.tmdblogo{
-    width:200px;
-    
+#logo{
+    width:100%;
+    text-align: center;
+    .tmdblogo{
+        width:150px;   
+        opacity: 0.7;
+    }    
 }
-

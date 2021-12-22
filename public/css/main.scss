@@ -1,5 +1,6 @@
 @import '_selectedMovie';
 @import '_watchlist';
+@import '_watched';
 @import '_addReview';
 @import '_selectedWatched';
 @import '_account';
@@ -10,7 +11,7 @@ $headerYellow :#FBBC04;
 *{
     margin:0;
     padding:0;
-    line-height: 1.4rem;
+    line-height: 1.4em;
     box-sizing: border-box;
     font-family: sans-serif;
 }

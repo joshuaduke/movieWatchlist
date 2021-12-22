@@ -1,12 +1,22 @@
-#reviewNav{
+.reviewNav{
     width: 100%;
-    background-color:rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top:0;
+    left:0;
+    background-color:rgba(255, 255, 255, 0);
     padding:20px;
+    a{
+        cursor:pointer;
+        color:steelblue;
+        text-shadow:1px 1px 1px #000;
+        font-size: 1.3em;
+    }
+
 }
 
 #reviewPage{
     color:#fff;
-    padding:20px 20px 70px 20px;
+    padding:60px 20px 70px 20px;
 }
 
 #reviewPageContainer{
@@ -16,6 +26,17 @@
 
     h1{
         padding:20px 0;
+        font-size:1.7em;
+    }
+
+    #userRating{
+        width: 50px;
+        padding:5px;
+        text-align: center;
+        background-color: #000;
+        color:#fff;
+        border:1px solid #fff;
+        border-radius: 10px;
     }
 
     .recommendation{

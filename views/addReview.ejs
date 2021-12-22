@@ -1,12 +1,9 @@
 <%- include ('partials/header.ejs')  -%> 
 
-<nav id="reviewNav">
-    <% if (data.id == undefined) { %>
-        <a href="/watched/<%= data.imdbID%>">Back</a>
-    <% } else { %>
-        <a href="/movie/<%= data.id%>">Back</a>
-    <% } %>
-    
+<nav class="reviewNav">
+    <a onclick="history.back()"> 
+        <i class="fas fa-chevron-left"></i> Back
+    </a>
 </nav>
 
 <main id="reviewPage">
@@ -21,11 +18,11 @@
             </div>
 
             <div class="rating">
-                <label for="">How would you rate this movie</label>
+                <label for="">How would you rate this movie:</label>
                 <div class="star-outer">
                     <div class="star-inner"></div>
                 </div>
-                <p><input name="userRating" type="number" required value="<%= data.userRating ? data.userRating : 0 %>">/10</p>
+                <p><input id="userRating" name="userRating" type="number"  value="<%= data.userRating ? data.userRating : 0 %>" min="0" max="10" step="0.1" required>/10</p>
             </div>
 
             <div id="reviewContainer">
