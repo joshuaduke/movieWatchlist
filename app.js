@@ -182,6 +182,7 @@ app.route('/register')
 
 app.route('/login')
     .get((req, res)=>{
+      //if authenticated redirect to '/'
       res.render('login')
     })
     .post((req, res)=>{

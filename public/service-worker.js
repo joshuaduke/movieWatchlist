@@ -6,6 +6,10 @@ self.addEventListener("install", e =>{
     );
 })
 
+self.addEventListener('activate', e =>{
+    console.log('Service worker is activated');
+})
+
 self.addEventListener("fetch", e => {
     console.log("Intercepting fetch request for " + e.request.url);
     e.respondWith(
@@ -13,4 +17,4 @@ self.addEventListener("fetch", e => {
             return response || fetch(e.request);
         })
     );
-})
+}) 
