@@ -182,7 +182,6 @@ app.route('/register')
 
 app.route('/login')
     .get((req, res)=>{
-      //if authenticated redirect to '/'
       res.render('login')
     })
     .post((req, res)=>{
@@ -543,35 +542,6 @@ app.post("/movie/:selected", (req, res)=>{
   } else {
     res.redirect('/');
   }
-
-
-
-  // Watchlist.findOneAndDelete({imdbID: currentMovie}, (err, result)=>{
-  //   if (!result) {
-  //     axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${currentMovie}`)
-  //     .then((movieData)=>{
-
-  //       const newMovie = new Watchlist({
-  //         imdbID: currentMovie,
-  //         movieTitle: movieData.data.title,
-  //         movieGenre: movieData.data.genres,
-  //         movieRating: movieData.data.imDbRating,
-  //         movieReleaseYear: movieData.data.year,
-  //         movieLength: movieData.data.runtimeStr,
-  //         moviePoster: movieData.data.image
-  //       });
-
-  //       newMovie.save()
-  //       console.log('Save to the watchlist DB');
-  //       res.redirect(`/movie/${currentMovie}`);
-  //     })
-  //     .catch((err) => console.error(err));
-
-  //   } else{
-  //     console.log('Does Exist and has been deleted');
-  //     res.redirect(`/movie/${currentMovie}`);
-  //   }
-  // })
 })
 
 app.get("/watchlist", (req, res) => {
@@ -761,10 +731,7 @@ app.get("/addNew/:movieId", (req, res) => {
     })
   } else {
     res.redirect('/login')
-  }
-
-
-    
+  }  
 });
 
 app.post("/addNew/:movieId", (req, res) => {
@@ -849,17 +816,12 @@ app.get('/account', (req, res)=>{
         user.moviesWatched.forEach(element => {
           avgRating += Number(element.userRating)
         });
-
-        console.log(avgRating);
         
         if (user.moviesWatched.length > 0) {
           avgRating = (avgRating / user.moviesWatched.length) * 10;
         } else {
           avgRating = 0;
         }
-        
-        console.log(user);
-
   
         let data = {
           amountWatched: user.moviesWatched.length,
@@ -882,12 +844,12 @@ app.post('/account', (req, res)=>{
   if(req.isAuthenticated()){
       User.findOneAndDelete({_id: req.user.id}, (err, user)=>{
         if (err) {
-          console.log('User not found');
+          console.log('User not found', err);
         } else {
 
           Watchlist.deleteMany({users: user._id}, (err, count)=>{
             if (err) {
-              console.log('Error while deleting');
+              console.log('Error while deleting', err);
             } else {
               
               console.log(`${count} items have been deleted from Watchlist DB`);

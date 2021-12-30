@@ -6,6 +6,9 @@
 #moviePage img {
   max-width: 100%;
 }
+#moviePage h1, #moviePage h2 {
+  color: #FBBC04;
+}
 
 #movieContainer {
   width: 100%;
@@ -18,7 +21,10 @@
 }
 #movieContainer .movieContent {
   padding: 30px 30px 80px 30px;
-  color: #fff;
+  color: #E1E1E1;
+}
+#movieContainer .releaseDate {
+  margin-top: 5px;
 }
 #movieContainer .header, #movieContainer .genre-watched, #movieContainer .rating {
   display: flex;
@@ -32,9 +38,13 @@
   background: none;
   border: none;
   cursor: pointer;
+  color: #E1E1E1;
 }
 #movieContainer .watchlist .fa-bookmark {
   color: #fff;
+}
+#movieContainer .genre-watched {
+  margin: 5px 0;
 }
 #movieContainer .genre-watched .genre {
   padding-top: 7px;
@@ -45,13 +55,10 @@
   border: 1px solid #494949;
   cursor: pointer;
 }
-#movieContainer h1 {
-  color: #fff;
+#movieContainer .movieRating {
+  margin: 5px 0;
 }
 
-#descriptionContainer, #castContainer {
-  margin-top: 10px;
-}
 #descriptionContainer h2, #castContainer h2 {
   font-weight: normal;
   padding: 10px 0;
@@ -131,9 +138,13 @@ header {
   text-align: center;
   margin: 10px 0;
 }
+#recommendContainer span {
+  color: #FBBC04;
+  margin-right: 5px;
+}
 
 #descriptionContainer {
-  min-height: 300px;
+  min-height: 200px;
 }
 
 #links {
@@ -143,18 +154,19 @@ header {
   text-align: center;
 }
 #links a {
-  background-color: #fff;
+  background-color: #212121;
   width: 100%;
   height: auto;
   padding: 10px 0;
   border-radius: 10px;
-  color: #000;
+  color: #34abd6;
+  border: 1px solid #34abd6;
   cursor: pointer;
   transition: all 0.3s;
 }
 #links a:hover {
-  background-color: steelblue;
-  color: #fff;
+  background-color: #34abd6;
+  color: #E1E1E1;
 }
 
 .usrRating {
@@ -171,7 +183,7 @@ header {
 }
 .reviewNav a {
   cursor: pointer;
-  color: steelblue;
+  color: #34abd6;
   text-shadow: 1px 1px 1px #000;
   font-size: 1.3em;
 }
@@ -187,6 +199,15 @@ header {
 #reviewPageContainer h1 {
   padding: 20px 0;
   font-size: 1.7em;
+}
+#reviewPageContainer h3 {
+  color: #FBBC04;
+  margin-top: 20px;
+}
+#reviewPageContainer input[type=number]::-webkit-inner-spin-button,
+#reviewPageContainer input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 #reviewPageContainer #userRating {
   width: 50px;
@@ -206,13 +227,19 @@ header {
 #reviewPageContainer .recommendation p {
   color: #000;
 }
+#reviewPageContainer textarea, #reviewPageContainer .recommendation {
+  background-color: #212121;
+}
+#reviewPageContainer textarea p, #reviewPageContainer .recommendation p {
+  color: #E1E1E1;
+}
 #reviewPageContainer textarea {
   width: 100%;
   resize: none;
-  border-radius: 10px;
+  border-radius: 5px;
+  border: none;
   padding: 20px;
   margin-top: 10px;
-  background-color: #e4e4e4;
 }
 #reviewPageContainer .box {
   display: flex;
@@ -265,41 +292,63 @@ header {
 #reviewPageContainer #completeReview {
   display: flex;
   flex-direction: row;
-  padding: 10px 0;
   justify-content: space-between;
 }
 #reviewPageContainer #completeReview input, #reviewPageContainer #completeReview button {
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
 }
 #reviewPageContainer #completeReview input {
   padding: 0 10px;
 }
 #reviewPageContainer #completeReview button {
-  padding: 0 20px;
+  color: #E1E1E1;
+  background-color: #212121;
+  font-weight: 700;
+  letter-spacing: 1px;
+  width: 100px;
   cursor: pointer;
+}
+#reviewPageContainer #completeReview input[type=date] {
+  height: 35px;
+  width: 100%;
+  max-width: 300px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #212121;
+  background-color: #E1E1E1;
+  outline: none;
+  border: 0;
+  border-radius: 5px;
+  padding: 0 10px;
 }
 
 #accountPage {
-  padding: 20px 20px 70px 20px;
+  padding: 20px 20px 80px 20px;
 }
 #accountPage .container {
   width: 100%;
   height: auto;
-  background-color: #e4e4e4;
+  background-color: #212121;
+  color: #E1E1E1;
   margin: 10px 0;
   padding: 20px 0;
   border-radius: 10px;
   text-align: center;
 }
+#accountPage h1 {
+  text-align: center;
+}
 #accountPage .stats {
   font-size: 2em;
+  font-weight: 700;
 }
 #accountPage p {
   padding: 10px 0;
 }
 #accountPage .copyright {
-  color: #fff;
+  color: #E1E1E1;
   text-align: center;
 }
 #accountPage button {
@@ -313,26 +362,26 @@ header {
 }
 #accountPage .logout {
   padding: 5px 0;
-  background-color: #fff;
-  border: 1px solid steelblue;
+  background-color: #121212;
+  border: 1px solid #34abd6;
 }
 #accountPage .logout:hover {
-  background-color: steelblue;
+  background-color: #34abd6;
 }
 #accountPage .logout:hover a {
-  color: #fff;
+  color: #E1E1E1;
 }
 #accountPage .logout a {
-  color: steelblue;
+  color: #34abd6;
 }
 #accountPage .deleteBtn {
-  background-color: #fff;
-  border: 1px solid red;
-  color: red;
+  background-color: #121212;
+  border: 1px solid #C94040;
+  color: #C94040;
 }
 #accountPage .deleteBtn:hover {
-  color: #fff;
-  background-color: red;
+  color: #E1E1E1;
+  background-color: #C94040;
 }
 
 #logo {
@@ -449,7 +498,7 @@ h1, h2, h3, h4 {
   font-family: "Montserrat", sans-serif;
 }
 
-p, a, span {
+p, a, span, label {
   font-family: "Roboto", sans-serif;
 }
 

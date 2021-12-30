@@ -8,22 +8,26 @@
 </nav>
 
 <main id="moviePage">
-    <!-- <img id="movieBackground" src="<%#= data.image %>" alt=""> -->
+    
     <img id="movieBackground" src="<%= data.moviePoster %>" alt="">
 
     <section id="movieContainer">
         <div class="movieContent">
 
             <div class="header">
-                <!-- <h1 class="title"><%#= data.title %></h1> -->
+
                 <h1 class="title"><%= data.movieTitle %></h1>
                 <div class="watchlist">
                     <form action="/watched/<%= data._id%>" method="post">
                         <input type="hidden" name="currentMovie" value="<%= data.imdbID%>">
                         <% if (exists) { %>
-                            <button type="submit"><i class="fas fa-bookmark fa-2x"></i></button>
+                            <button type="submit"><i class="fas fa-bookmark fa-2x"></i>
+                            <p>Watchlist</p>
+                            </button>
                         <% } else { %>
-                            <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                            <button type="submit"><i class="far fa-bookmark fa-2x"></i>
+                            <p>Watchlist</p>
+                            </button>
                         <% } %>
                         
                     </form>
@@ -31,11 +35,10 @@
             </div>
 
 
-            <p class="releaseDate"> Watched On: <%= data.userWatchedDate %></p>
+            <p class="releaseDate"> Watched On: <%= new Date(data.userWatchedDate).toDateString() %></p>
 
             <div class="genre-watched">
-                <!-- <p class="genre"> <%#= data.genres %></p> -->
-                <p class="genre"> <%= data.movieGenre %></p>
+                <p class="genre">Genre: <%= data.movieGenre %></p>
             </div>
 
             <div class="movieRating">
@@ -51,7 +54,6 @@
 
             <div id="descriptionContainer">
                 <h2>Review</h2>
-                <!-- <p class="description"> <%#= data.plot %> </p> -->
                 <p class="description">
                     <%= data.userReview %>
                 </p>

@@ -8,10 +8,15 @@
         margin:10px 0;
     }
 
+    span{
+        color:v.$accent;
+        margin-right:5px;
+    }
+
 }
 
 #descriptionContainer{
-    min-height: 300px;
+    min-height: 200px;
 }
 
 
@@ -21,17 +26,18 @@
     grid-gap:10px;
     text-align: center;
     a{
-        background-color: #fff;
+        background-color: v.$primaryAlternate;
         width:100%;
         height:auto;
         padding:10px 0;
         border-radius:10px;
-        color:#000;
+        color:lighten(v.$secondary, 30);
+        border: 1px solid lighten(v.$secondary, 30);;
         cursor:pointer;
         transition: all 0.3s;
         &:hover{
-            background-color: steelblue;
-            color:#fff;
+            background-color:lighten(v.$secondary, 30);
+            color:v.$text;
         }
     }
 }

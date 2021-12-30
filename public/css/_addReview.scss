@@ -1,3 +1,5 @@
+@use 'variables' as v;
+
 .reviewNav{
     width: 100%;
     position: absolute;
@@ -7,7 +9,7 @@
     padding:20px;
     a{
         cursor:pointer;
-        color:steelblue;
+        color:lighten(v.$secondary, 30);;
         text-shadow:1px 1px 1px #000;
         font-size: 1.3em;
     }
@@ -27,6 +29,17 @@
     h1{
         padding:20px 0;
         font-size:1.7em;
+    }
+
+    h3{
+        color:v.$accent;
+        margin-top: 20px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
     }
 
     #userRating{
@@ -50,13 +63,20 @@
         }
     }
 
+    textarea, .recommendation{
+        background-color: v.$primaryAlternate;
+        p{
+            color:v.$text;
+        }
+    }
+
     textarea{
         width:100%;
         resize: none;
-        border-radius: 10px;
+        border-radius: 5px;
+        border:none;
         padding:20px;
         margin-top: 10px;
-        background-color: #e4e4e4;
     }
 
     .box{
@@ -125,11 +145,10 @@
     #completeReview{
         display: flex;
         flex-direction: row;
-        padding:10px 0;
         justify-content: space-between;
 
         input, button{
-            border-radius: 10px;
+            border-radius: 5px;
             border:none;
         }
 
@@ -138,9 +157,28 @@
         }
 
         button{
-            padding:0 20px;
+            color:v.$text;
+            background-color: v.$primaryAlternate;
+            font-weight:700;
+            letter-spacing: 1px;
+            width: 100px;
             cursor: pointer;
         }
+
+        input[type=date] {
+            height: 35px;
+            width: 100%;
+            max-width: 300px;
+            font-family: v.$body;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: v.$primaryAlternate;
+            background-color:v.$text;
+            outline: none;
+            border: 0;
+            border-radius: 5px;
+            padding: 0 10px;
+        }          
     }
 
 }

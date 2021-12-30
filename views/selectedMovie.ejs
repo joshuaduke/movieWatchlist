@@ -19,14 +19,18 @@
                     <form action="/movie/<%= data.id%>" method="post">
                         <input type="hidden" name="currentMovie" value="<%= data.id%>">
                         <% if (exists) { %>
-                            <button type="submit"><i class="fas fa-bookmark fa-2x"></i></button>
+                            <button type="submit">
+                                <i class="fas fa-bookmark fa-2x"></i><p>Watchlist</p>
+                            </button>
+                            
                         <% } else { %>
-                            <button type="submit"><i class="far fa-bookmark fa-2x"></i></button>
+                            <button type="submit">
+                                <i class="far fa-bookmark fa-2x"></i><p>Watchlist</p>
+                            </button>
+                            
                         <% } %>
                         
                     </form>
-                    <!-- <a href="/watchlist"></a> -->
-                    <!-- <p>Watchlist</p> -->
                 </div>
             </div>
 
@@ -36,15 +40,8 @@
 
             <div class="genre-watched">
                 <p class="genre"> <%= data.genres %></p>
-                <!-- EJS IF STATEMENT. iof not watched link to add watch page-->
-                <!-- if watched then button background green , modal pop up  -->
-                <!-- prompt if they really want to remove from watched -->
-                <%# if(watched){ %>
-                    <!-- <a href="/addNew/<%= data.id %>"><button style="background-color: green;" class="watched"> Watched</button></a>                 -->
-                <%# } else { %>
-                    <!-- <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>                 -->
-                <%# } %> 
-                <a href="/addNew/<%= data.id %>"><button class="watched"> Watched?</button></a>                
+
+                <a href="/addNew/<%= data.id %>"><button class="watched"> Watched</button></a>                
                     
             </div>
 
@@ -69,6 +66,8 @@
 
                         <% data.actorList.forEach(element => { %>
                             <li class="glide__slide">
+                                
+                                <img src="<%= element.image %> " alt="Image of <%= element.name %>">
                                 <p>
                                     <% if (element.name.length > 11) { %>
                                         <%= element.name.substring(0, 10) + '...'%>
@@ -76,28 +75,9 @@
                                         <%= element.name    %>
                                     <% }%>
                                 </p>
-                                <img src="<%= element.image %> " alt="">
                             </li>
                         <% }); %>
                         
-
-
-
-
-
-                    <!-- 
-                        <li class="glide__slide">
-                            Robert Pattinson
-                        </li>
-                        <li class="glide__slide">
-                            Zoe Kravitz
-                        </li>
-                        <li class="glide__slide">
-                            Andy Serkis
-                        </li>
-                        <li class="glide__slide">
-                            The riddler guy
-                        </li> -->
                       </ul>
                     </div>
                   </div>
@@ -112,10 +92,6 @@
 
 <script>
     let watchedBtn = document.querySelector('.watched');
-
-    watchedBtn.addEventListener('click', ()=>{
-        // alert('Clicked')
-    })
 
      //initial ratings
      let userRatingNum = document.querySelector('#imDbRating').innerText;

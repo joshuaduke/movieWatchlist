@@ -26,8 +26,8 @@
             </div>
 
             <div id="reviewContainer">
-                <h3>Review:</h3>
-                <textarea name="userReview" cols="30" rows="10" placeholder="Hello" ><%= data.userReview ? data.userReview.trim() : '' %></textarea>
+                <h3>Review</h3>
+                <textarea name="userReview" cols="30" rows="10" placeholder="Please add your review" ><%= data.userReview ? data.userReview.trim() : '' %></textarea>
             </div>
 
             <div class="recommendation ">
@@ -89,9 +89,10 @@
                     </div>
                 </div>
             </div>
+            <h3>Date Watched</h3>
             <div id="completeReview">
                 <div>
-                    <p>Date Watched</p>
+
                     <% if (data.userWatchedDate) { %>
                         <input type="date" name="dateWatched" id="dateWatched" value="<%= data.userWatchedDate%>" required>
                     <% } else { %>
@@ -103,9 +104,8 @@
                 <% if (data.userWatchedDate) { %>
                     <button type="submit">Update</button>
                 <% } else { %>
-                    <button type="submit">Add</button>
+                    <button type="submit">Save</button>
                 <% }%>
-
             </div>
         </form>
     </div>

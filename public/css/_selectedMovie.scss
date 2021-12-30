@@ -1,3 +1,4 @@
+@use 'variables' as v;
 
 #moviePage{
     width: 100%;
@@ -6,27 +7,29 @@
     img{
         max-width: 100%;
     }
-    // background-image: url('/images/theBatman.jpeg');
-    // background-size: cover;
-    // background-repeat: no-repeat;
+
+    h1, h2{
+        color:v.$accent;
+    }
+
 }
 
 #movieContainer{
     width: 100%;
     height:600px;
-    // background-color:rgba(0, 0, 0, 0.7);
     background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,1));
     border-radius:50px 50px 0 0;
-    // opacity: 80%;
-
     position: absolute;
-    // bottom: 60px;
     top:40vh;
     padding-bottom:60px;
 
     .movieContent{
         padding:30px 30px 80px 30px;
-        color:#fff;
+        color:v.$text;
+    }
+
+    .releaseDate{
+        margin-top: 5px;
     }
 
     .header, .genre-watched, .rating{
@@ -44,6 +47,8 @@
             background:none;
             border:none;
             cursor:pointer;
+            color:v.$text;
+
         }
 
         .fa-bookmark{
@@ -52,6 +57,7 @@
     }
 
     .genre-watched{
+        margin:5px 0;
         .genre{
             padding-top: 7px;
         }
@@ -64,14 +70,12 @@
         }
     }
 
-    h1{
-        color:#fff;
+    .movieRating{
+        margin:5px 0;
     }
 }
 
-#descriptionContainer, #castContainer{
-    margin-top:10px;
-    
+#descriptionContainer, #castContainer{    
     h2{
         font-weight: normal;
         padding:10px 0;
