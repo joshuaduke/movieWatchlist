@@ -2,15 +2,10 @@
 
 <section id="watchlistPage">
     <header>
-        <h1>Joshua's Watchlist</h1>
+        <h1>User's Watchlist</h1>
         <div class="headerContent">
             <h2><%= data.length %> Movie(s)</h2>
-            <!-- <div>
-                <label for="filter">Filter</label>
-                <select name="filter" id="filter">
-                    <option value="">Alphabetical</option>
-                </select>
-            </div> -->
+
         </div>
     </header>
 
@@ -37,54 +32,11 @@
                         <input type="hidden" name="currentMovie" value="<%= element.imdbID%>">
                         <button type="submit" class="removeWatchlist"> X</button>
                     </form>
-                    <p><%= element.movieLength %></p>
+                    <p><%= element.movieLength == '' ? element.movieLength = 'N/A' : element.movieLength %></p>
+
                 </div>
             </div>
         <% }); %>
-
-
-
-        <!-- <div class="watchlistItem">
-
-            <a href="/" class="group1">
-                <img  src="/images/Spider-Man.jpeg" alt="">
-                
-                <div>
-                    <h3>Title</h3>
-                    <p>Genre</p>
-                    <p>
-                        <i class="far fa-star"></i> 0.0
-                        <span class="releasedDate">2021</span>
-                    </p>
-                </div>
-            </a>
-
-            <div class="group2">
-                <button class="removeWatchlist"> X</button>
-                <p>TIME</p>
-            </div>
-        </div>
-
-        <div class="watchlistItem">
-
-            <a href="/" class="group1">
-                <img  src="/images/Spider-Man.jpeg" alt="">
-                
-                <div>
-                    <h3>Title</h3>
-                    <p>Genre</p>
-                    <p>
-                        <i class="far fa-star"></i> 0.0
-                        <span class="releasedDate">2021</span>
-                    </p>
-                </div>
-            </a>
-
-            <div class="group2">
-                <button class="removeWatchlist"> X</button>
-                <p>TIME</p>
-            </div>
-        </div> -->
 
     </main>
 </section>

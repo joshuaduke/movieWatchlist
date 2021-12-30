@@ -1,10 +1,4 @@
-body{
-    // background-image: url('/images/darkKnightTextLess.jpeg');
-    // background-size:cover;
-    // background-repeat: no-repeat;
-    // background-attachment: fixed;
-    // background-position: center;
-}
+@use "variables" as v;
 
 .register{
     width:100%;
@@ -33,13 +27,13 @@ body{
 
     .credentialsContainer{
         padding:10px 20px 20px 20px;
-        background-color: rgba(255, 255, 255, 0.4);
+        background-color: rgba(255, 255, 255, 0.5);
         border-radius: 10px;
     }
 
     input{
         width:100%;
-        border-radius: 10px;
+        border-radius: 5px;
         border:none;
         padding:10px;
         &:focus{
@@ -63,7 +57,7 @@ body{
     }
 
     a{
-        color:#175AA9;
+        color: v.$secondary;
     }
 
     p{
@@ -75,18 +69,12 @@ body{
         width: 100%;
         padding:10px;
         margin:5px 0;
-        border-radius: 10px;
+        border-radius: 5px;
         border:none;
         font-weight:bold;
         cursor:pointer;
-    }
-
-    .socialBody{
-        a{
-            color:#fff;
-            width:100%;
-            border-radius: 10px;
-        }
+        background-color: v.$secondary;
+        color:#fff;
     }
 
     .socialBody{
@@ -96,6 +84,9 @@ body{
         padding-top: 7px;
         a{
             border:1px solid rgba(0,0,0,0.2);
+            color:#fff;
+            width:100%;
+            border-radius: 10px;
         }
     }
 

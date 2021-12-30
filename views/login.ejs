@@ -5,8 +5,11 @@
         <h1>Log In</h1>
         <div class="credentialsContainer">
             <form action="/login" method="POST">
-                <input type="email" name="username" id="" placeholder="Email" required>
-                <input type="text" name="password" id="" placeholder="Password" required>
+                <input type="email" name="username" placeholder="Email" required>
+                <div class="passContainer">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <span class="viewPassword" onclick="myFunction('password')">View</span>
+                </div>
                 <p class="or">or</p>
 
                 <div class="socialBody">
@@ -29,6 +32,16 @@
 </main>
 
 <script src="javascript/script.js"></script>
-
+<script>
+    //password 
+    function myFunction(pass) {
+      var x = document.getElementById(pass);
+      if (x.type === "password") {
+          x.type = "text";
+      } else {
+          x.type = "password";
+      }
+  }
+</script>
 </body>
 </html>

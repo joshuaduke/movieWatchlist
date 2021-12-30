@@ -6,11 +6,11 @@
         <div class="credentialsContainer">
 
             <form action="/register" method="post">
-                <input type="email" name="username" id="" placeholder="Email" required>
-                <input type="text" name="fullName" id="" placeholder="Full Name" required>
+                <input type="email" name="username" placeholder="Email" required>
+                <input type="text" name="fullName" placeholder="Full Name" required>
 
                 <div class="passContainer">
-                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <input type="password" name="password" id="password" placeholder="Password"  required>
                     <span class="viewPassword" onclick="myFunction('password')">View</span>
                 </div>
 
@@ -27,12 +27,10 @@
                       Log In with Google
                     </a>
                 </div>
-                
-                <p>
-                    Agree to the terms and conditions below.
-                </p>
-                <button type="submit">Agree and Continue</button>
                 <p>Already have an account? <a href="/login">Login</a></p>
+                
+                <button type="submit">Agree and Continue</button>
+
             </form>
         </div>
     </section>

@@ -1,4 +1,4 @@
-
+@use 'variables' as v;
 
 #recommendContainer{
     div{
@@ -34,4 +34,8 @@
             color:#fff;
         }
     }
+}
+
+.usrRating{
+    color: v.$accent;
 }

@@ -16,9 +16,9 @@
                         <img src="https://image.tmdb.org/t/p/w500<%= item.poster_path %>" alt="">
                 
                         <div class="content">
-                            <h3><%= item.title %></h3>
-                            <span><%= item.release_date %></span>
+                            <h3><%= item.title.substring(0, 20)%></h3>
                             <p>Rating: <%= item.vote_average%></p>
+                            <span><%= new Date(item.release_date).toDateString() %></span>
                         </div>
                     </div>
                 </a>
