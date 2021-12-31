@@ -331,11 +331,11 @@ header {
   width: 100%;
   height: auto;
   background-color: #212121;
-  color: #E1E1E1;
   margin: 10px 0;
   padding: 20px 0;
   border-radius: 10px;
   text-align: center;
+  color: #E1E1E1;
 }
 #accountPage h1 {
   text-align: center;
@@ -364,11 +364,12 @@ header {
   padding: 5px 0;
   background-color: #121212;
   border: 1px solid #34abd6;
+  color: #34abd6;
 }
 #accountPage .logout:hover {
   background-color: #34abd6;
 }
-#accountPage .logout:hover a {
+#accountPage .logout:hover span {
   color: #E1E1E1;
 }
 #accountPage .logout a {
