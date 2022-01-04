@@ -3,6 +3,8 @@ const express = require("express");
 const https = require("https");
 const axios = require("axios");
 const ejs = require("ejs");
+const URL = require("url").URL;
+const _ = require("lodash");
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -351,16 +353,17 @@ app.get("/search", (req, res) => {
 
 app.post("/search", (req, res) => {
   if(req.isAuthenticated()){
-    const searchedValue = req.body.movieTitle;
+    const searchedValue = _.escape(req.body.movieTitle);
     const page = 1;
     console.log("Input value " + searchedValue);
   
-    const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`;
+    const urlTMDB = new URL(`https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`);
+    // const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`;
   
     if (searchedValue == "") {
       res.redirect("/search");
     } else {
-      axios.get(urlTMDB).then((response) => {
+      axios.get(urlTMDB.href).then((response) => {
         let data = response.data;
 
         res.render("search", {
@@ -368,6 +371,9 @@ app.post("/search", (req, res) => {
           data: true,
           inputvalue: searchedValue,
         });
+      }).catch(err => {
+        console.log(err);
+        res.redirect('/search');
       });
     }
   } else {
