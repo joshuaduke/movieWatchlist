@@ -357,8 +357,7 @@ app.post("/search", (req, res) => {
     const page = 1;
     console.log("Input value " + searchedValue);
   
-    const urlTMDB = new URL(`https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`);
-    // const urlTMDB = `https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=true&region=US`;
+    const urlTMDB = new URL(`https://api.themoviedb.org/3/search/movie?api_key=${apikeyTMDB}&language=en-US&query=${searchedValue}&page=${page}&include_adult=false&region=US`);
   
     if (searchedValue == "") {
       res.redirect("/search");
