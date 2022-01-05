@@ -11,7 +11,7 @@
     </header>
 
     <main id="watchlistContent">
-        <% data.forEach(element => { %>
+        <% data.slice().reverse().forEach(element => { %>
             <a href="/watched/<%= element._id%>" class="watchlistItem">
 
                 <div class="group1">
