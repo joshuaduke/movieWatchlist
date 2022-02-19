@@ -16,9 +16,15 @@ $headerYellow :#FBBC04;
     box-sizing: border-box;
 }
 
+html{
+    max-width: 820px;
+    margin:0 auto;
+}
+
+
 body{
     background-image: none;
-    background-color:#000 ;
+    background-color:#000;
 }
 
 h1, h2, h3, h4{
@@ -35,6 +41,7 @@ a{
 
 footer{
     width:100%;
+    max-width: 820px;
     padding:20px 15px;
     position: fixed;
     bottom:0;
@@ -62,7 +69,6 @@ footer{
 }
 
 #homeContainer{
-
     margin-bottom:120px;
 
     .sectionContainer{
