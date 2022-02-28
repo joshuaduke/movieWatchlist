@@ -204,6 +204,26 @@ app.route('/login')
       })
     });
 
+app.post('/tester', (req, res)=>{
+  const user = new User({
+    username: process.env.ADMIN_USER,
+    password: process.env.ADMIN_PASS
+  })
+
+  console.log('user', user)
+
+  req.login(user, (err)=>{
+    if(err) {
+      console.log(err);
+      res.redirect('/login')
+    } else {
+      passport.authenticate('local', {failureRedirect: '/login'}) (req, res, ()=>{
+        res.redirect('/');
+      })
+    }
+  })
+})
+
 app.get('/logout', (req, res)=>{
   req.logout();
   res.redirect('/login');

@@ -25,6 +25,12 @@
                 </p>
                 <button  type="submit">Continue</button>
             </form>
+            <p class="or">or</p>
+            <form  action="/tester" method="post">
+                <input type="hidden" name="username" value="<%= process.env.ADMIN_USER%>">
+                <input type="hidden" name="password" value="<%= process.env.ADMIN_PASS%>">
+                <button style="background-color: #C23320;" type="submit">LOG IN AS TESTER</button>
+            </form>
         </div>
     </section>
     
