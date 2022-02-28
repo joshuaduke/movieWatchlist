@@ -21,6 +21,9 @@ Download or Clone the reposiory.
     npm install 
     node app.js
 ```
+In the broswer go to 'http://localhost:3000/'
+
+Select a login method. If you simply want to test the application select 'Log In as tester'
 
 ### Installing on mobile
 * IOS 
