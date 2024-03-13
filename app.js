@@ -89,7 +89,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: "https://moviepwa.herokuapp.com/auth/google/home"
+  callbackURL: "https://movie-watchlist-7bdfc2fa57d2.herokuapp.com/auth/google/home"
 },
 function(accessToken, refreshToken, profile, cb) {
   console.log(profile);
