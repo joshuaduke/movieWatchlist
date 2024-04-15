@@ -1,7 +1,7 @@
 # JED Movie Watchlist PWA
 A fun way for children to practice their arithmetic skills.
 
-DEMO : https://moviepwa.herokuapp.com/
+DEMO: https://movie-watchlist-7bdfc2fa57d2.herokuapp.com/
 
 ![Jed Movies home page](/public/images/JedMovies.png)
 ![Jed Movies movies watched page](/public/images/JedMoviesMobile.png)
